@@ -1,0 +1,58 @@
+oauth_login_oauth2.admin:
+  version: VERSION
+  css:
+    layout:
+      css/oauth_login_oauth2.admin.css: {}
+
+oauth_login_oauth2.style_settings:
+  version: VERSION
+  css:
+    layout:
+      css/oauth_login_oauth2.style_settings.css: {}
+
+oauth_login_oauth2.main:
+  version: VERSION
+  css:
+    layout:
+      css/oauth_login_oauth2.main.css: {}
+
+oauth_login_oauth2.bootstrap:
+  version: VERSION
+  css:
+    layout:
+      css/oauth_login_oauth2.bootstrap.min.css: {}
+
+  dependencies:
+    - core/jquery
+    - core/drupalSettings
+
+oauth_login_oauth2.oauth_config:
+  version: VERSION
+  js:
+    js/mo_oauth_config.js: {}
+
+oauth_login_oauth2.testconfig:
+  version: VERSION
+  js:
+    js/testconfig.js: {}
+
+oauth_login_oauth2.returnAttribute:
+  version: VERSION
+  js:
+    js/mo-return.js: {}
+
+oauth_login_oauth2.appVal:
+  version: VERSION
+  js:
+    js/appVal.js: {}
+
+oauth_login_oauth2.Vtour:
+  version: VERSION
+  css:
+    theme:
+      css/mo-card.css: {}
+  js:
+    js/dru_visual_tour.js: {}
+  dependencies:
+    - core/jquery
+    - core/drupalSettings
