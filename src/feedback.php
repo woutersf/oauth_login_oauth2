@@ -94,13 +94,10 @@ namespace Drupal\oauth_login_oauth2;
 			</form>
 			</body>
 			</html>
-
 			<?php
 			exit;
 	}
-
-
-	function hiddenOauthClientFields($key,$value)
+	public static function hiddenOauthClientFields($key,$value)
 	{
 		$hiddenOauthClientField = "";
         $value2 = array();

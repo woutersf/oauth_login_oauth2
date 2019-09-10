@@ -1,6 +1,6 @@
 oauth_login_oauth2.customer_setup:
   route_name: oauth_login_oauth2.customer_setup
-  title: 'Customer Setup'
+  title: 'Register/ Login'
   weight: 80
   base_route: oauth_login_oauth2.customer_setup
 
@@ -24,16 +24,6 @@ oauth_login_oauth2.settings:
 
 oauth_login_oauth2.licensing:
   route_name: oauth_login_oauth2.licensing
-  title: 'Licensing'
+  title: 'Upgrade Plans'
   weight: 50
-  base_route: oauth_login_oauth2.customer_setup
-oauth_login_oauth2.faq:
-  route_name: oauth_login_oauth2.faq
-  title: 'FAQs'
-  weight: 60
-  base_route: oauth_login_oauth2.customer_setup
-oauth_login_oauth2.support:
-  route_name: oauth_login_oauth2.support
-  title: 'Support'
-  weight: 70
   base_route: oauth_login_oauth2.customer_setup

@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * Installation file for miniOrange OAuth Client Module.
+ * Installation file for miniOrange OAuth Login Module.
  */
 use Drupal\oauth_login_oauth2\feedback;
 /**

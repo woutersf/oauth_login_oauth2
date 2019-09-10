@@ -33,7 +33,7 @@ public function buildForm(array $form, \Drupal\Core\Form\FormStateInterface $for
     );
 
     $form['markup_1'] = array(
-        '#markup' =>'<br><h3>LICENSING PLANS</h3><hr>'
+        '#markup' =>'<br><h3>UPGRADE PLANS</h3><hr>'
     );
 
     $form['markup_free'] = array(

@@ -79,9 +79,12 @@ class MiniorangeSupport extends FormBase {
      */
     public function submitForm(array &$form, \Drupal\Core\Form\FormStateInterface $form_state) {
 
-        $email = $form['miniorange_oauth_client_email_address']['#value'];
-        $phone = $form['miniorange_oauth_client_phone_number']['#value'];
-        $query = $form['miniorange_oauth_client_support_query']['#value'];
+        $email = trim($form['miniorange_oauth_client_email_address']['#value']);
+        $phone = trim($form['miniorange_oauth_client_phone_number']['#value']);
+        $query = trim($form['miniorange_oauth_client_support_query']['#value']);
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            drupal_set_message("Invalid Email Id format.","error");return;
+        }
         $support = new MiniorangeOAuthClientSupport($email, $phone, $query);
         $support_response = $support->sendSupportQuery();
         if($support_response) {

@@ -202,3 +202,31 @@
 .mo_oauth_client_local_table_col2{
 	padding-left:20%;
 }
+
+/* FAQ button */
+.mo_saml_text_center{
+	text-align: center;
+}
+
+.mo_faq_button_left{
+	float: inherit;
+	color: #48a0dc;
+	border: 2px solid #48a0dc;
+	padding: 5px;
+}
+
+.mo_faq_button_left:hover{
+	transform: scale(1.1);
+}
+.mo_faq_button_right{
+	float: inherit;
+	color: #48a0dc;
+	border: 2px solid #48a0dc;
+	padding: 5px;
+	margin-left: 10px;
+}
+
+.mo_faq_button_right:hover{
+	transform: scale(1.1);
+}
+

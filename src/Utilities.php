@@ -50,7 +50,7 @@ class Utilities {
         );
 
         $form['markup_support_1'] = array(
-            '#markup' => '<h3><b>Feature Request/Contact Us:</b></h3><div>Need any help? We can help you with configuring your Service Provider. Just send us a query and we will get back to you soon.<br /></div><br>',
+            '#markup' => '<h3><b>Feature Request/Contact Us:</b></h3><div>Need any help? We can help you with configuring your OAuth Provider. Just send us a query and we will get back to you soon.<br /></div><br>',
         );
 
         $form['miniorange_oauth_client_email_address'] = array(
@@ -74,18 +74,18 @@ class Utilities {
             '#type' => 'submit',
             '#value' => t('Submit Query'),
             '#submit' => array('::saved_support'),
+            '#limit_validation_errors' => array(),
             '#attributes' => array('style' => 'background: #337ab7;color: #ffffff;text-shadow: 0 -1px 1px #337ab7, 1px 0 1px #337ab7, 0 1px 1px #337ab7, -1px 0 1px #337ab7;box-shadow: 0 1px 0 #337ab7;border-color: #337ab7 #337ab7 #337ab7;display:block;margin-left:auto;margin-right:auto;'),
         );
 
         $form['miniorange_oauth_client_support_note'] = array(
             '#markup' => '<div><br/>If you want custom features in the plugin, just drop an email to <a href="mailto:info@xecurify.com">info@xecurify.com</a></div>'
         );
-
         $form['miniorange_oauth_client_div_end'] = array(
             '#markup' => '</div></div><div hidden id="mosaml-feedback-overlay"></div>'
         );
-
     }
+
     public static function send_support_query($email, $phone, $query)
     {
         if(empty($email)||empty($query)){
@@ -139,6 +139,15 @@ class Utilities {
         }
     }
 
+    public static function faq(&$form, &$form_state){
+
+        $form['miniorange_faq'] = array(
+            '#markup' => '<br><div class="mo_saml_text_center"><b></b>
+                          <a class="btn1 btn-primary-faq btn-large mo_faq_button_left" href="https://faq.miniorange.com/kb/oauth-openid-connect/" target="_blank">FAQs</a>
+                          <b></b><a class="btn1 btn-primary-faq btn-large mo_faq_button_right" href="https://forum.miniorange.com/" target="_blank">Ask questions on forum</a></div>',
+        );
+    }
+
     /**
      * Shows block to configure various oauth servers
      */
@@ -156,16 +165,19 @@ class Utilities {
             '#markup' => '<div class="table-responsive mo_guide_text-center" style="font-family: sans-serif;font-size: 15px;">          
                 <table class="mo_guide_table mo_guide_table-striped mo_guide_table-bordered" style="border: 1px solid #ddd;max-width: 100%;border-collapse: collapse;">
                     <thead>
-                        <tr><th class="mo_guide_text-center" style="">Providers</th><th class="mo_guide_text-center">Links</th></tr>
+                        <tr><th class="mo_guide_text-center">Providers</th><th class="mo_guide_text-center">Links</th></tr>
                     </thead>
                     <tbody>
-                        <tr><td>AWS Cognito</td><td><strong><a href="https://plugins.miniorange.com/configure-aws-cognito-oauth-openid-connect-server-in-drupal-8" class="mo_guide_text-color" target="_blank">Click Here</a></strong></td></tr>
-                        <tr><td>Reddit</td><td><strong><a class="mo_guide_text-color" href="https://plugins.miniorange.com/configure-reddit-oauthopenid-connect-server-drupal-8" target="_blank">Click Here</a></strong></td></tr>
-                        <tr><td>Google</td><td><strong><a class="mo_guide_text-color" href="https://plugins.miniorange.com/configure-google-oauth-server-drupal-8" target="_blank">Click Here</a></strong></td></tr>
-                        <tr><td>Facebook</td><td><strong><a href="https://plugins.miniorange.com/configure-facebook-oauth-server-for-drupal-8" class="mo_guide_text-color" target="_blank">Click Here</a></strong></td></tr>
-                        <tr><td>FitBit</td><td><strong><a href="https://plugins.miniorange.com/configure-fitbit-oauth-server-for-drupal-8" class="mo_guide_text-color" target="_blank">Click Here</a></strong></td></tr>
-                        <tr><td>Instagram</td><td><strong><a href="https://plugins.miniorange.com/configure-instagram-as-an-oauth-openid-connect-server-for-drupal-8-client" class="mo_guide_text-color" target="_blank">Click Here</a></strong></td></tr>
-                        <tr><td>linkedin</td><td><strong><a href="https://plugins.miniorange.com/configure-linkedin-as-an-oauth-openid-connect-server-for-drupal-8-client" class="mo_guide_text-color" target="_blank">Click Here</a></strong></td></tr>
+                        <tr><td class="mo_guide_text-center">AWS Cognito</td><td><strong><a href="https://plugins.miniorange.com/configure-aws-cognito-oauth-openid-connect-server-in-drupal-8" class="mo_guide_text-color " target="_blank">Click Here</a></strong></td></tr>
+                        <tr><td class="mo_guide_text-center">Reddit</td><td><strong><a class="mo_guide_text-color" href="https://plugins.miniorange.com/configure-reddit-oauthopenid-connect-server-drupal-8" target="_blank">Click Here</a></strong></td></tr>
+                        <tr><td class="mo_guide_text-center">Google</td><td><strong><a class="mo_guide_text-color" href="https://plugins.miniorange.com/configure-google-oauth-server-drupal-8" target="_blank">Click Here</a></strong></td></tr>
+                        <tr><td class="mo_guide_text-center">Facebook</td><td><strong><a href="https://plugins.miniorange.com/configure-facebook-oauth-server-for-drupal-8" class="mo_guide_text-color" target="_blank">Click Here</a></strong></td></tr>
+                        <tr><td class="mo_guide_text-center">FitBit</td><td><strong><a href="https://plugins.miniorange.com/configure-fitbit-oauth-server-for-drupal-8" class="mo_guide_text-color" target="_blank">Click Here</a></strong></td></tr>
+                        <tr><td class="mo_guide_text-center">Instagram</td><td><strong><a href="https://plugins.miniorange.com/configure-instagram-as-an-oauth-openid-connect-server-for-drupal-8-client" class="mo_guide_text-color" target="_blank">Click Here</a></strong></td></tr>
+                        <tr><td class="mo_guide_text-center">linkedin</td><td><strong><a href="https://plugins.miniorange.com/configure-linkedin-as-an-oauth-openid-connect-server-for-drupal-8-client" class="mo_guide_text-color" target="_blank">Click Here</a></strong></td></tr>
+                        <tr><td class="mo_guide_text-center">Wild Apricot</td><td><strong><a href="https://plugins.miniorange.com/guide-to-configure-wildapricot-as-an-oauthopenid-connect-server" class="mo_guide_text-color" target="_blank">Click Here</a></strong></td></tr>
+                        <tr><td class="mo_guide_text-center">Line</td><td><strong><a href="https://plugins.miniorange.com/guide-to-configure-line-as-an-oauthopenid-connect-server" class="mo_guide_text-color" target="_blank">Click Here</a></strong></td></tr>
+                        <tr><td class="mo_guide_text-center">Other provider</td><td><strong><a href="https://www.miniorange.com/contact" class="mo_guide_text-color" target="_blank">Click Here</a></strong></td></tr>
                     </tbody>
                 </table>
                 <div>In case you do not find your desired OAuth Provider listed here, please mail us on <a href="mailto:info@xecurify.com">info@xecurify.com</a>
@@ -173,49 +185,10 @@ class Utilities {
             </div>',
 
         );
-    }
-
-    /**
-     * Advertise OAuth Server Module
-     */
-    public static function advertiseServer(&$form, &$form_state){
-        global $base_url;
-        $module_path = drupal_get_path('module', 'oauth_login_oauth2');
-        $form['miniorange_oauth_client_setup_guide_link'] = array(
-            '#markup' => '<div class="mo_saml_table_layout mo_saml_container_2" id="mo_oauth_guide_vt">',
-        );
-
-        $form['miniorange_oauth_client_guide_link1'] = array(
-            '#markup' => '<div style="font-size: 15px;"><i>Looking for a Drupal OAuth Server module? Now create your own Drupal site as an OAuth Server.</i></div></br>',
-        );
-
-        $form['miniorange_oauth_client_guide_table_list'] = array(
-            '#markup' => '<div class="table-responsive mo_guide_text-center" style="font-family: sans-serif;font-size: 15px;">
-                <table class="" style="border: none !important;max-width: 100%;border-collapse: collapse;">
-                    <thead>
-                        <tr><th class="mo_guide_text-center" style="border: none;"><img src="'.$base_url.'/'. $module_path . '/includes/images/miniorange.png" alt="Simply Easy Learning" height = 80px width = 80px ></th><th class="mo_guide_text-center" style = "border: none;"><b>Drupal OAuth Server( OAuth Provider) - Single Sign On (SSO)</b></th></tr>
-                    </thead>
-                </table>
-                <div>
-                    <p>OAuth Server allows Single Sign-On to your client apps with Drupal. It allows you to use Drupal as your OAuth Server and access OAuth API’s</p>
-                    <br>
-                </div>
-                <table>
-                    <tr>
-                    <a class="btn btn-get-module btn-large" href="https://www.drupal.org/project/oauth_server_sso" target ="_blank">
-                        Download module
-                    </a>
-                    <a class="btn btn-know-more btn-large" href="https://plugins.miniorange.com/drupal-oauth-server" target ="_blank">
-                        Know more
-                    </a>
-                    </tr>
-                </table>
-            </div>',
-        );
+        self::faq($form, $form_state);
     }
 
     /*=======Show attribute list coming from server on Attribute Mapping tab =======*/
-
     public static function show_attr_list_from_idp(&$form, $form_state)
     {
         global $base_url;

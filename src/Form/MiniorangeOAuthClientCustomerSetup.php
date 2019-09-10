@@ -10,6 +10,7 @@ namespace Drupal\oauth_login_oauth2\Form;
 use Drupal\oauth_login_oauth2\MiniorangeOAuthClientCustomer;
 use Drupal\Core\Form\FormBase;
 use Drupal\oauth_login_oauth2\MiniorangeOAuthClientSupport;
+use Drupal\oauth_login_oauth2\Utilities;
 
     class MiniorangeOAuthClientCustomerSetup extends FormBase
     {
@@ -28,6 +29,7 @@ use Drupal\oauth_login_oauth2\MiniorangeOAuthClientSupport;
                             "oauth_login_oauth2/oauth_login_oauth2.admin",
                             "oauth_login_oauth2/oauth_login_oauth2.style_settings",
                             "oauth_login_oauth2/oauth_login_oauth2.module",
+                            "oauth_login_oauth2/oauth_login_oauth2.Vtour",
                         )
                     ),
                 );
@@ -120,6 +122,7 @@ use Drupal\oauth_login_oauth2\MiniorangeOAuthClientSupport;
                         '#markup' => '<br><br><br><br></div></div>'
                     );
 
+                    Utilities::AddSupportButton($form, $form_state);
                     return $form;
                 }
 
@@ -164,6 +167,7 @@ use Drupal\oauth_login_oauth2\MiniorangeOAuthClientSupport;
                     '#markup' => '</div></div>'
                 );
 
+                Utilities::AddSupportButton($form, $form_state);
                 return $form;
         }
 
@@ -279,25 +283,13 @@ use Drupal\oauth_login_oauth2\MiniorangeOAuthClientSupport;
                 }
         }
 
-        function saved_support($form, &$form_state)
-        {
-                $email = $form['miniorange_oauth_client_email_address_support']['#value'];
-                $phone = $form['miniorange_oauth_client_phone_number_support']['#value'];
-                $query = $form['miniorange_oauth_client_support_query_support']['#value'];
-                if(empty($email)||empty($query)){
-                    drupal_set_message(t('The <b><u>Email Address</u></b> and <b><u>Query</u></b> fields are mandatory.'), 'error');
-                    return;
-                }
-                if (!valid_email_address($email)) {
-                    drupal_set_message(t('The email address <i>' . $email . '</i> is not valid.'), 'error');
-                    return;
-                }
-                $support = new MiniorangeOAuthClientSupport($email, $phone, $query);
-                $support_response = $support->sendSupportQuery();
-                if ($support_response) {
-                    drupal_set_message(t('Support query successfully sent'));
-                } else {
-                    drupal_set_message(t('Error sending support query'), 'error');
-                }
-        }
+        /**
+     * Send support query.
+     */
+    public function saved_support(array &$form, \Drupal\Core\Form\FormStateInterface $form_state) {
+        $email = trim($form['miniorange_oauth_client_email_address']['#value']);
+        $phone = trim($form['miniorange_oauth_client_phone_number']['#value']);
+        $query = trim($form['miniorange_oauth_client_support_query']['#value']);
+        Utilities::send_support_query($email, $phone, $query);
+    }
     }

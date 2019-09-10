@@ -23,6 +23,7 @@ class Settings extends FormBase
             'library' => array(
                 "oauth_login_oauth2/oauth_login_oauth2.admin",
                 "oauth_login_oauth2/oauth_login_oauth2.style_settings",
+                "oauth_login_oauth2/oauth_login_oauth2.Vtour",
             )
         ),
     );
@@ -34,7 +35,7 @@ class Settings extends FormBase
     );
 
     $form['markup_top_vt_start'] = array(
-         '#markup' => '<b><span style="font-size: 17px;">Sign in Settings</span></b><br><br><hr><br/>'
+         '#markup' => '<b><h3>SIGN IN SETTINGS</h3></b><br><hr><br/>'
     );
 
     $form['miniorange_oauth_client_base_url'] = array(
@@ -77,14 +78,23 @@ class Settings extends FormBase
     Utilities::spConfigGuide($form, $form_state);
 
     $form['mo_markup_div_imp']=array('#markup'=>'</div>');
-
+    Utilities::AddSupportButton($form, $form_state);
     return $form;
  }
 
  public function submitForm(array &$form, \Drupal\Core\Form\FormStateInterface $form_state) {
     $baseUrlvalue = $form['miniorange_oauth_client_base_url']['#value'];
     \Drupal::configFactory()->getEditable('oauth_login_oauth2.settings')->set('miniorange_oauth_client_base_url', $baseUrlvalue)->save();
-    drupal_set_message(t('Attribute Mapping saved successfully.'));
+    drupal_set_message(t('Configurations saved successfully.'));
  }
 
+/**
+     * Send support query.
+     */
+    public function saved_support(array &$form, \Drupal\Core\Form\FormStateInterface $form_state) {
+        $email = trim($form['miniorange_oauth_client_email_address']['#value']);
+        $phone = trim($form['miniorange_oauth_client_phone_number']['#value']);
+        $query = trim($form['miniorange_oauth_client_support_query']['#value']);
+        Utilities::send_support_query($email, $phone, $query);
+    }
 }

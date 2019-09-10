@@ -42,7 +42,7 @@ body{
   font-weight: 700;
 }
 #pricing-table .pricing .pricing-table .pricing-header .pricing-rate {
-  font-size: 70px;
+  font-size: 50px;
   font-weight: 700;
   color: #ffffff;
   position: relative;
@@ -74,7 +74,7 @@ body{
   border-bottom: 1px solid #EAECEB;
   color: #bdc3c7;
   font-size: 16px;
-  line-height: 42px;
+  padding-top: 20px; 
 }
 #pricing-table .pricing .pricing-list ul li:last-child {
   border: none;

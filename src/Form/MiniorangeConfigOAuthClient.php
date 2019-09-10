@@ -163,7 +163,7 @@ class MiniorangeConfigOAuthClient extends FormBase
             '#type' => 'textfield',
             '#id'  => 'miniorange_oauth_client_scope',
             '#default_value' => \Drupal::config('oauth_login_oauth2.settings')->get('miniorange_auth_client_scope'),
-            '#description' => "You can edit the value of this field but we highly recommend not change the default values of this field",
+            '#description' => "You can edit the value of this field. Scope decides the range of data that you will be getting from your OAuth Provider",
             '#title' => t('Scope: '),
             '#attributes' => array('style' => 'width:73%'),
         );
@@ -241,9 +241,6 @@ class MiniorangeConfigOAuthClient extends FormBase
 
         Utilities::spConfigGuide($form, $form_state);
         $form['mo_markup_div_2_imp']=array('#markup'=>'</div>');
-        $form['mo_markup_div__imp']=array('#markup'=>'<div>');
-        Utilities::advertiseServer($form, $form_state);
-        $form['mo_markup_div_imp']=array('#markup'=>'</div>');
         Utilities::AddSupportButton($form, $form_state);
 
         return $form;
@@ -260,17 +257,17 @@ class MiniorangeConfigOAuthClient extends FormBase
         if(isset($form['miniorange_oauth_client_display_name']['#value']))
             $display_name = $form['miniorange_oauth_client_display_name'] ['#value'];
         if(isset($form['miniorange_oauth_client_id']))
-            $client_id = $form['miniorange_oauth_client_id']['#value'];
+            $client_id = trim($form['miniorange_oauth_client_id']['#value']);
         if(isset($form['miniorange_oauth_client_secret']['#value']))
-            $client_secret = $form['miniorange_oauth_client_secret'] ['#value'];
+            $client_secret = trim($form['miniorange_oauth_client_secret'] ['#value']);
         if(isset($form['miniorange_oauth_client_scope']['#value']))
-            $scope = $form['miniorange_oauth_client_scope']['#value'];
+            $scope = trim($form['miniorange_oauth_client_scope']['#value']);
         if(isset($form['miniorange_oauth_client_authorize_endpoint']['#value']))
-            $authorize_endpoint = $form['miniorange_oauth_client_authorize_endpoint'] ['#value'];
+            $authorize_endpoint = trim($form['miniorange_oauth_client_authorize_endpoint'] ['#value']);
         if(isset($form['miniorange_oauth_client_access_token_endpoint']['#value']))
-            $access_token_ep = $form['miniorange_oauth_client_access_token_endpoint']['#value'];
+            $access_token_ep = trim($form['miniorange_oauth_client_access_token_endpoint']['#value']);
         if(isset($form['miniorange_oauth_client_userinfo_endpoint']['#value']))
-            $user_info_ep = $form['miniorange_oauth_client_userinfo_endpoint']['#value'];
+            $user_info_ep = trim($form['miniorange_oauth_client_userinfo_endpoint']['#value']);
 
         if(($client_app=='Select') || empty($client_app) || empty($app_name) || empty($client_id) || empty($client_secret) || empty($authorize_endpoint) || empty($access_token_ep)
             || empty($user_info_ep))

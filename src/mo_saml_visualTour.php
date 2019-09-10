@@ -44,14 +44,6 @@ class mo_saml_visualTour {
                 'selector'  =>'li.tabs__tab:nth-of-type(4)',
                 'newID'     =>'mo_vt_oauth_client_upgrade',
             ),
-            array(
-                'selector'  =>'li.tabs__tab:nth-of-type(5)',
-                'newID'     =>'mo_vt_oauth_client_faq',
-            ),
-            array(
-                'selector'  =>'li.tabs__tab:nth-of-type(6)',
-                'newID'     =>'mo_vt_oauth_client_support',
-            ),
         );
         return $idArray;
     }
@@ -107,24 +99,6 @@ class mo_saml_visualTour {
                     'cardSize'      => 'big',
                 ),
                 4 => array(
-                    'targetE'       => 'mo_vt_oauth_client_faq',
-                    'pointToSide'   => 'left',
-                    'titleHTML'     => '<h1>FAQs</h1>',
-                    'contentHTML'   => 'You could find solutions for most popular queries.',
-                    'ifNext'        => true,
-                    'buttonText'    => 'Next',
-                    'cardSize'      => 'largemedium',
-                ),
-                5 => array(
-                    'targetE'       => 'mo_vt_oauth_client_support',
-                    'pointToSide'   => 'left',
-                    'titleHTML'     =>  '<h1>Need Help?</h1>',
-                    'contentHTML'   =>  'You can always reach out to us instantly in case you face any issues or have any questions in mind.',
-                    'ifNext'        => true,
-                    'buttonText'    => 'End Tour',
-                    'cardSize'      => 'big',
-                ),
-                6 => array(
                     'targetE'       => 'miniorange_oauth_client_app',
                     'pointToSide'   => 'left',
                     'titleHTML'     => '<h1>Select Application</h1>',
@@ -133,7 +107,7 @@ class mo_saml_visualTour {
                     'buttonText'    => 'Next',
                     'cardSize'      => 'largemedium',
                 ),
-                7 => array(
+                5 => array(
                     'targetE'       => 'mo_vt_callback_url',
                     'pointToSide'   => 'left',
                     'titleHTML'     => '<h1>Callback/Redirect URL</h1>',
@@ -142,7 +116,7 @@ class mo_saml_visualTour {
                     'buttonText'    => 'Next',
                     'cardSize'      => 'largemedium',
                 ),
-                8 => array(
+                6 => array(
                     'targetE'       => 'mo_vt_add_data',
                     'pointToSide'   => 'left',
                     'titleHTML'     => '<h1>Confiugre OAuth Server</h1>',
@@ -151,7 +125,7 @@ class mo_saml_visualTour {
                     'buttonText'    => 'Next',
                     'cardSize'      => 'medium',
                 ),
-                9 => array(
+                7 => array(
                     'targetE'       => 'button_config',
                     'pointToSide'   => 'left',
                     'titleHTML'     => '<h1>Save Settings</h1>',
@@ -160,7 +134,7 @@ class mo_saml_visualTour {
                     'buttonText'    => 'Next',
                     'cardSize'      => 'medium',
                 ),
-                10 => array(
+                8 => array(
                     'targetE'       => 'mo_oauth_guide_vt',
                     'pointToSide'   => 'right',
                     'titleHTML'     => '<h1>Documentaion</h1>',

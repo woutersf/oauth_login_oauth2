@@ -64,5 +64,5 @@ class MiniorangeOAuthClientSupport {
       }
       curl_close ($ch);
       return TRUE;
-  }
+  } 
 }
