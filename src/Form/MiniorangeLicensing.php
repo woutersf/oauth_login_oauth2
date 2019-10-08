@@ -23,7 +23,8 @@ public function buildForm(array $form, \Drupal\Core\Form\FormStateInterface $for
   $form['markup_library'] = array(
     '#attached' => array(
         'library' => array(
-            "oauth_login_oauth2/oauth_login_oauth2.style_settings",
+          "oauth_login_oauth2/oauth_login_oauth2.admin",
+          "oauth_login_oauth2/oauth_login_oauth2.style_settings",
         )
     ),
   );
@@ -33,7 +34,7 @@ public function buildForm(array $form, \Drupal\Core\Form\FormStateInterface $for
     );
 
     $form['markup_1'] = array(
-        '#markup' =>'<br><h3>UPGRADE PLANS</h3><hr>'
+        '#markup' =>'<br><h3>&nbsp; UPGRADE PLANS</h3><hr>'
     );
 
     $form['markup_free'] = array(
@@ -79,7 +80,7 @@ public function buildForm(array $form, \Drupal\Core\Form\FormStateInterface $for
                                 <p class="pricing-title">Free</p>
                                 <p class="pricing-rate"><sup>$</sup> 0</p>
                                 <div class="filler-class"></div>
-                                    <a class="btn btn-primary">You are here</a>
+                                    <a class="btn btn-primary">You are on this plan</a>
                                 </div>
                             <div class="pricing-list">
                                 <ul>
@@ -104,10 +105,10 @@ public function buildForm(array $form, \Drupal\Core\Form\FormStateInterface $for
 
                         <div class="pricing-table class_inline">
                             <div class="pricing-header">
-                                <p class="pricing-title">Standard</p>
+                                <p class="pricing-title">Standard<br><span>(Role & Attribute Mapping)</span></p>
                                 <p class="pricing-rate"><sup>$</sup> 99<sup>*</sup></p>
                                 <div class="filler-class"></div>
-                                 <a href="https://www.miniorange.com/contact" target="_blank" class="btn btn-primary">Contact Us</a>
+                                 <a href="https://login.xecurify.com/moas/login?redirectUrl=https://login.xecurify.com/moas/initializepayment&requestOrigin=drupal8_oauth_client_standard_plan" target="_blank" class="btn btn-primary">Click to Upgrade</a>
                         </div>
 
                         <div class="pricing-list">
@@ -133,9 +134,9 @@ public function buildForm(array $form, \Drupal\Core\Form\FormStateInterface $for
 
                         <div class="pricing-table class_inline">
                             <div class="pricing-header">
-                                <p class="pricing-title">Premium</p>
+                                <p class="pricing-title">Premium<br><span>(OpenID support)</span></p>
                                 <p class="pricing-rate"><sup>$</sup> 199<sup>*</sup></p>
-                                 <a href="https://www.miniorange.com/contact" target="_blank" class="btn btn-primary">Contact Us</a>
+                                 <a href="https://login.xecurify.com/moas/login?redirectUrl=https://login.xecurify.com/moas/initializepayment&requestOrigin=drupal8_oauth_client_premium_plan" target="_blank" class="btn btn-primary">Click to Upgrade</a>
                             </div>
 
                             <div class="pricing-list">
@@ -161,9 +162,9 @@ public function buildForm(array $form, \Drupal\Core\Form\FormStateInterface $for
                         </div>
                         <div class="pricing-table class_inline">
                             <div class="pricing-header">
-                                <p class="pricing-title">Enterprise</p>
+                                <p class="pricing-title">Enterprise<br><span>(Domain Page Restriction)</span></p>
                                 <p class="pricing-rate"><sup>$</sup> 249<sup>*</sup></p>
-                                 <a href="https://www.miniorange.com/contact" target="_blank" class="btn btn-primary">Contact Us</a>
+                                 <a href="https://login.xecurify.com/moas/login?redirectUrl=https://login.xecurify.com/moas/initializepayment&requestOrigin=drupal8_oauth_client_enterprise_plan" target="_blank" class="btn btn-primary">Click to upgrade</a>
                             </div>
 
                             <div class="pricing-list">

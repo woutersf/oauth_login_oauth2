@@ -85,7 +85,7 @@ class Settings extends FormBase
  public function submitForm(array &$form, \Drupal\Core\Form\FormStateInterface $form_state) {
     $baseUrlvalue = $form['miniorange_oauth_client_base_url']['#value'];
     \Drupal::configFactory()->getEditable('oauth_login_oauth2.settings')->set('miniorange_oauth_client_base_url', $baseUrlvalue)->save();
-    drupal_set_message(t('Configurations saved successfully.'));
+    \Drupal::messenger()->addMessage(t('Configurations saved successfully.'));
  }
 
 /**

@@ -59,7 +59,7 @@ class MiniorangeOAuthClientSupport {
           '%file' => 'miniorange_oauth_client_support.php',
           '%error' => curl_error($ch),
         );
-        watchdog('miniorange_oauth_client', 'cURL Error at %method of %file: %error', $error);
+        watchdog('oauth_login_oauth2', 'cURL Error at %method of %file: %error', $error);
         return FALSE;
       }
       curl_close ($ch);

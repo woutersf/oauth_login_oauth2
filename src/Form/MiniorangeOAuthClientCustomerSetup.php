@@ -135,7 +135,7 @@ use Drupal\oauth_login_oauth2\Utilities;
                 $form['markup_14'] = array('#markup' => '<h3>Register/Login with miniOrange</h3>');
 
                 $form['markup_15'] = array(
-                    '#markup' => 'Just complete the short registration below to configure' . ' the OAuth Client Plugin. Please enter a valid email id <br>that you have' . ' access to.
+                    '#markup' => 'Just complete the short registration below to configure' . ' the OAuth Client Login Module. Please enter a valid email id <br>that you have' . ' access to.
                     An OTP will be sent to this email for verification purpose.'
                 );
 
@@ -147,10 +147,7 @@ use Drupal\oauth_login_oauth2\Utilities;
                 $form['miniorange_oauth_client_customer_setup_phone'] = array(
                     '#type' => 'textfield',
                     '#title' => t('Phone'),
-                );
-
-                $form['markup_16'] = array(
-                    '#markup' => '<b>NOTE:</b> We will only call if you need support.'
+                    '#description' => '<b>NOTE:</b> We will only call if you need support.'
                 );
 
                 $form['miniorange_oauth_client_customer_setup_password'] = array(
@@ -172,20 +169,21 @@ use Drupal\oauth_login_oauth2\Utilities;
         }
 
         public function submitForm(array &$form, \Drupal\Core\Form\FormStateInterface $form_state) {
+
                 $username = $form['miniorange_oauth_client_customer_setup_username']['#value'];
                 $phone = $form['miniorange_oauth_client_customer_setup_phone']['#value'];
                 $password = $form['miniorange_oauth_client_customer_setup_password']['#value']['pass1'];
                 if(empty($username)||empty($password)){
-                    drupal_set_message(t('The <b><u>Email </u></b> and <b><u>Password</u></b> fields are mandatory.'), 'error');
+                    \Drupal::messenger()->addMessage(t('The <b><u>Email </u></b> and <b><u>Password</u></b> fields are mandatory.'), 'error');
                     return;
                 }
                 if (!valid_email_address($username)) {
-                    drupal_set_message(t('The email address <i>' . $username . '</i> is not valid.'), 'error');
+                    \Drupal::messenger()->addMessage(t('The email address <i>' . $username . '</i> is not valid.'), 'error');
                     return;
                 }
                 $customer_config = new MiniorangeOAuthClientCustomer($username, $phone, $password, NULL);
-                $check_customer_response = json_decode($customer_config->checkCustomer());
-                if ($check_customer_response->status == 'CUSTOMER_NOT_FOUND') {
+            $check_customer_response = json_decode($customer_config->checkCustomer());
+            if ($check_customer_response->status == 'CUSTOMER_NOT_FOUND') {
                     \Drupal::configFactory()->getEditable('oauth_login_oauth2.settings')->set('miniorange_oauth_client_customer_admin_email', $username)->save();
                     \Drupal::configFactory()->getEditable('oauth_login_oauth2.settings')->set('miniorange_oauth_client_customer_admin_phone', $phone)->save();
                     \Drupal::configFactory()->getEditable('oauth_login_oauth2.settings')->set('miniorange_oauth_client_customer_admin_password', $password)->save();
@@ -195,13 +193,13 @@ use Drupal\oauth_login_oauth2\Utilities;
                         \Drupal::configFactory()->getEditable('oauth_login_oauth2.settings')->set('miniorange_oauth_client_tx_id', $send_otp_response->txId)->save();
                         $current_status = 'VALIDATE_OTP';
                         \Drupal::configFactory()->getEditable('oauth_login_oauth2.settings')->set('miniorange_oauth_client_status', $current_status)->save();
-                        drupal_set_message(t('Verify email address by entering the passcode sent to @username', [
+                        \Drupal::messenger()->addMessage(t('Verify email address by entering the passcode sent to @username', [
                             '@username' => $username
                         ]));
                     }
                 }
                 elseif ($check_customer_response->status == 'CURL_ERROR') {
-                    drupal_set_message(t('cURL is not enabled. Please enable cURL'), 'error');
+                    \Drupal::messenger()->addMessage(t('cURL is not enabled. Please enable cURL'), 'error');
                 }
                 else {
                     $customer_keys_response = json_decode($customer_config->getCustomerKeys());
@@ -213,11 +211,18 @@ use Drupal\oauth_login_oauth2\Utilities;
                         \Drupal::configFactory()->getEditable('oauth_login_oauth2.settings')->set('miniorange_oauth_client_customer_api_key', $customer_keys_response->apiKey)->save();
                         $current_status = 'PLUGIN_CONFIGURATION';
                         \Drupal::configFactory()->getEditable('oauth_login_oauth2.settings')->set('miniorange_oauth_client_status', $current_status)->save();
-                        drupal_set_message(t('Successfully retrieved your account.'));
+                        \Drupal::messenger()->addMessage(t('Successfully retrieved your account.'));
                     }
-                    else {
-                        drupal_set_message(t('Invalid credentials'), 'error');
+                    elseif($check_customer_response->status == 'TRANSACTION_LIMIT_EXCEEDED') {
+
+                        \Drupal::messenger()->addMessage(t('Your transaction limit has been exceeded due to multiple login attempts. Please try after some time or contact us at <a href="mailto:info@xecurify.com" target="_blank">info@xecurify.com</a>.'), 'error');
+                        return;
                     }
+                    else{
+                        \Drupal::messenger()->addMessage(t('Invalid credentials.'), 'error');
+                        return;
+                    }
+
                 }
         }
 
@@ -227,7 +232,7 @@ use Drupal\oauth_login_oauth2\Utilities;
                 \Drupal::configFactory()->getEditable('oauth_login_oauth2.settings')->clear('miniorange_miniorange_oauth_client_customer_admin_email')->save();
                 \Drupal::configFactory()->getEditable('oauth_login_oauth2.settings')->clear('miniorange_oauth_client_customer_admin_phone')->save();
                 \Drupal::configFactory()->getEditable('oauth_login_oauth2.settings')->clear('miniorange_oauth_client_tx_id')->save();
-                drupal_set_message(t('Register/Login with your miniOrange Account'),'status');
+                \Drupal::messenger()->addMessage(t('Register/Login with your miniOrange Account'),'status');
         }
 
         public function miniorange_oauth_client_resend_otp(&$form, $form_state) {
@@ -241,7 +246,7 @@ use Drupal\oauth_login_oauth2\Utilities;
                     \Drupal::configFactory()->getEditable('oauth_login_oauth2.settings')->set('miniorange_oauth_client_tx_id', $send_otp_response->txId)->save();
                     $current_status = 'VALIDATE_OTP';
                     \Drupal::configFactory()->getEditable('oauth_login_oauth2.settings')->set('miniorange_oauth_client_status', $current_status)->save();
-                    drupal_set_message(t('Verify email address by entering the passcode sent to @username', array('@username' => $username)));
+                    \Drupal::messenger()->addMessage(t('Verify email address by entering the passcode sent to @username', array('@username' => $username)));
                 }
         }
 
@@ -266,20 +271,22 @@ use Drupal\oauth_login_oauth2\Utilities;
                         \Drupal::configFactory()->getEditable('oauth_login_oauth2.settings')->set('miniorange_oauth_client_customer_admin_token', $create_customer_response->token)->save();
                         \Drupal::configFactory()->getEditable('oauth_login_oauth2.settings')->set('miniorange_oauth_client_customer_id', $create_customer_response->id)->save();
                         \Drupal::configFactory()->getEditable('oauth_login_oauth2.settings')->set('miniorange_oauth_client_customer_api_key', $create_customer_response->apiKey)->save();
-                        drupal_set_message(t('Customer account created.'));
+                        \Drupal::messenger()->addMessage(t('Customer account created.'));
                     }
                     else if(trim($create_customer_response->message) == 'Email is not enterprise email.')
                     {
-                        drupal_set_message(t('There was an error creating an account for you.<br> You may have entered an invalid Email-Id
+                        \Drupal::messenger()->addMessage(t('There was an error creating an account for you.<br> You may have entered an invalid Email-Id
                         <strong>(We discourage the use of disposable emails) </strong>
                         <br>Please try again with a valid email.'), 'error');
                     }
                     else {
-                        drupal_set_message(t('Error creating customer'), 'error');
+                        \Drupal::messenger()->addMessage(t('Error creating customer'), 'error');
+                        return;
                     }
                 }
                 else {
-                    drupal_set_message(t('Error validating OTP'), 'error');
+                    \Drupal::messenger()->addMessage(t('Error validating OTP'), 'error');
+                    return;
                 }
         }
 

@@ -80,7 +80,7 @@ class MiniorangeOAuthClientCustomer {
         '%file' => 'customer_setup.php',
         '%error' => curl_error($ch),
       );
-      watchdog('miniorange_oauth_client', 'Error at %method of %file: %error', $error);
+      watchdog('oauth_login_oauth2', 'Error at %method of %file: %error', $error);
     }
     curl_close($ch);
 
@@ -101,7 +101,7 @@ class MiniorangeOAuthClientCustomer {
     $ch = curl_init($url);
     $fields = array(
       'companyName' => $_SERVER['SERVER_NAME'],
-      'areaOfInterest' => 'DRUPAL 8 OAuth Server',
+      'areaOfInterest' => 'DRUPAL 8 OAuth Login',
       'email' => $this->email,
       'phone' => $this->phone,
       'password' => $this->password,
@@ -130,7 +130,7 @@ class MiniorangeOAuthClientCustomer {
         '%file' => 'customer_setup.php',
         '%error' => curl_error($ch),
       );
-      watchdog('miniorange_oauth_client', 'Error at %method of %file: %error', $error);
+      watchdog('oauth_login_oauth2', 'Error at %method of %file: %error', $error);
     }
     curl_close($ch);
     return $content;
@@ -179,7 +179,7 @@ class MiniorangeOAuthClientCustomer {
         '%file' => 'customer_setup.php',
         '%error' => curl_error($ch),
       );
-      watchdog('miniorange_oauth_client', 'Error at %method of %file: %error', $error);
+      watchdog('oauth_login_oauth2', 'Error at %method of %file: %error', $error);
     }
     curl_close($ch);
 
@@ -241,7 +241,7 @@ class MiniorangeOAuthClientCustomer {
         '%file' => 'customer_setup.php',
         '%error' => curl_error($ch),
       );
-      watchdog('miniorange_oauth_client', 'Error at %method of %file: %error', $error);
+      watchdog('oauth_login_oauth2', 'Error at %method of %file: %error', $error);
     }
     curl_close($ch);
     return $content;
@@ -300,7 +300,7 @@ class MiniorangeOAuthClientCustomer {
         '%file' => 'customer_setup.php',
         '%error' => curl_error($ch),
       );
-      watchdog('miniorange_oauth_client', 'Error at %method of %file: %error', $error);
+      watchdog('oauth_login_oauth2', 'Error at %method of %file: %error', $error);
     }
     curl_close($ch);
     return $content;

@@ -19,7 +19,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with miniOrange SAML plugin.  If not, see <http://www.gnu.org/licenses/>.
+ * along with miniOrange OAuth Client Login module.  If not, see <http://www.gnu.org/licenses/>.
  */
 namespace Drupal\oauth_login_oauth2;
 use DOMElement;
@@ -79,7 +79,7 @@ class Utilities {
         );
 
         $form['miniorange_oauth_client_support_note'] = array(
-            '#markup' => '<div><br/>If you want custom features in the plugin, just drop an email to <a href="mailto:info@xecurify.com">info@xecurify.com</a></div>'
+            '#markup' => '<div><br/>If you want custom features in the module, just drop an email to <a href="mailto:info@xecurify.com">info@xecurify.com</a></div>'
         );
         $form['miniorange_oauth_client_div_end'] = array(
             '#markup' => '</div></div><div hidden id="mosaml-feedback-overlay"></div>'
@@ -89,19 +89,19 @@ class Utilities {
     public static function send_support_query($email, $phone, $query)
     {
         if(empty($email)||empty($query)){
-            drupal_set_message(t('The <b><u>Email</u></b> and <b><u>Query</u></b> fields are mandatory.'), 'error');
+            \Drupal::messenger()->addMessage(t('The <b><u>Email</u></b> and <b><u>Query</u></b> fields are mandatory.'), 'error');
             return;
         } elseif(!valid_email_address($email)) {
-            drupal_set_message(t('The email address <b><i>' . $email . '</i></b> is not valid.'), 'error');
+            \Drupal::messenger()->addMessage(t('The email address <b><i>' . $email . '</i></b> is not valid.'), 'error');
             return;
         }
         $support = new MiniorangeOAuthClientSupport($email, $phone, $query);
         $support_response = $support->sendSupportQuery();
         if($support_response) {
-            drupal_set_message(t('Support query successfully sent'));
+            \Drupal::messenger()->addMessage(t('Support query successfully sent'));
         }
         else {
-            drupal_set_message(t('Error sending support query'), 'error');
+            \Drupal::messenger()->addMessage(t('Error sending support query'), 'error');
         }
     }
 
@@ -168,15 +168,17 @@ class Utilities {
                         <tr><th class="mo_guide_text-center">Providers</th><th class="mo_guide_text-center">Links</th></tr>
                     </thead>
                     <tbody>
-                        <tr><td class="mo_guide_text-center">AWS Cognito</td><td><strong><a href="https://plugins.miniorange.com/configure-aws-cognito-oauth-openid-connect-server-in-drupal-8" class="mo_guide_text-color " target="_blank">Click Here</a></strong></td></tr>
-                        <tr><td class="mo_guide_text-center">Reddit</td><td><strong><a class="mo_guide_text-color" href="https://plugins.miniorange.com/configure-reddit-oauthopenid-connect-server-drupal-8" target="_blank">Click Here</a></strong></td></tr>
+                        <tr><td class="mo_guide_text-center">Azure AD</td><td><strong><a href="https://plugins.miniorange.com/setup-guide-to-configure-azure-ad-with-drupal-oauth-client" class="mo_guide_text-color " target="_blank">Click Here</a></strong></td></tr>
+                        <tr><td class="mo_guide_text-center">AWS Cognito</td><td><strong><a href="https://plugins.miniorange.com/setup-guide-to-configure-aws-cognito-with-drupal" class="mo_guide_text-color " target="_blank">Click Here</a></strong></td></tr>
                         <tr><td class="mo_guide_text-center">Google</td><td><strong><a class="mo_guide_text-color" href="https://plugins.miniorange.com/configure-google-oauth-server-drupal-8" target="_blank">Click Here</a></strong></td></tr>
                         <tr><td class="mo_guide_text-center">Facebook</td><td><strong><a href="https://plugins.miniorange.com/configure-facebook-oauth-server-for-drupal-8" class="mo_guide_text-color" target="_blank">Click Here</a></strong></td></tr>
+                        <tr><td class="mo_guide_text-center">Discord</td><td><strong><a href="https://plugins.miniorange.com/setup-guide-to-configure-discord-with-drupal-oauth-client" class="mo_guide_text-color" target="_blank">Click Here</a></strong></td></tr>
+                        <tr><td class="mo_guide_text-center">Wild Apricot</td><td><strong><a href="https://plugins.miniorange.com/guide-to-configure-wildapricot-with-drupal" class="mo_guide_text-color" target="_blank">Click Here</a></strong></td></tr>
+                        <tr><td class="mo_guide_text-center">Line</td><td><strong><a href="https://plugins.miniorange.com/setup-guide-to-configure-line-with-drupal-oauth-client" class="mo_guide_text-color" target="_blank">Click Here</a></strong></td></tr>
                         <tr><td class="mo_guide_text-center">FitBit</td><td><strong><a href="https://plugins.miniorange.com/configure-fitbit-oauth-server-for-drupal-8" class="mo_guide_text-color" target="_blank">Click Here</a></strong></td></tr>
+                        <tr><td class="mo_guide_text-center">LinkedIn</td><td><strong><a href="https://plugins.miniorange.com/configure-linkedin-as-an-oauth-openid-connect-server-for-drupal-8-client" class="mo_guide_text-color" target="_blank">Click Here</a></strong></td></tr>
                         <tr><td class="mo_guide_text-center">Instagram</td><td><strong><a href="https://plugins.miniorange.com/configure-instagram-as-an-oauth-openid-connect-server-for-drupal-8-client" class="mo_guide_text-color" target="_blank">Click Here</a></strong></td></tr>
-                        <tr><td class="mo_guide_text-center">linkedin</td><td><strong><a href="https://plugins.miniorange.com/configure-linkedin-as-an-oauth-openid-connect-server-for-drupal-8-client" class="mo_guide_text-color" target="_blank">Click Here</a></strong></td></tr>
-                        <tr><td class="mo_guide_text-center">Wild Apricot</td><td><strong><a href="https://plugins.miniorange.com/guide-to-configure-wildapricot-as-an-oauthopenid-connect-server" class="mo_guide_text-color" target="_blank">Click Here</a></strong></td></tr>
-                        <tr><td class="mo_guide_text-center">Line</td><td><strong><a href="https://plugins.miniorange.com/guide-to-configure-line-as-an-oauthopenid-connect-server" class="mo_guide_text-color" target="_blank">Click Here</a></strong></td></tr>
+                        <tr><td class="mo_guide_text-center">Reddit</td><td><strong><a class="mo_guide_text-color" href="https://plugins.miniorange.com/configure-reddit-oauthopenid-connect-server-drupal-8" target="_blank">Click Here</a></strong></td></tr>
                         <tr><td class="mo_guide_text-center">Other provider</td><td><strong><a href="https://www.miniorange.com/contact" class="mo_guide_text-color" target="_blank">Click Here</a></strong></td></tr>
                     </tbody>
                 </table>
@@ -189,31 +191,25 @@ class Utilities {
     }
 
     /*=======Show attribute list coming from server on Attribute Mapping tab =======*/
-    public static function show_attr_list_from_idp(&$form, $form_state)
-    {
+    public static function show_attr_list_from_idp(&$form, $form_state){
         global $base_url;
         $server_attrs = \Drupal::config('oauth_login_oauth2.settings')->get('miniorange_oauth_client_attr_list_from_server');
-
         if(empty($server_attrs)){
             Utilities::spConfigGuide($form, $form_state);
             return;
         }
-
         $form['miniorange_idp_guide_link'] = array(
             '#markup' => '<div class="mo_saml_table_layout mo_saml_container_2" id="mo_oauth_guide_vt">',
         );
-
         $form['miniorange_saml_attr_header'] = array(
             '#markup' => '<div class="mo_attr_table">Attributes received from the OAuth Server:</div><br>'
         );
-
         $icnt =  count($server_attrs);
         if($icnt >= 8){
             $scrollkit = 'scrollit';
         }else{
             $scrollkit = '';
         }
-
         $form['mo_saml_attrs_list_idp'] = array(
             '#markup' => '<div class="table-responsive mo_guide_text-center" style="font-family: sans-serif;font-size: 12px;"><div class='.$scrollkit.'>
                 <table class="mo_guide_table mo_guide_table-striped mo_guide_table-bordered" style="border: 1px solid #ddd;max-width: 100%;border-collapse: collapse;">
@@ -224,50 +220,38 @@ class Utilities {
                         </tr>
                     </thead>',
         );
-
         $someattrs = '';
         $attrroles = '';
-
-        if(isset($server_attrs) && !empty($server_attrs))
-        {
-            foreach ($server_attrs as $attr_name => $attr_values)
-            {
+        if(isset($server_attrs) && !empty($server_attrs)){
+            foreach ($server_attrs as $attr_name => $attr_values){
                 $someattrs .= '<tr><td>' . $attr_name . '</td><td>' ;
-                if( $attr_name == 'roles' && is_array($server_attrs['roles']))
-                {
-                    foreach ($attr_values as $attr_roles => $role)
-                    {
+                if( $attr_name == 'roles' && is_array($server_attrs['roles'])){
+                    foreach ($attr_values as $attr_roles => $role){
                         $attrroles .=  $role . ' | ';
                     }
                     $someattrs .=  $attrroles.'</td></tr>';
                 }
-                else
-                {
+                else{
                     $someattrs .= $attr_values . '</td></tr>';
                 }
             }
         }
-
         $form['miniorange_saml_guide_table_list'] = array(
             '#markup' => '<tbody style="font-weight:bold;font-size: 12px;color:gray;">'.$someattrs.'</tbody></table></div>',
         );
-
         $form['miniorange_break'] = array(
             '#markup' => '<br>',
         );
-
         $form['miniorange_saml_clear_attr_list'] = array(
             '#type' => 'submit',
             '#value' => t('Clear Attribute List'),
             '#submit' => array('::clear_attr_list'),
             '#id' => 'button_config_center',
         );
-
         $form['miniorange_saml_guide_clear_list_note'] = array(
-            '#markup' => '<br><div style="font-size: 13px;"><b>NOTE : </b>Please clear this list after configuring the plugin to hide your confidential attributes.<br>
+            '#markup' => '<br><div style="font-size: 13px;"><b>NOTE : </b>Please clear this list after configuring the module to hide your confidential attributes.<br>
                             Click on <b>Test configuration</b> in <b>CONFIGURE OAUTH</b> tab to populate the list again.</div>',
         );
-
         $form['miniorange_saml_guide_table_end'] = array(
             '#markup' => '</div>',
         );

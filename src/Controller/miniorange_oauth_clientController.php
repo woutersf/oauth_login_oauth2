@@ -23,7 +23,7 @@ class miniorange_oauth_clientController extends ControllerBase {
         global $base_url;
         handler::sendFeedbackEmail();
         /**
-         * Uninstalling the OAuth client login module after sending the feedback email
+         * Uninstalling the OAuth Client Login module after sending the feedback email
          */
         \Drupal::service('module_installer')->uninstall(['oauth_login_oauth2']);
         if(!empty(\Drupal::config('oauth_login_oauth2.settings')->get('miniorange_oauth_client_base_url')))
@@ -92,7 +92,7 @@ class miniorange_oauth_clientController extends ControllerBase {
         */
         if (isset($_COOKIE['Drupal_visitor_mo_oauth_test']) && ($_COOKIE['Drupal_visitor_mo_oauth_test'] == true)){
             $_COOKIE['Drupal_visitor_mo_oauth_test'] = 0;
-            $module_path = drupal_get_path('module', 'miniorange_oauth_client');
+            $module_path = drupal_get_path('module', 'oauth_login_oauth2');
             $username = isset($resourceOwner['email']) ? $resourceOwner['email']:'User';
             \Drupal::configFactory()->getEditable('oauth_login_oauth2.settings')->set('miniorange_oauth_client_attr_list_from_server',$resourceOwner)->save();
             echo '<div style="font-family:Calibri;padding:0 3%;">';
@@ -165,7 +165,7 @@ class miniorange_oauth_clientController extends ControllerBase {
          * Creating a new user in case the user does not exists in the Drupal database
          */
         if (!isset($account->uid)) {
-            if ($mo_count <= 10) {
+            if ($mo_count <= 5) {
                 $mo_count = $mo_count + 1;
                 \Drupal::configFactory()->getEditable('oauth_login_oauth2.settings')->set('miniorange_oauth_client_free_users', $mo_count)->save();
                 $random_password = user_password(8);
@@ -180,9 +180,8 @@ class miniorange_oauth_clientController extends ControllerBase {
             } else {
                 echo '<br><br><br><br><br><div style="color: #111010;background-color: #fadbdb; padding:2%;margin-bottom:20px;text-align:center;
                         border:1px solid #fadbdb;font-size:15pt;">
-                        You can create only 10 new users in this version of the plugin/module.
-                        <br>Please upgrade to the enterprise version of the plugin in order to create unlimited new users.</div>';
-
+                        You can create only 5 new users in this version of the module.
+                        <br>Please upgrade to the Premium or Enterprise version of the module in order to create unlimited new users.</div>';
                 return new Response();
             }
         }

@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * Module file for miniOrange OAuth client Module.
+ * Module file for miniOrange OAuth client Login Module.
  */
 use Symfony\Component\HttpFoundation\RedirectResponse;
 

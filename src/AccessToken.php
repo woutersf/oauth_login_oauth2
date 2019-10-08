@@ -37,11 +37,17 @@
                 exit("Invalid response received.");
             }
             $content = json_decode($content,true);
-            if(isset($content["error_description"])){
-                exit($content["error_description"]);
-            } else if(isset($content["error"])){
+
+            if (isset($content["error"])) {
+                if (is_array($content["error"])) {
+                    $content["error"] = $content["error"]["message"];
+                }
                 exit($content["error"]);
-            } else if(isset($content["access_token"])) {
+            }
+            else if(isset($content["error_description"])){
+                exit($content["error_description"]);
+            }
+            else if(isset($content["access_token"])) {
                 $access_token = $content["access_token"];
             } else {
                 exit('Invalid response received from OAuth Provider. Contact your administrator for more details.');

@@ -22,11 +22,11 @@ namespace Drupal\oauth_login_oauth2;
             <link href="https://fonts.googleapis.com/css?family=PT+Serif" rel="stylesheet">
 			</head>
 			<body style="font-family: 'PT Serif', serif;">
-			<h5 style="font-size:20px;color: black;margin-left:26%;margin-top:3%">Hey, it seems like you want to deactivate miniOrange OAuth Client Module</h5>
+			<h5 style="font-size:20px;color: black;margin-left:26%;margin-top:3%">Hey, it seems like you want to deactivate miniOrange OAuth Client Login Module</h5>
 			<!-- The Modal -->
 			<div id="myModal" style="margin-left:40%;margin-top: 2%"/>
 			<!-- Modal content -->
-			<div>
+            
 			<h3 style="font-size:42px;color: maroon"/>What Happened? </h3>
 
 				<div style="padding:10px;">
@@ -54,7 +54,7 @@ namespace Drupal\oauth_login_oauth2;
 							"Does not have the features I'm looking for",
 							"Redirecting back to login page after Authentication",
 							"Confusing Interface",
-							"Bugs in the plugin",
+							"Bugs in the module",
 							"Other Reasons:"
 						);
 						foreach ( $deactivate_reasons as $deactivate_reasons )

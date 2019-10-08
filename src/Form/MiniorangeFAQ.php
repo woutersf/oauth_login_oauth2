@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * Contains Attribute for miniOrange OAuth Client Module.
+ * Contains Attribute for miniOrange OAuth Client Login Module.
  */
 
  /**

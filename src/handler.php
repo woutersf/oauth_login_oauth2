@@ -192,7 +192,7 @@ class handler{
       \Drupal::configFactory()->getEditable('oauth_login_oauth2.settings')->clear('miniorange_oauth_client_name_attr_val')->save();
       \Drupal::configFactory()->getEditable('oauth_login_oauth2.settings')->clear('miniorange_auth_client_user_info_ep')->save();
       \Drupal::configFactory()->getEditable('oauth_login_oauth2.settings')->clear('miniorange_auth_client_stat')->save();
-      drupal_set_message("Your Configurations have been deleted successfully");
+      \Drupal::messenger()->addMessage("Your Configurations have been deleted successfully");
 
       if(!empty(\Drupal::config('oauth_login_oauth2.settings')->get('miniorange_oauth_client_base_url')))
           $baseUrlValue = \Drupal::config('oauth_login_oauth2.settings')->get('miniorange_oauth_client_base_url');
@@ -200,6 +200,7 @@ class handler{
           $baseUrlValue = $base_url;
       $response = new RedirectResponse($baseUrlValue."/admin/config/people/oauth_login_oauth2/config_clc");
       $response->send();
+      exit;
     }
 }
 ?>

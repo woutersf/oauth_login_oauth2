@@ -5,6 +5,10 @@
 (function($) {
                         jQuery(document).ready(function() {
                            // jQuery('#miniorange_oauth_login_link').parent().hide();
+                            var v=document.getElementById('miniorange_oauth_client_app');
+                            v.options[13].disabled=true;
+                            v.options[14].disabled=true;
+                            v.options[15].disabled=true;
                         jQuery('#miniorange_oauth_client_app').parent().show();
                         jQuery('#miniorange_oauth_client_app').click(function()
                         {
@@ -13,7 +17,7 @@
                             //var baseUrl = base_url+'/'+pathArray[1];
                             var baseUrl = base_url;
                             var appname = document.getElementById('miniorange_oauth_client_app').value;
-                            if(appname=='Facebook' || appname=='Google' || appname=='Windows Account' || appname=='Custom' || appname=='Strava' || appname=='FitBit' || appname=='Eve Online'){
+                            if(appname=='Facebook' || appname=='Google' || appname=='Wild Apricot' || appname=='Salesforce' || appname=='LinkedIn' || appname=='Azure AD' || appname=='Keycloak' || appname=='Custom' || appname=='Strava' || appname=='FitBit' || appname=='Discord' || appname=='Line'){
 
                                 jQuery('#miniorange_oauth_client_app_name').parent().show();
                                 jQuery('#miniorange_oauth_client_display_name').parent().show();
@@ -41,17 +45,36 @@
                                     document.getElementById('miniorange_oauth_client_auth_ep').value='https://accounts.google.com/o/oauth2/auth';
                                     document.getElementById('miniorange_oauth_client_access_token_ep').value='https://www.googleapis.com/oauth2/v4/token';
                                     document.getElementById('miniorange_oauth_client_user_info_ep').value='https://www.googleapis.com/oauth2/v1/userinfo';
-                                }else if(appname=='Windows Account'){
-                                    document.getElementById('miniorange_oauth_client_scope').value='email';
-                                    document.getElementById('miniorange_oauth_client_auth_ep').value='https://login.live.com/oauth20_authorize.srf';
-                                    document.getElementById('miniorange_oauth_client_access_token_ep').value='https://login.live.com/oauth20_token.srf';
-                                    document.getElementById('miniorange_oauth_client_user_info_ep').value='https://apis.live.net/v5.0/me';
+                                }else if(appname=='LinkedIn'){
+                                  document.getElementById('miniorange_oauth_client_scope').value='r_basicprofile';
+                                  document.getElementById('miniorange_oauth_client_auth_ep').value='https://www.linkedin.com/oauth/v2/authorization';
+                                  document.getElementById('miniorange_oauth_client_access_token_ep').value='https://www.linkedin.com/oauth/v2/accessToken';
+                                  document.getElementById('miniorange_oauth_client_user_info_ep').value='https://api.linkedin.com/v2/me';
+                                }else if(appname=='Salesforce'){
+                                  document.getElementById('miniorange_oauth_client_scope').value='id';
+                                  document.getElementById('miniorange_oauth_client_auth_ep').value='https://login.salesforce.com/services/oauth2/authorize';
+                                  document.getElementById('miniorange_oauth_client_access_token_ep').value='https://login.salesforce.com/services/oauth2/token';
+                                  document.getElementById('miniorange_oauth_client_user_info_ep').value='https://login.salesforce.com/services/oauth2/userinfo';
+                                }else if(appname=='Wild Apricot'){
+                                  document.getElementById('miniorange_oauth_client_scope').value='auto';
+                                  document.getElementById('miniorange_oauth_client_auth_ep').value='https://{your_account_url}/sys/login/OAuthLogin';
+                                  document.getElementById('miniorange_oauth_client_access_token_ep').value='https://oauth.wildapricot.org/auth/token';
+                                  document.getElementById('miniorange_oauth_client_user_info_ep').value='https://api.wildapricot.org/v2.1/accounts/{account_id}/contacts/me';
+                                }else if(appname=='Azure AD'){
+                                    document.getElementById('miniorange_oauth_client_scope').value='openid';
+                                    document.getElementById('miniorange_oauth_client_auth_ep').value='https://login.microsoftonline.com/[tenant-id]/oauth2/authorize';
+                                    document.getElementById('miniorange_oauth_client_access_token_ep').value='https://login.microsoftonline.com/[tenant-id]/oauth2/token';
+                                    document.getElementById('miniorange_oauth_client_user_info_ep').value='https://login.windows.net/common/openid/userinfo';
+                                }else if(appname=='Keycloak'){
+                                    document.getElementById('miniorange_oauth_client_scope').value='email profile';
+                                    document.getElementById('miniorange_oauth_client_auth_ep').value='{Keycloak_base_URL}/realms/{realm-name}/protocol/openid-connect/auth';
+                                    document.getElementById('miniorange_oauth_client_access_token_ep').value='{Keycloak_base_URL}/realms/{realm-name}/protocol/openid-connect/token';
+                                    document.getElementById('miniorange_oauth_client_user_info_ep').value='{Keycloak_base_URL}/realms/{realm-name}/protocol/openid-connect/userinfo';
                                 }else if(appname=='Custom'){
                                     document.getElementById('miniorange_oauth_client_auth_ep').value='';
                                     document.getElementById('miniorange_oauth_client_access_token_ep').value='';
                                     document.getElementById('miniorange_oauth_client_user_info_ep').value='';
-                                }
-                                if(appname=='Strava'){
+                                } else if(appname=='Strava'){
                                     document.getElementById('miniorange_oauth_client_scope').value='public';
                                     document.getElementById('miniorange_oauth_client_auth_ep').value='https://www.strava.com/oauth/authorize';
                                     document.getElementById('miniorange_oauth_client_access_token_ep').value='https://www.strava.com/oauth/token';
@@ -61,6 +84,16 @@
                                     document.getElementById('miniorange_oauth_client_auth_ep').value='https://www.fitbit.com/oauth2/authorize';
                                     document.getElementById('miniorange_oauth_client_access_token_ep').value='https://api.fitbit.com/oauth2/token';
                                     document.getElementById('miniorange_oauth_client_user_info_ep').value='https://api.fitbit.com/1/user/-/profile.json';
+                                }else if(appname=='Discord'){
+                                  document.getElementById('miniorange_oauth_client_scope').value='identify email';
+                                  document.getElementById('miniorange_oauth_client_auth_ep').value='https://discordapp.com/api/oauth2/authorize';
+                                  document.getElementById('miniorange_oauth_client_access_token_ep').value='https://discordapp.com/api/oauth2/token';
+                                  document.getElementById('miniorange_oauth_client_user_info_ep').value='https://discordapp.com/api/users/@me';
+                                }else if(appname=='Line'){
+                                  document.getElementById('miniorange_oauth_client_scope').value='Profile openid email';
+                                  document.getElementById('miniorange_oauth_client_auth_ep').value='https://access.line.me/oauth2/v2.1/authorize';
+                                  document.getElementById('miniorange_oauth_client_access_token_ep').value='https://api.line.me/oauth2/v2.1/token';
+                                  document.getElementById('miniorange_oauth_client_user_info_ep').value='https://api.line.me/ v2/profile';
                                 }
                                 else if(appname == 'Eve Online')
                                 {

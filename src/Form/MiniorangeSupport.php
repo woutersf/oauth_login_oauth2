@@ -67,7 +67,7 @@ class MiniorangeSupport extends FormBase {
         );
 
         $form['miniorange_oauth_client_support_note'] = array(
-            '#markup' => '<div><br/>If you want custom features in the plugin, just drop an email to <a href="mailto:info@xecurify.com">info@xecurify.com</a></div></div></div>'
+            '#markup' => '<div><br/>If you want custom features in the module, just drop an email to <a href="mailto:info@xecurify.com">info@xecurify.com</a></div></div></div>'
         );
 
         return $form;
@@ -83,15 +83,15 @@ class MiniorangeSupport extends FormBase {
         $phone = trim($form['miniorange_oauth_client_phone_number']['#value']);
         $query = trim($form['miniorange_oauth_client_support_query']['#value']);
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            drupal_set_message("Invalid Email Id format.","error");return;
+            \Drupal::messenger()->addMessage("Invalid Email Id format.","error");return;
         }
         $support = new MiniorangeOAuthClientSupport($email, $phone, $query);
         $support_response = $support->sendSupportQuery();
         if($support_response) {
-            drupal_set_message(t('Support query successfully sent'));
+            \Drupal::messenger()->addMessage(t('Support query successfully sent'));
         }
         else {
-            drupal_set_message(t('Error sending support query'), 'error');
+            \Drupal::messenger()->addMessage(t('Error sending support query'), 'error');
         }
     }
 }

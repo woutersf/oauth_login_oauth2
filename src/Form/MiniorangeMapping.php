@@ -201,7 +201,7 @@ class MiniorangeMapping extends FormBase{
       $app_values['miniorange_oauth_client_email_attr'] = $email_attr;
       $app_values['miniorange_oauth_client_name_attr'] = $name_attr;
       \Drupal::configFactory()->getEditable('oauth_login_oauth2.settings')->set('miniorange_oauth_client_appval',$app_values)->save();
-      drupal_set_message(t('Attribute Mapping saved successfully.'));
+      \Drupal::messenger()->addMessage(t('Attribute Mapping saved successfully.'));
   }
 
     /**

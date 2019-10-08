@@ -74,7 +74,7 @@ class MiniorangeConfigOAuthClient extends FormBase
 
         $form['markup_top_vt_start'] = array(
             '#attached' => array(
-                'library' => 'miniorange_oauth_client/miniorange_oauth_client_idp.Vtour',
+                'library' => 'oauth_login_oauth2/oauth_login_oauth2.Vtour',
             ),
             '#markup' => '<h3>CONFIGURE OAUTH APPLICATION &nbsp;&nbsp; <a id="Restart_moTour" class="btn btn-primary-color btn-large" onclick="Restart_moTour()">Take a Tour</a></h3><hr><br>',
         );
@@ -83,13 +83,22 @@ class MiniorangeConfigOAuthClient extends FormBase
             '#type' => 'value',
             '#id' => 'miniorange_oauth_client_app_options',
             '#value' => array(
-                        'Select' => t('Select'),
-                       'Google' => t('Google'),
-                       'Facebook' => t('Facebook'),
-                       'Windows Account' => t('Windows Account'),
-                       'Strava' => t('Strava'),
-                       'FitBit' => t('FitBit'),
-                       'Custom' => t('Custom OAuth 2.0 Provider')),
+              'Select' => t('Select'),
+              'Azure AD' => t('Azure AD'),
+              'Keycloak' => t('Keycloak'),
+              'Salesforce' => t('Salesforce'),
+              'Google' => t('Google'),
+              'Facebook' => t('Facebook'),
+              'Discord' => t('Discord'),
+              'Line' => t('Line'),
+              'Wild Apricot' => t('Wild Apricot'),
+              'LinkedIn' => t('LinkedIn'),
+              'Strava' => t('Strava'),
+              'FitBit' => t('FitBit'),
+              'Custom' => t('Custom OAuth 2.0 Provider'),
+              'Azure AD B2C' => t('Azure AD B2C (Premium and Enterprise)'),
+              'AWS Cognito' => t('AWS Cognito (Premium and Enterprise)'),
+              'Custom_openid' => t('Custom OpenID Provider (We support OpenID protocol in Premium and Enterprise version)')),
         );
 
         $form['miniorange_oauth_client_app'] = array(
@@ -273,11 +282,12 @@ class MiniorangeConfigOAuthClient extends FormBase
             || empty($user_info_ep))
         {
             if(empty($client_app)|| $client_app == 'Select'){
-                drupal_set_message(t('The <b>Select Application</b> dropdown is required. Please Select your application.'), 'error');
+                \Drupal::messenger()->addMessage(t('The <b>Select Application</b> dropdown is required. Please Select your application.'), 'error');
                 return;
             }
-            drupal_set_message(t('The <b>Custom App name</b>, <b>Client ID</b>, <b>Client Secret</b>, <b>Authorize Endpoint</b>, <b>Access Token Endpoint</b>
+            \Drupal::messenger()->addMessage(t('The <b>Custom App name</b>, <b>Client ID</b>, <b>Client Secret</b>, <b>Authorize Endpoint</b>, <b>Access Token Endpoint</b>
                 , <b>Get User Info Endpoint</b> fields are required.'), 'error');
+            return;
         }
 
         if(empty($client_app))
@@ -338,7 +348,7 @@ class MiniorangeConfigOAuthClient extends FormBase
         \Drupal::configFactory()->getEditable('oauth_login_oauth2.settings')->set('miniorange_auth_client_user_info_ep',$user_info_ep)->save();
         \Drupal::configFactory()->getEditable('oauth_login_oauth2.settings')->set('miniorange_auth_client_stat',"Review Config")->save();
         \Drupal::configFactory()->getEditable('oauth_login_oauth2.settings')->set('miniorange_auth_client_callback_uri',$callback_uri)->save();
-        drupal_set_message(t('Configurations saved successfully.'));
+        \Drupal::messenger()->addMessage(t('Configurations saved successfully.'));
     }
 
     /**
