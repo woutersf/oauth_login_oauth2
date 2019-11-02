@@ -19,7 +19,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with miniOrange OAuth Client Login module.  If not, see <http://www.gnu.org/licenses/>.
+ * along with miniOrange SAML plugin.  If not, see <http://www.gnu.org/licenses/>.
  */
 namespace Drupal\oauth_login_oauth2;
 use DOMElement;
@@ -53,35 +53,51 @@ class Utilities {
             '#markup' => '<h3><b>Feature Request/Contact Us:</b></h3><div>Need any help? We can help you with configuring your OAuth Provider. Just send us a query and we will get back to you soon.<br /></div><br>',
         );
 
-        $form['miniorange_oauth_client_email_address'] = array(
+        $form['oauth_login_oauth2_email_address'] = array(
             '#type' => 'textfield',
             '#attributes' => array('placeholder' => 'Enter your Email'),
         );
 
-        $form['miniorange_oauth_client_phone_number'] = array(
+        $form['oauth_login_oauth2_phone_number'] = array(
             '#type' => 'textfield',
             '#attributes' => array('placeholder' => 'Enter your Phone Number'),
         );
 
-        $form['miniorange_oauth_client_support_query'] = array(
+        $form['oauth_login_oauth2_support_query'] = array(
             '#type' => 'textarea',
             '#clos' => '10',
             '#rows' => '5',
             '#attributes' => array('placeholder' => 'Write your query here'),
         );
 
-        $form['miniorange_oauth_client_support_submit'] = array(
+        $form['markup_div'] = array(
+            '#markup' => '<div>'
+        );
+
+        $form['oauth_login_oauth2_support_submit'] = array(
             '#type' => 'submit',
             '#value' => t('Submit Query'),
             '#submit' => array('::saved_support'),
             '#limit_validation_errors' => array(),
-            '#attributes' => array('style' => 'background: #337ab7;color: #ffffff;text-shadow: 0 -1px 1px #337ab7, 1px 0 1px #337ab7, 0 1px 1px #337ab7, -1px 0 1px #337ab7;box-shadow: 0 1px 0 #337ab7;border-color: #337ab7 #337ab7 #337ab7;display:block;margin-left:auto;margin-right:auto;'),
+            '#attributes' => array('style' => 'background: #337ab7;color: #ffffff;text-shadow: 0 -1px 1px #337ab7, 1px 0 1px #337ab7, 0 1px 1px #337ab7, -1px 0 1px #337ab7;box-shadow: 0 1px 0 #337ab7;border-color: #337ab7 #337ab7 #337ab7;display:block;float:left;'),
         );
 
-        $form['miniorange_oauth_client_support_note'] = array(
-            '#markup' => '<div><br/>If you want custom features in the module, just drop an email to <a href="mailto:info@xecurify.com">info@xecurify.com</a></div>'
+        $form['oauth_login_oauth2_redirect_demo'] = array(
+            '#type' => 'submit',
+            '#value' => t('Request for Demo'),
+            '#submit' => array('::rfd'),
+            '#limit_validation_errors' => array(),
+            '#attributes' => array('style' => 'background: #337ab7;color: #ffffff;text-shadow: 0 -1px 1px #337ab7, 1px 0 1px #337ab7, 0 1px 1px #337ab7, -1px 0 1px #337ab7;box-shadow: 0 1px 0 #337ab7;border-color: #337ab7 #337ab7 #337ab7;display:block;float:right;'),
         );
-        $form['miniorange_oauth_client_div_end'] = array(
+
+        $form['markup_div_end'] = array(
+            '#markup' => '</div>'
+        );
+
+        $form['oauth_login_oauth2_support_note'] = array(
+            '#markup' => '<br><div><br/>If you want custom features in the plugin, just drop an email to <a href="mailto:info@xecurify.com">info@xecurify.com</a></div>'
+        );
+        $form['oauth_login_oauth2_div_end'] = array(
             '#markup' => '</div></div><div hidden id="mosaml-feedback-overlay"></div>'
         );
     }
@@ -105,9 +121,21 @@ class Utilities {
         }
     }
 
+    public static function send_demo_query($email, $query)
+    {
+        $phone = \Drupal::config('oauth_login_oauth2.settings')->get('oauth_login_oauth2_customer_admin_phone');
+        $support = new MiniorangeOAuthClientSupport($email, $phone, $query, 'demo');
+        $support_response = $support->sendSupportQuery();
+        if($support_response) {
+            \Drupal::messenger()->addMessage(t('Request demo query successfully sent'), 'status');
+        }else {
+            \Drupal::messenger()->addMessage(t('Error sending request demo query'), 'error');
+        }
+    }
+
     public static function getOAuthBaseURL($base_url){
-        if(!empty(\Drupal::config('oauth_login_oauth2.settings')->get('miniorange_oauth_client_base_url')))
-            $baseUrlValue = \Drupal::config('oauth_login_oauth2.settings')->get('miniorange_oauth_client_base_url');
+        if(!empty(\Drupal::config('oauth_login_oauth2.settings')->get('oauth_login_oauth2_base_url')))
+            $baseUrlValue = \Drupal::config('oauth_login_oauth2.settings')->get('oauth_login_oauth2_base_url');
         else
             $baseUrlValue = $base_url;
 
@@ -126,10 +154,10 @@ class Utilities {
     public static function isCustomerRegistered()
     {
         if (
-          empty(\Drupal::config('oauth_login_oauth2.settings')->get('miniorange_oauth_client_customer_admin_email'))||
-          empty(\Drupal::config('oauth_login_oauth2.settings')->get('miniorange_oauth_client_customer_id')) ||
-          empty(\Drupal::config('oauth_login_oauth2.settings')->get('miniorange_oauth_client_customer_admin_token')) ||
-          empty(\Drupal::config('oauth_login_oauth2.settings')->get('miniorange_oauth_client_customer_api_key')))
+          empty(\Drupal::config('oauth_login_oauth2.settings')->get('oauth_login_oauth2_customer_admin_email'))||
+          empty(\Drupal::config('oauth_login_oauth2.settings')->get('oauth_login_oauth2_customer_id')) ||
+          empty(\Drupal::config('oauth_login_oauth2.settings')->get('oauth_login_oauth2_customer_admin_token')) ||
+          empty(\Drupal::config('oauth_login_oauth2.settings')->get('oauth_login_oauth2_customer_api_key')))
         {
             return TRUE;
         }
@@ -143,8 +171,8 @@ class Utilities {
 
         $form['miniorange_faq'] = array(
             '#markup' => '<br><div class="mo_saml_text_center"><b></b>
-                          <a class="btn1 btn-primary-faq btn-large mo_faq_button_left" href="https://faq.miniorange.com/kb/oauth-openid-connect/" target="_blank">FAQs</a>
-                          <b></b><a class="btn1 btn-primary-faq btn-large mo_faq_button_right" href="https://forum.miniorange.com/" target="_blank">Ask questions on forum</a></div>',
+                          <a class="mo_oauth_btn1 mo_oauth_btn-primary-faq mo_oauth_btn-large mo_faq_button_left" href="https://faq.miniorange.com/kb/oauth-openid-connect/" target="_blank">FAQs</a>
+                          <b></b><a class="mo_oauth_btn1 mo_oauth_btn-primary-faq mo_oauth_btn-large mo_faq_button_right" href="https://forum.miniorange.com/" target="_blank">Ask questions on forum</a></div>',
         );
     }
 
@@ -191,25 +219,31 @@ class Utilities {
     }
 
     /*=======Show attribute list coming from server on Attribute Mapping tab =======*/
-    public static function show_attr_list_from_idp(&$form, $form_state){
+    public static function show_attr_list_from_idp(&$form, $form_state)
+    {
         global $base_url;
-        $server_attrs = \Drupal::config('oauth_login_oauth2.settings')->get('miniorange_oauth_client_attr_list_from_server');
+        $server_attrs = \Drupal::config('oauth_login_oauth2.settings')->get('oauth_login_oauth2_attr_list_from_server');
+
         if(empty($server_attrs)){
             Utilities::spConfigGuide($form, $form_state);
             return;
         }
+
         $form['miniorange_idp_guide_link'] = array(
             '#markup' => '<div class="mo_saml_table_layout mo_saml_container_2" id="mo_oauth_guide_vt">',
         );
+
         $form['miniorange_saml_attr_header'] = array(
             '#markup' => '<div class="mo_attr_table">Attributes received from the OAuth Server:</div><br>'
         );
+
         $icnt =  count($server_attrs);
         if($icnt >= 8){
             $scrollkit = 'scrollit';
         }else{
             $scrollkit = '';
         }
+
         $form['mo_saml_attrs_list_idp'] = array(
             '#markup' => '<div class="table-responsive mo_guide_text-center" style="font-family: sans-serif;font-size: 12px;"><div class='.$scrollkit.'>
                 <table class="mo_guide_table mo_guide_table-striped mo_guide_table-bordered" style="border: 1px solid #ddd;max-width: 100%;border-collapse: collapse;">
@@ -220,38 +254,50 @@ class Utilities {
                         </tr>
                     </thead>',
         );
+
         $someattrs = '';
         $attrroles = '';
-        if(isset($server_attrs) && !empty($server_attrs)){
-            foreach ($server_attrs as $attr_name => $attr_values){
+
+        if(isset($server_attrs) && !empty($server_attrs))
+        {
+            foreach ($server_attrs as $attr_name => $attr_values)
+            {
                 $someattrs .= '<tr><td>' . $attr_name . '</td><td>' ;
-                if( $attr_name == 'roles' && is_array($server_attrs['roles'])){
-                    foreach ($attr_values as $attr_roles => $role){
+                if( $attr_name == 'roles' && is_array($server_attrs['roles']))
+                {
+                    foreach ($attr_values as $attr_roles => $role)
+                    {
                         $attrroles .=  $role . ' | ';
                     }
                     $someattrs .=  $attrroles.'</td></tr>';
                 }
-                else{
+                else
+                {
                     $someattrs .= $attr_values . '</td></tr>';
                 }
             }
         }
+
         $form['miniorange_saml_guide_table_list'] = array(
             '#markup' => '<tbody style="font-weight:bold;font-size: 12px;color:gray;">'.$someattrs.'</tbody></table></div>',
         );
+
         $form['miniorange_break'] = array(
             '#markup' => '<br>',
         );
+
         $form['miniorange_saml_clear_attr_list'] = array(
             '#type' => 'submit',
             '#value' => t('Clear Attribute List'),
             '#submit' => array('::clear_attr_list'),
             '#id' => 'button_config_center',
         );
+
         $form['miniorange_saml_guide_clear_list_note'] = array(
-            '#markup' => '<br><div style="font-size: 13px;"><b>NOTE : </b>Please clear this list after configuring the module to hide your confidential attributes.<br>
+            '#markup' => '<br><div style="font-size: 13px;"><b>NOTE : </b>Please clear this list after configuring the plugin to hide your confidential attributes.<br>
                             Click on <b>Test configuration</b> in <b>CONFIGURE OAUTH</b> tab to populate the list again.</div>',
         );
+
         $form['miniorange_saml_guide_table_end'] = array(
             '#markup' => '</div>',
         );

@@ -15,7 +15,7 @@ use Drupal\oauth_login_oauth2\MiniorangeOAuthClientSupport;
 class MiniorangeSupport extends FormBase {
 
     public function getFormId() {
-        return 'miniorange_oauth_client_support';
+        return 'oauth_login_oauth2_support';
     }
 
     public function buildForm(array $form, \Drupal\Core\Form\FormStateInterface $form_state) {
@@ -38,20 +38,20 @@ class MiniorangeSupport extends FormBase {
             '#markup' => '<div><h2>Support</h2><hr><div></br>Need any help? Just send us a query so we can help you.<br/><br/></div>',
         );
 
-        $form['miniorange_oauth_client_email_address'] = array(
+        $form['oauth_login_oauth2_email_address'] = array(
             '#type' => 'textfield',
             '#title' => t('Email Address'),
             '#attributes' => array('style' => 'width:73%;','placeholder' => 'Enter your email'),
             '#required' => TRUE,
         );
 
-        $form['miniorange_oauth_client_phone_number'] = array(
+        $form['oauth_login_oauth2_phone_number'] = array(
             '#type' => 'textfield',
             '#title' => t('Phone number'),
             '#attributes' => array('style' => 'width:73%;','placeholder' => 'Enter your phone number'),
         );
 
-        $form['miniorange_oauth_client_support_query'] = array(
+        $form['oauth_login_oauth2_support_query'] = array(
             '#type' => 'textarea',
             '#title' => t('Query'),
             '#cols' => '10',
@@ -60,14 +60,14 @@ class MiniorangeSupport extends FormBase {
             '#required' => TRUE,
         );
 
-        $form['miniorange_oauth_client_support_submit'] = array(
+        $form['oauth_login_oauth2_support_submit'] = array(
             '#type' => 'submit',
             '#value' => t('Submit Query'),
             '#attributes' => array('style' => 'border-radius:4px;background: #337ab7;color: #ffffff;text-shadow: 0 -1px 1px #337ab7, 1px 0 1px #337ab7, 0 1px 1px #337ab7, -1px 0 1px #337ab7;box-shadow: 0 1px 0 #337ab7;border-color: #337ab7 #337ab7 #337ab7;display:block;margin-left:auto;margin-right:auto;'),
         );
 
-        $form['miniorange_oauth_client_support_note'] = array(
-            '#markup' => '<div><br/>If you want custom features in the module, just drop an email to <a href="mailto:info@xecurify.com">info@xecurify.com</a></div></div></div>'
+        $form['oauth_login_oauth2_support_note'] = array(
+            '#markup' => '<div><br/>If you want custom features in the plugin, just drop an email to <a href="mailto:info@xecurify.com">info@xecurify.com</a></div></div></div>'
         );
 
         return $form;
@@ -79,9 +79,9 @@ class MiniorangeSupport extends FormBase {
      */
     public function submitForm(array &$form, \Drupal\Core\Form\FormStateInterface $form_state) {
 
-        $email = trim($form['miniorange_oauth_client_email_address']['#value']);
-        $phone = trim($form['miniorange_oauth_client_phone_number']['#value']);
-        $query = trim($form['miniorange_oauth_client_support_query']['#value']);
+        $email = trim($form['oauth_login_oauth2_email_address']['#value']);
+        $phone = trim($form['oauth_login_oauth2_phone_number']['#value']);
+        $query = trim($form['oauth_login_oauth2_support_query']['#value']);
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             \Drupal::messenger()->addMessage("Invalid Email Id format.","error");return;
         }

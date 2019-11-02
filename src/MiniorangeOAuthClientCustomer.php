@@ -201,7 +201,7 @@ class MiniorangeOAuthClientCustomer {
     $customer_key = $this->defaultCustomerId;
     $api_key = $this->defaultCustomerApiKey;
 
-    $username = \Drupal::config('oauth_login_oauth2.settings')->get('miniorange_oauth_client_customer_admin_email');
+    $username = \Drupal::config('oauth_login_oauth2.settings')->get('oauth_login_oauth2_customer_admin_email');
 
     /* Current time in milliseconds since midnight, January 1, 1970 UTC. */
     $current_time_in_millis = round(microtime(TRUE) * 1000);

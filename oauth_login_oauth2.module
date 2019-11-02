@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * Module file for miniOrange OAuth client Login Module.
+ * Module file for miniOrange OAuth client Module.
  */
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
@@ -11,8 +11,8 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 */
 function oauth_login_oauth2_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id) {
   global $base_url;
-  if(!empty(\Drupal::config('oauth_login_oauth2.settings')->get('miniorange_oauth_client_base_url')))
-    $baseUrlValue = \Drupal::config('oauth_login_oauth2.settings')->get('miniorange_oauth_client_base_url');
+  if(!empty(\Drupal::config('oauth_login_oauth2.settings')->get('oauth_login_oauth2_base_url')))
+    $baseUrlValue = \Drupal::config('oauth_login_oauth2.settings')->get('oauth_login_oauth2_base_url');
   else
     $baseUrlValue = $base_url;
   if(($form_id == 'user_login_block') || ($form_id == 'user_login_form'))

@@ -3,18 +3,19 @@
 namespace Drupal\oauth_login_oauth2\Form;
 use Drupal\Core\Form\FormBase;
 use Drupal\oauth_login_oauth2\Utilities;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 class Settings extends FormBase
 {
     public function getFormId() {
-        return 'miniorange_oauth_client_settings';
+        return 'oauth_login_oauth2_settings';
     }
 /**
  * Showing Settings form.
  */
  public function buildForm(array $form, \Drupal\Core\Form\FormStateInterface $form_state) {
     global $base_url;
-    $baseUrlValue = \Drupal::config('oauth_login_oauth2.settings')->get('miniorange_oauth_client_base_url');
+    $baseUrlValue = \Drupal::config('oauth_login_oauth2.settings')->get('oauth_login_oauth2_base_url');
 
     $attachments['#attached']['library'][] = 'oauth_login_oauth2/oauth_login_oauth2.admin';
 
@@ -38,7 +39,7 @@ class Settings extends FormBase
          '#markup' => '<b><h3>SIGN IN SETTINGS</h3></b><br><hr><br/>'
     );
 
-    $form['miniorange_oauth_client_base_url'] = array(
+    $form['oauth_login_oauth2_base_url'] = array(
         '#type' => 'textfield',
         '#title' => t('Base URl: '),
         '#default_value' => $baseUrlValue,
@@ -67,7 +68,7 @@ class Settings extends FormBase
                 <b>Note down this URL: </b>Available in <a href="' . $base_url . '/admin/config/people/oauth_login_oauth2/licensing"><b>Premium, Enterprise</b></a> versions of the module.<br><br><br><br>'),
     );
 
-    $form['miniorange_oauth_client_siginin'] = array(
+    $form['oauth_login_oauth2_siginin'] = array(
             '#type' => 'submit',
             '#id' => 'button_config_center',
             '#value' => t('Save Configuration'),
@@ -83,8 +84,8 @@ class Settings extends FormBase
  }
 
  public function submitForm(array &$form, \Drupal\Core\Form\FormStateInterface $form_state) {
-    $baseUrlvalue = $form['miniorange_oauth_client_base_url']['#value'];
-    \Drupal::configFactory()->getEditable('oauth_login_oauth2.settings')->set('miniorange_oauth_client_base_url', $baseUrlvalue)->save();
+    $baseUrlvalue = $form['oauth_login_oauth2_base_url']['#value'];
+    \Drupal::configFactory()->getEditable('oauth_login_oauth2.settings')->set('oauth_login_oauth2_base_url', $baseUrlvalue)->save();
     \Drupal::messenger()->addMessage(t('Configurations saved successfully.'));
  }
 
@@ -92,9 +93,16 @@ class Settings extends FormBase
      * Send support query.
      */
     public function saved_support(array &$form, \Drupal\Core\Form\FormStateInterface $form_state) {
-        $email = trim($form['miniorange_oauth_client_email_address']['#value']);
-        $phone = trim($form['miniorange_oauth_client_phone_number']['#value']);
-        $query = trim($form['miniorange_oauth_client_support_query']['#value']);
+        $email = trim($form['oauth_login_oauth2_email_address']['#value']);
+        $phone = trim($form['oauth_login_oauth2_phone_number']['#value']);
+        $query = trim($form['oauth_login_oauth2_support_query']['#value']);
         Utilities::send_support_query($email, $phone, $query);
+    }
+
+    public function rfd(array &$form, \Drupal\Core\Form\FormStateInterface $form_state) {
+
+        global $base_url;
+        $response = new RedirectResponse($base_url."/admin/config/people/oauth_login_oauth2/request_for_demo");
+        $response->send();
     }
 }

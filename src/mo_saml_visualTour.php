@@ -99,7 +99,7 @@ class mo_saml_visualTour {
                     'cardSize'      => 'big',
                 ),
                 4 => array(
-                    'targetE'       => 'miniorange_oauth_client_app',
+                    'targetE'       => 'oauth_login_oauth2_app',
                     'pointToSide'   => 'left',
                     'titleHTML'     => '<h1>Select Application</h1>',
                     'contentHTML'   => 'Please select your OAuth server to configure. Select Custom OAuth if your server not listed.',
@@ -138,7 +138,7 @@ class mo_saml_visualTour {
                     'targetE'       => 'mo_oauth_guide_vt',
                     'pointToSide'   => 'right',
                     'titleHTML'     => '<h1>Documentaion</h1>',
-                    'contentHTML'   => 'To see step by step guides of how to configure Drupal OAuth Client Login module with any OAuth Server.',
+                    'contentHTML'   => 'To see step by step guides of how to configure Drupal OAuth Client with any OAuth Server.',
                     'ifNext'        => true,
                     'buttonText'    => 'End Tour',
                     'cardSize'      => 'largemedium',
@@ -148,7 +148,7 @@ class mo_saml_visualTour {
         else{
             $tourData['config_clc'] = array(
                 0 => array(
-                    'targetE'       => 'miniorange_oauth_client_app',
+                    'targetE'       => 'oauth_login_oauth2_app',
                     'pointToSide'   => 'left',
                     'titleHTML'     => '<h1>Select Application</h1>',
                     'contentHTML'   => 'Please select your OAuth server to configure. Select Custom OAuth if your server not listed.',
@@ -187,7 +187,7 @@ class mo_saml_visualTour {
                     'targetE'       => 'mo_oauth_guide_vt',
                     'pointToSide'   => 'right',
                     'titleHTML'     => '<h1>Documentaion</h1>',
-                    'contentHTML'   => 'To see step by step guides of how to configure Drupal OAuth Client Login module with any OAuth Server.',
+                    'contentHTML'   => 'To see step by step guides of how to configure Drupal OAuth Client with any OAuth Server.',
                     'ifNext'        => true,
                     'buttonText'    => 'End Tour',
                     'cardSize'      => 'largemedium',

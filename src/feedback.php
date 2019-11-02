@@ -1,11 +1,11 @@
 <?php
 namespace Drupal\oauth_login_oauth2;
     class feedback{
-	public static function miniorange_oauth_client_feedback()
+	public static function oauth_login_oauth2_feedback()
 	{
 			global $base_url;
-			if(!empty(\Drupal::config('oauth_login_oauth2.settings')->get('miniorange_oauth_client_base_url')))
-				$baseUrlValue = \Drupal::config('oauth_login_oauth2.settings')->get('miniorange_oauth_client_base_url');
+			if(!empty(\Drupal::config('oauth_login_oauth2.settings')->get('oauth_login_oauth2_base_url')))
+				$baseUrlValue = \Drupal::config('oauth_login_oauth2.settings')->get('oauth_login_oauth2_base_url');
 		  	else
 				$baseUrlValue = $base_url;
 			$feedback_url = $baseUrlValue.'/feedback';
@@ -22,7 +22,7 @@ namespace Drupal\oauth_login_oauth2;
             <link href="https://fonts.googleapis.com/css?family=PT+Serif" rel="stylesheet">
 			</head>
 			<body style="font-family: 'PT Serif', serif;">
-			<h5 style="font-size:20px;color: black;margin-left:26%;margin-top:3%">Hey, it seems like you want to deactivate miniOrange OAuth Client Login Module</h5>
+			<h5 style="font-size:20px;color: black;margin-left:26%;margin-top:3%">Hey, it seems like you want to deactivate miniOrange OAuth Client Module</h5>
 			<!-- The Modal -->
 			<div id="myModal" style="margin-left:40%;margin-top: 2%"/>
 			<!-- Modal content -->
@@ -39,7 +39,7 @@ namespace Drupal\oauth_login_oauth2;
 			<div>
 				<p style="margin-left:0%">
 				<?php
-				if(empty(\Drupal::config('oauth_login_oauth2.settings')->get('miniorange_oauth_client_customer_admin_email')))
+				if(empty(\Drupal::config('oauth_login_oauth2.settings')->get('oauth_login_oauth2_customer_admin_email')))
 				{ ?>
 				<br>Email ID: <input type="text" required style="border-color: black;padding: 5px 15px;text-align: center;text-decoration: none;display: inline-block;font-size: 16px;" name="miniorange_feedback_email" />
 				<?php
@@ -54,7 +54,7 @@ namespace Drupal\oauth_login_oauth2;
 							"Does not have the features I'm looking for",
 							"Redirecting back to login page after Authentication",
 							"Confusing Interface",
-							"Bugs in the module",
+							"Bugs in the plugin",
 							"Other Reasons:"
 						);
 						foreach ( $deactivate_reasons as $deactivate_reasons )

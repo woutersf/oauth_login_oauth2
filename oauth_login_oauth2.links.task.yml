@@ -27,3 +27,9 @@ oauth_login_oauth2.licensing:
   title: 'Upgrade Plans'
   weight: 50
   base_route: oauth_login_oauth2.customer_setup
+
+oauth_login_oauth2.request_for_demo:
+  route_name: oauth_login_oauth2.request_for_demo
+  title: 'Request for Demo'
+  weight: 70
+  base_route: oauth_login_oauth2.customer_setup

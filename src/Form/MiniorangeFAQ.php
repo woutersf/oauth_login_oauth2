@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * Contains Attribute for miniOrange OAuth Client Login Module.
+ * Contains Attribute for miniOrange OAuth Client Module.
  */
 
  /**
@@ -13,7 +13,7 @@ use Drupal\Core\Render;
  class MiniorangeFAQ extends FormBase {
 
   public function getFormId() {
-    return 'miniorange_oauth_client_faq';
+    return 'oauth_login_oauth2_faq';
   }
 
 
