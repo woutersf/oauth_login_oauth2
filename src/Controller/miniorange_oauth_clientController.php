@@ -23,7 +23,7 @@ class miniorange_oauth_clientController extends ControllerBase {
         global $base_url;
         handler::sendFeedbackEmail();
         /**
-         * Uninstalling the OAuth Client Login module after sending the feedback email
+         * Uninstalling the OAuth client login module after sending the feedback email
          */
         \Drupal::service('module_installer')->uninstall(['oauth_login_oauth2']);
         if(!empty(\Drupal::config('oauth_login_oauth2.settings')->get('miniorange_oauth_client_base_url')))
@@ -35,12 +35,40 @@ class miniorange_oauth_clientController extends ControllerBase {
         $response->send();
         return new Response();
     }
+
+    /**
+     * This function is used to get the timestamp value
+     */
+    public static function get_oauth_timestamp() {
+        $url = 'https://login.xecurify.com/moas/rest/mobile/get-timestamp';
+        $ch  = curl_init( $url );
+        curl_setopt( $ch, CURLOPT_FOLLOWLOCATION, true );
+        curl_setopt( $ch, CURLOPT_ENCODING, "" );
+        curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true );
+        curl_setopt( $ch, CURLOPT_AUTOREFERER, true );
+        curl_setopt( $ch, CURLOPT_SSL_VERIFYPEER, false );
+        curl_setopt( $ch, CURLOPT_SSL_VERIFYHOST, false ); // required for https urls
+        curl_setopt( $ch, CURLOPT_MAXREDIRS, 10 );
+        curl_setopt( $ch, CURLOPT_POST, true );
+        $content = curl_exec( $ch );
+        if ( curl_errno( $ch ) ) {
+            echo 'Error in sending curl Request';
+            exit ();
+        }
+        curl_close( $ch );
+        if(empty( $content )){
+            $currentTimeInMillis = round( microtime( true ) * 1000 );
+            $currentTimeInMillis = number_format( $currentTimeInMillis, 0, '', '' );
+        }
+        return empty( $content ) ? $currentTimeInMillis : $content;
+    }
+
     public function miniorange_oauth_client_mo_login()
     {
-        $code = $_GET['code'];
-        $code = Html::escape($code);
-        $state = $_GET['state'];
-        $state = Html::escape($state);
+        $code = isset($_GET['code']) ? $_GET['code'] : '';
+        $code = isset($code) ? Html::escape($code) : '';
+        $state = isset($_GET['state']) ? $_GET['state'] : '';
+        $state = isset($state) ? Html::escape($state) : '';
         if( isset( $code) && isset($state ) ){
             if(session_id() == '' || !isset($_SESSION))
 				session_start();
@@ -76,8 +104,17 @@ class miniorange_oauth_clientController extends ControllerBase {
 		if(isset($app['miniorange_oauth_client_name_attr'])){
             $name_attr = trim($app['miniorange_oauth_client_name_attr']);
         }
+
+        $parse_from_header = \Drupal::config('oauth_login_oauth2.settings')->get('miniorange_oauth_send_with_header_oauth');
+        $parse_from_body = \Drupal::config('oauth_login_oauth2.settings')->get('miniorange_oauth_send_with_body_oauth');
+
+        if (!$parse_from_header == TRUE || !$parse_from_header == 1)
+            $parse_from_header = false;
+        if (!$parse_from_body == TRUE || !$parse_from_body == 1)
+            $parse_from_body = false;
+
         $accessToken = AccessToken::getAccessToken($app['access_token_ep'], 'authorization_code',
-        $app['client_id'], $app['client_secret'], $code, $app['callback_uri']);
+            $app['client_id'], $app['client_secret'], $code, $app['callback_uri'], $parse_from_header, $parse_from_body);
         if(!$accessToken){
             print_r('Invalid token received.');
             exit;
@@ -165,7 +202,7 @@ class miniorange_oauth_clientController extends ControllerBase {
          * Creating a new user in case the user does not exists in the Drupal database
          */
         if (!isset($account->uid)) {
-            if ($mo_count <= 5) {
+            if ($mo_count <= 10) {
                 $mo_count = $mo_count + 1;
                 \Drupal::configFactory()->getEditable('oauth_login_oauth2.settings')->set('miniorange_oauth_client_free_users', $mo_count)->save();
                 $random_password = user_password(8);
@@ -180,8 +217,9 @@ class miniorange_oauth_clientController extends ControllerBase {
             } else {
                 echo '<br><br><br><br><br><div style="color: #111010;background-color: #fadbdb; padding:2%;margin-bottom:20px;text-align:center;
                         border:1px solid #fadbdb;font-size:15pt;">
-                        You can create only 5 new users in this version of the module.
-                        <br>Please upgrade to the Premium or Enterprise version of the module in order to create unlimited new users.</div>';
+                        You can create only 10 new users in this version of the plugin/module.
+                        <br>Please upgrade to the enterprise version of the module in order to create unlimited new users.</div>';
+
                 return new Response();
             }
         }
@@ -245,8 +283,16 @@ class miniorange_oauth_clientController extends ControllerBase {
      */
     public function miniorange_oauth_client_mologin()
     {
+        global $base_url;
         user_cookie_save(array("mo_oauth_test" => false));
-        AuthorizationEndpoint::mo_oauth_client_initiateLogin();
-        return new Response();
+        $enable_login = \Drupal::config('oauth_login_oauth2.settings')->get('miniorange_oauth_enable_login_with_oauth');
+
+        if ($enable_login) {
+            AuthorizationEndpoint::mo_oauth_client_initiateLogin();
+            return new Response();
+        }else {
+            \Drupal::messenger()->addMessage(t('Please enable <b>Login with OAuth</b> to initiate the SSO.'), 'error');
+            return new RedirectResponse($base_url);
+        }
     }
 }

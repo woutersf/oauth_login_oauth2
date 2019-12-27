@@ -99,7 +99,7 @@ class mo_saml_visualTour {
                     'cardSize'      => 'big',
                 ),
                 4 => array(
-                    'targetE'       => 'oauth_login_oauth2_app',
+                    'targetE'       => 'miniorange_oauth_client_app',
                     'pointToSide'   => 'left',
                     'titleHTML'     => '<h1>Select Application</h1>',
                     'contentHTML'   => 'Please select your OAuth server to configure. Select Custom OAuth if your server not listed.',
@@ -119,13 +119,31 @@ class mo_saml_visualTour {
                 6 => array(
                     'targetE'       => 'mo_vt_add_data',
                     'pointToSide'   => 'left',
-                    'titleHTML'     => '<h1>Confiugre OAuth Server</h1>',
+                    'titleHTML'     => '<h1>Configure OAuth Server</h1>',
                     'contentHTML'   => 'Enter details to configure your OAuth Server.',
                     'ifNext'        => true,
                     'buttonText'    => 'Next',
                     'cardSize'      => 'medium',
                 ),
                 7 => array(
+                    'targetE'       => 'mo_vt_add_data2',
+                    'pointToSide'   => 'left',
+                    'titleHTML'     => '<h1>Scope and Endpoints</h1>',
+                    'contentHTML'   => 'The Scope and Endpoints will be used to initiate the OAuth flow.',
+                    'ifNext'        => true,
+                    'buttonText'    => 'Next',
+                    'cardSize'      => 'largemedium',
+                ),
+                8 => array(
+                    'targetE'       => 'mo_vt_add_data3',
+                    'pointToSide'   => 'left',
+                    'titleHTML'     => '<h1>Enable login with OAuth</h1>',
+                    'contentHTML'   => 'Enable the checkbox if you want to enable SSO login with OAuth Server credentials.',
+                    'ifNext'        => true,
+                    'buttonText'    => 'Next',
+                    'cardSize'      => 'largemedium',
+                ),
+                9 => array(
                     'targetE'       => 'button_config',
                     'pointToSide'   => 'left',
                     'titleHTML'     => '<h1>Save Settings</h1>',
@@ -134,7 +152,7 @@ class mo_saml_visualTour {
                     'buttonText'    => 'Next',
                     'cardSize'      => 'medium',
                 ),
-                8 => array(
+                10 => array(
                     'targetE'       => 'mo_oauth_guide_vt',
                     'pointToSide'   => 'right',
                     'titleHTML'     => '<h1>Documentaion</h1>',
@@ -148,7 +166,7 @@ class mo_saml_visualTour {
         else{
             $tourData['config_clc'] = array(
                 0 => array(
-                    'targetE'       => 'oauth_login_oauth2_app',
+                    'targetE'       => 'miniorange_oauth_client_app',
                     'pointToSide'   => 'left',
                     'titleHTML'     => '<h1>Select Application</h1>',
                     'contentHTML'   => 'Please select your OAuth server to configure. Select Custom OAuth if your server not listed.',
@@ -168,13 +186,31 @@ class mo_saml_visualTour {
                 2 => array(
                     'targetE'       => 'mo_vt_add_data',
                     'pointToSide'   => 'left',
-                    'titleHTML'     => '<h1>Confiugre OAuth Server</h1>',
+                    'titleHTML'     => '<h1>Configure OAuth Server</h1>',
                     'contentHTML'   => 'Enter details to configure your OAuth Server.',
                     'ifNext'        => true,
                     'buttonText'    => 'Next',
                     'cardSize'      => 'medium',
                 ),
                 3 => array(
+                    'targetE'       => 'mo_vt_add_data2',
+                    'pointToSide'   => 'left',
+                    'titleHTML'     => '<h1>Scope and Endpoints</h1>',
+                    'contentHTML'   => 'The Scope and Endpoints will be used to initiate the OAuth flow.',
+                    'ifNext'        => true,
+                    'buttonText'    => 'Next',
+                    'cardSize'      => 'medium',
+                ),
+                4 => array(
+                    'targetE'       => 'mo_vt_add_data3',
+                    'pointToSide'   => 'left',
+                    'titleHTML'     => '<h1>Enable login with OAuth</h1>',
+                    'contentHTML'   => 'Enable the checkbox if you want to enable SSO login with OAuth Server credentials.',
+                    'ifNext'        => true,
+                    'buttonText'    => 'Next',
+                    'cardSize'      => 'largemedium',
+                ),
+                5 => array(
                     'targetE'       => 'button_config',
                     'pointToSide'   => 'left',
                     'titleHTML'     => '<h1>Save Settings</h1>',
@@ -183,7 +219,7 @@ class mo_saml_visualTour {
                     'buttonText'    => 'Next',
                     'cardSize'      => 'medium',
                 ),
-                4 => array(
+                6 => array(
                     'targetE'       => 'mo_oauth_guide_vt',
                     'pointToSide'   => 'right',
                     'titleHTML'     => '<h1>Documentaion</h1>',
@@ -221,8 +257,8 @@ class mo_saml_visualTour {
             1 =>    array(
                 'targetE'       =>  'mo_oauth_vt_attre',
                 'pointToSide'   =>  'left',
-                'titleHTML'     =>  '<h1>Name Attribute</h1>',
-                'contentHTML'   =>  'Enter the First Name Attribute which holds name. You can find this in test configuration.',
+                'titleHTML'     =>  '<h1>Username Attribute</h1>',
+                'contentHTML'   =>  'Enter the Username Attribute which holds name. You can find this in test configuration.',
                 'ifNext'        =>  true,
                 'buttonText'    =>  'End Tour',
                 'img'           =>  array(),

@@ -1,6 +1,6 @@
 <?php
 namespace Drupal\oauth_login_oauth2;
-use Drupal\oauth_login_oauth2\Controller\oauth_login_oauth2Controller;
+use Drupal\oauth_login_oauth2\Controller\miniorange_oauth_clientController;
 use Symfony\Component\HttpFoundation\Response;
 use Drupal\Component\Utility;
 use Drupal\user\Entity\User;
@@ -18,14 +18,14 @@ class handler{
 		return $randomString;
     }
 
-    static function oauth_login_oauth2_validate_code($code, $request_code,$request_time)
+    static function miniorange_oauth_client_validate_code($code, $request_code,$request_time)
     {
       $current_time = time();
       if($current_time - $request_time >=400){
         echo "Your authentication code has expired. Please try again.";exit;
       }
       if($code == $request_code){
-            \Drupal::configFactory()->getEditable('oauth_login_oauth2.settings')->set('oauth_login_oauth2_code','')->save();
+            \Drupal::configFactory()->getEditable('oauth_login_oauth2.settings')->set('miniorange_oauth_client_code','')->save();
         }
         else{
             print_r("Incorrect Code");exit;
@@ -38,23 +38,23 @@ class handler{
     {
         $_SESSION['mo_other']="False";
         global $base_url;
-      $reason=$_POST['deactivate_plugin'];
-      $q_feedback=$_POST['query_feedback'];
+      $reason=$_GET['deactivate_plugin'];
+      $q_feedback=$_GET['query_feedback'];
       $message='Reason: '.$reason.'<br>Feedback: '.$q_feedback;
       $url = 'https://login.xecurify.com/moas/api/notify/send';
       $ch = curl_init($url);
-      $email =\Drupal::config('oauth_login_oauth2.settings')->get('oauth_login_oauth2_customer_admin_email');
+      $email =\Drupal::config('oauth_login_oauth2.settings')->get('miniorange_oauth_client_customer_admin_email');
         if(empty($email))
-            $email = $_POST['miniorange_feedback_email'];
-        $phone = \Drupal::config('oauth_login_oauth2.settings')->get('oauth_login_oauth2_customer_admin_phone');
-      $customerKey= \Drupal::config('oauth_login_oauth2.settings')->get('oauth_login_oauth2_customer_id');
-      $apikey = \Drupal::config('oauth_login_oauth2.settings')->get('oauth_login_oauth2_customer_api_key');
+            $email = $_GET['miniorange_feedback_email'];
+        $phone = \Drupal::config('oauth_login_oauth2.settings')->get('miniorange_oauth_client_customer_admin_phone');
+      $customerKey= \Drupal::config('oauth_login_oauth2.settings')->get('miniorange_oauth_client_customer_id');
+      $apikey = \Drupal::config('oauth_login_oauth2.settings')->get('miniorange_oauth_client_customer_api_key');
       if($customerKey==''){
         $customerKey="16555";
         $apikey="fFd2XcvTGDemZvbw1bcUesNJWEqKbbUq";
       }
 
-      $controller = new oauth_login_oauth2Controller();
+      $controller = new miniorange_oauth_clientController();
       $currentTimeInMillis = $controller->get_oauth_timestamp();
       $stringToHash 		= $customerKey .  $currentTimeInMillis . $apikey;
       $hashValue 			= hash("sha512", $stringToHash);
@@ -94,7 +94,13 @@ class handler{
         return json_encode(array("status"=>'ERROR','statusMessage'=>curl_error($ch)));
       }
         curl_close($ch);
-        return;
+        if(!empty(\Drupal::config('oauth_login_oauth2.settings')->get('miniorange_oauth_client_base_url')))
+            $baseUrlValue = \Drupal::config('oauth_login_oauth2.settings')->get('miniorange_oauth_client_base_url');
+        else
+            $baseUrlValue = $base_url;
+        $uninstall_redirect = $baseUrlValue.'/admin/modules';
+
+        return new RedirectResponse($uninstall_redirect);
     }
     static function ValidateAccessToken($accessToken, $request_time)
     {
@@ -106,9 +112,9 @@ class handler{
       }
 
     }
-    static function oauth_login_oauth2_validate_clientSecret($client_secret)
+    static function miniorange_oauth_client_validate_clientSecret($client_secret)
     {
-      $secret_stored = \Drupal::config('oauth_login_oauth2.settings')->get('oauth_login_oauth2_client_secret');
+      $secret_stored = \Drupal::config('oauth_login_oauth2.settings')->get('miniorange_oauth_client_client_secret');
       if($secret_stored != ''){
         if($client_secret != $secret_stored){
           print_r('Client Secret mismatch');exit;
@@ -118,15 +124,15 @@ class handler{
         print_r('Client Secret is not configured');exit;
       }
     }
-    static function oauth_login_oauth2_validate_grant($grant_type)
+    static function miniorange_oauth_client_validate_grant($grant_type)
     {
         if($grant_type != "authorization_code"){
             print_r("Only Authorization Code grant type supported");exit;
         }
     }
-    static function oauth_login_oauth2_validate_clientId($client_id)
+    static function miniorange_oauth_client_validate_clientId($client_id)
     {
-      $id_stored = \Drupal::config('oauth_login_oauth2.settings')->get('oauth_login_oauth2_client_id');
+      $id_stored = \Drupal::config('oauth_login_oauth2.settings')->get('miniorange_oauth_client_client_id');
       if($id_stored != ''){
         if($client_id != $id_stored){
           print_r('Client ID mismatch');exit;
@@ -136,9 +142,9 @@ class handler{
         print_r('Client ID is not configured');exit;
       }
     }
-    static function oauth_login_oauth2_validate_redirectUrl($redirect_uri)
+    static function miniorange_oauth_client_validate_redirectUrl($redirect_uri)
     {
-      $redirect_url_stored = \Drupal::config('oauth_login_oauth2.settings')->get('oauth_login_oauth2_redirect_url');
+      $redirect_url_stored = \Drupal::config('oauth_login_oauth2.settings')->get('miniorange_oauth_client_redirect_url');
       if($redirect_url_stored != ''){
         if($redirect_uri != $redirect_url_stored){
           print_r('Redirect URL mismatch');exit;
@@ -156,8 +162,8 @@ class handler{
     public static function reset_mo_config()
     {
       global $base_url;
-      \Drupal::configFactory()->getEditable('oauth_login_oauth2.settings')->clear('oauth_login_oauth2_app')->save();
-      \Drupal::configFactory()->getEditable('oauth_login_oauth2.settings')->clear('oauth_login_oauth2_appval')->save();
+      \Drupal::configFactory()->getEditable('oauth_login_oauth2.settings')->clear('miniorange_oauth_client_app')->save();
+      \Drupal::configFactory()->getEditable('oauth_login_oauth2.settings')->clear('miniorange_oauth_client_appval')->save();
       \Drupal::configFactory()->getEditable('oauth_login_oauth2.settings')->clear('miniorange_auth_client_client_id')->save();
       \Drupal::configFactory()->getEditable('oauth_login_oauth2.settings')->clear('miniorange_auth_client_app_name')->save();
       \Drupal::configFactory()->getEditable('oauth_login_oauth2.settings')->clear('miniorange_auth_client_display_name')->save();
@@ -165,14 +171,17 @@ class handler{
       \Drupal::configFactory()->getEditable('oauth_login_oauth2.settings')->clear('miniorange_auth_client_scope')->save();
       \Drupal::configFactory()->getEditable('oauth_login_oauth2.settings')->clear('miniorange_auth_client_authorize_endpoint')->save();
       \Drupal::configFactory()->getEditable('oauth_login_oauth2.settings')->clear('miniorange_auth_client_access_token_ep')->save();
-      \Drupal::configFactory()->getEditable('oauth_login_oauth2.settings')->clear('oauth_login_oauth2_email_attr_val')->save();
-      \Drupal::configFactory()->getEditable('oauth_login_oauth2.settings')->clear('oauth_login_oauth2_name_attr_val')->save();
+      \Drupal::configFactory()->getEditable('oauth_login_oauth2.settings')->clear('miniorange_oauth_client_email_attr_val')->save();
+      \Drupal::configFactory()->getEditable('oauth_login_oauth2.settings')->clear('miniorange_oauth_client_name_attr_val')->save();
       \Drupal::configFactory()->getEditable('oauth_login_oauth2.settings')->clear('miniorange_auth_client_user_info_ep')->save();
       \Drupal::configFactory()->getEditable('oauth_login_oauth2.settings')->clear('miniorange_auth_client_stat')->save();
+      \Drupal::configFactory()->getEditable('oauth_login_oauth2.settings')->clear('miniorange_oauth_send_with_header_oauth')->save();
+      \Drupal::configFactory()->getEditable('oauth_login_oauth2.settings')->clear('miniorange_oauth_send_with_body_oauth')->save();
+      \Drupal::configFactory()->getEditable('oauth_login_oauth2.settings')->clear('miniorange_oauth_client_attr_list_from_server')->save();
       \Drupal::messenger()->addMessage("Your Configurations have been deleted successfully");
 
-      if(!empty(\Drupal::config('oauth_login_oauth2.settings')->get('oauth_login_oauth2_base_url')))
-          $baseUrlValue = \Drupal::config('oauth_login_oauth2.settings')->get('oauth_login_oauth2_base_url');
+      if(!empty(\Drupal::config('oauth_login_oauth2.settings')->get('miniorange_oauth_client_base_url')))
+          $baseUrlValue = \Drupal::config('oauth_login_oauth2.settings')->get('miniorange_oauth_client_base_url');
       else
           $baseUrlValue = $base_url;
       $response = new RedirectResponse($baseUrlValue."/admin/config/people/oauth_login_oauth2/config_clc");

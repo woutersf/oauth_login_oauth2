@@ -1,7 +1,7 @@
 <?php
 
 namespace Drupal\oauth_login_oauth2;
-use Drupal\oauth_login_oauth2\Controller\oauth_login_oauth2Controller;
+use Drupal\oauth_login_oauth2\Controller\miniorange_oauth_clientController;
 /**
  * @file
  * This class represents support information for customer.
@@ -33,17 +33,17 @@ class MiniorangeOAuthClientSupport {
             $url = MiniorangeOAuthClientConstants::BASE_URL . '/moas/api/notify/send';
             $ch = curl_init($url);
 
-            $subject = "Demo request for Drupal-8 OAuth Module";
+            $subject = "Demo request for Drupal-8 OAuth Client Module";
             $this->query = 'Demo required for - ' . $this->query;
 
-            $customerKey = \Drupal::config('oauth_login_oauth2.settings')->get('oauth_login_oauth2_customer_id');
-            $apikey = \Drupal::config('oauth_login_oauth2.settings')->get('oauth_login_oauth2_customer_api_key');
+            $customerKey = \Drupal::config('oauth_login_oauth2.settings')->get('miniorange_oauth_client_customer_id');
+            $apikey = \Drupal::config('oauth_login_oauth2.settings')->get('miniorange_oauth_client_customer_api_key');
             if ($customerKey == '') {
                 $customerKey = "16555";
                 $apikey = "fFd2XcvTGDemZvbw1bcUesNJWEqKbbUq";
             }
 
-            $controller = new oauth_login_oauth2Controller();
+            $controller = new miniorange_oauth_clientController();
             $currentTimeInMillis = $controller->get_oauth_timestamp();
             $stringToHash = $customerKey . $currentTimeInMillis . $apikey;
             $hashValue = hash("sha512", $stringToHash);
@@ -101,7 +101,7 @@ class MiniorangeOAuthClientSupport {
         if (curl_errno($ch)) {
             $error = array(
                 '%method' => 'sendSupportQuery',
-                '%file' => 'oauth_login_oauth2_support.php',
+                '%file' => 'miniorange_oauth_client_support.php',
                 '%error' => curl_error($ch),
             );
             watchdog('oauth_login_oauth2', 'cURL Error at %method of %file: %error', $error);

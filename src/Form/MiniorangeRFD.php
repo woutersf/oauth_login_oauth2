@@ -15,7 +15,7 @@ use Drupal\oauth_login_oauth2\Utilities;
 class MiniorangeRFD extends FormBase {
 
   public function getFormId() {
-    return 'oauth_login_oauth2_rfd';
+    return 'miniorange_oauth_client_rfd';
   }
 
 
@@ -31,11 +31,11 @@ class MiniorangeRFD extends FormBase {
             ),
         );
 
-        $user_email = \Drupal::config('oauth_login_oauth2.settings')->get('oauth_login_oauth2_customer_admin_email');
+        $user_email = \Drupal::config('oauth_login_oauth2.settings')->get('miniorange_oauth_client_customer_admin_email');
 
         $form['markup_1'] = array(
             '#markup' =>'<div class="mo_oauth_table_layout_1"><div class="mo_oauth_table_layout mo_oauth_container">
-                        <h2>Request for demo</h2><hr><br>'
+                        <h2>Request for Demo</h2><hr><br>'
         );
 
         $form['markup_2'] = array(
@@ -51,7 +51,7 @@ class MiniorangeRFD extends FormBase {
             '#required' => TRUE,
             '#default_value' => t(strval($user_email)),
             '#attributes' => array('style' => 'width:65%;', 'placeholder' => 'Enter your email'),
-            '#description' => t('<b>Note:</b> Use valid EmailId. ( We discourage the use of disposable emails )'),
+            '#description' => t('<b>Note:</b> Use valid Email ID. ( We discourage the use of disposable emails )'),
         );
 
         $form['demo_plan'] = array(

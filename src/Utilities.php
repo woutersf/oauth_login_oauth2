@@ -53,17 +53,17 @@ class Utilities {
             '#markup' => '<h3><b>Feature Request/Contact Us:</b></h3><div>Need any help? We can help you with configuring your OAuth Provider. Just send us a query and we will get back to you soon.<br /></div><br>',
         );
 
-        $form['oauth_login_oauth2_email_address'] = array(
+        $form['miniorange_oauth_client_email_address'] = array(
             '#type' => 'textfield',
             '#attributes' => array('placeholder' => 'Enter your Email'),
         );
 
-        $form['oauth_login_oauth2_phone_number'] = array(
+        $form['miniorange_oauth_client_phone_number'] = array(
             '#type' => 'textfield',
             '#attributes' => array('placeholder' => 'Enter your Phone Number'),
         );
 
-        $form['oauth_login_oauth2_support_query'] = array(
+        $form['miniorange_oauth_client_support_query'] = array(
             '#type' => 'textarea',
             '#clos' => '10',
             '#rows' => '5',
@@ -74,7 +74,7 @@ class Utilities {
             '#markup' => '<div>'
         );
 
-        $form['oauth_login_oauth2_support_submit'] = array(
+        $form['miniorange_oauth_client_support_submit'] = array(
             '#type' => 'submit',
             '#value' => t('Submit Query'),
             '#submit' => array('::saved_support'),
@@ -82,7 +82,7 @@ class Utilities {
             '#attributes' => array('style' => 'background: #337ab7;color: #ffffff;text-shadow: 0 -1px 1px #337ab7, 1px 0 1px #337ab7, 0 1px 1px #337ab7, -1px 0 1px #337ab7;box-shadow: 0 1px 0 #337ab7;border-color: #337ab7 #337ab7 #337ab7;display:block;float:left;'),
         );
 
-        $form['oauth_login_oauth2_redirect_demo'] = array(
+        $form['miniorange_oauth_client_redirect_demo'] = array(
             '#type' => 'submit',
             '#value' => t('Request for Demo'),
             '#submit' => array('::rfd'),
@@ -94,10 +94,10 @@ class Utilities {
             '#markup' => '</div>'
         );
 
-        $form['oauth_login_oauth2_support_note'] = array(
-            '#markup' => '<br><div><br/>If you want custom features in the plugin, just drop an email to <a href="mailto:info@xecurify.com">info@xecurify.com</a></div>'
+        $form['miniorange_oauth_client_support_note'] = array(
+            '#markup' => '<br><div><br/>If you want custom features in the module, just drop an email to <a href="mailto:drupalsupport@xecurify.com">drupalsupport@xecurify.com</a></div>'
         );
-        $form['oauth_login_oauth2_div_end'] = array(
+        $form['miniorange_oauth_client_div_end'] = array(
             '#markup' => '</div></div><div hidden id="mosaml-feedback-overlay"></div>'
         );
     }
@@ -114,7 +114,7 @@ class Utilities {
         $support = new MiniorangeOAuthClientSupport($email, $phone, $query);
         $support_response = $support->sendSupportQuery();
         if($support_response) {
-            \Drupal::messenger()->addMessage(t('Support query successfully sent'));
+            \Drupal::messenger()->addMessage(t('Support query successfully sent. We will get back to you shortly.'));
         }
         else {
             \Drupal::messenger()->addMessage(t('Error sending support query'), 'error');
@@ -123,19 +123,19 @@ class Utilities {
 
     public static function send_demo_query($email, $query)
     {
-        $phone = \Drupal::config('oauth_login_oauth2.settings')->get('oauth_login_oauth2_customer_admin_phone');
+        $phone = \Drupal::config('oauth_login_oauth2.settings')->get('miniorange_oauth_client_customer_admin_phone');
         $support = new MiniorangeOAuthClientSupport($email, $phone, $query, 'demo');
         $support_response = $support->sendSupportQuery();
         if($support_response) {
-            \Drupal::messenger()->addMessage(t('Request demo query successfully sent'), 'status');
+            \Drupal::messenger()->addMessage(t('Request demo query successfully sent. We will get back to you shortly.'), 'status');
         }else {
             \Drupal::messenger()->addMessage(t('Error sending request demo query'), 'error');
         }
     }
 
     public static function getOAuthBaseURL($base_url){
-        if(!empty(\Drupal::config('oauth_login_oauth2.settings')->get('oauth_login_oauth2_base_url')))
-            $baseUrlValue = \Drupal::config('oauth_login_oauth2.settings')->get('oauth_login_oauth2_base_url');
+        if(!empty(\Drupal::config('oauth_login_oauth2.settings')->get('miniorange_oauth_client_base_url')))
+            $baseUrlValue = \Drupal::config('oauth_login_oauth2.settings')->get('miniorange_oauth_client_base_url');
         else
             $baseUrlValue = $base_url;
 
@@ -154,10 +154,10 @@ class Utilities {
     public static function isCustomerRegistered()
     {
         if (
-          empty(\Drupal::config('oauth_login_oauth2.settings')->get('oauth_login_oauth2_customer_admin_email'))||
-          empty(\Drupal::config('oauth_login_oauth2.settings')->get('oauth_login_oauth2_customer_id')) ||
-          empty(\Drupal::config('oauth_login_oauth2.settings')->get('oauth_login_oauth2_customer_admin_token')) ||
-          empty(\Drupal::config('oauth_login_oauth2.settings')->get('oauth_login_oauth2_customer_api_key')))
+          empty(\Drupal::config('oauth_login_oauth2.settings')->get('miniorange_oauth_client_customer_admin_email'))||
+          empty(\Drupal::config('oauth_login_oauth2.settings')->get('miniorange_oauth_client_customer_id')) ||
+          empty(\Drupal::config('oauth_login_oauth2.settings')->get('miniorange_oauth_client_customer_admin_token')) ||
+          empty(\Drupal::config('oauth_login_oauth2.settings')->get('miniorange_oauth_client_customer_api_key')))
         {
             return TRUE;
         }
@@ -169,6 +169,11 @@ class Utilities {
 
     public static function faq(&$form, &$form_state){
 
+        $form['miniorange_oauth_faq_button_css'] = array(
+            '#attached' => array(
+                'library' => 'oauth_login_oauth2/oauth_login_oauth2.style_settings',
+            ),
+        );
         $form['miniorange_faq'] = array(
             '#markup' => '<br><div class="mo_saml_text_center"><b></b>
                           <a class="mo_oauth_btn1 mo_oauth_btn-primary-faq mo_oauth_btn-large mo_faq_button_left" href="https://faq.miniorange.com/kb/oauth-openid-connect/" target="_blank">FAQs</a>
@@ -193,24 +198,21 @@ class Utilities {
             '#markup' => '<div class="table-responsive mo_guide_text-center" style="font-family: sans-serif;font-size: 15px;">          
                 <table class="mo_guide_table mo_guide_table-striped mo_guide_table-bordered" style="border: 1px solid #ddd;max-width: 100%;border-collapse: collapse;">
                     <thead>
-                        <tr><th class="mo_guide_text-center">Providers</th><th class="mo_guide_text-center">Links</th></tr>
+                        <tr><th class="mo_guide_text-center" colspan="2">Providers</th></tr>
                     </thead>
                     <tbody>
-                        <tr><td class="mo_guide_text-center">Azure AD</td><td><strong><a href="https://plugins.miniorange.com/setup-guide-to-configure-azure-ad-with-drupal-oauth-client" class="mo_guide_text-color " target="_blank">Click Here</a></strong></td></tr>
-                        <tr><td class="mo_guide_text-center">AWS Cognito</td><td><strong><a href="https://plugins.miniorange.com/setup-guide-to-configure-aws-cognito-with-drupal" class="mo_guide_text-color " target="_blank">Click Here</a></strong></td></tr>
-                        <tr><td class="mo_guide_text-center">Google</td><td><strong><a class="mo_guide_text-color" href="https://plugins.miniorange.com/configure-google-oauth-server-drupal-8" target="_blank">Click Here</a></strong></td></tr>
-                        <tr><td class="mo_guide_text-center">Facebook</td><td><strong><a href="https://plugins.miniorange.com/configure-facebook-oauth-server-for-drupal-8" class="mo_guide_text-color" target="_blank">Click Here</a></strong></td></tr>
-                        <tr><td class="mo_guide_text-center">Discord</td><td><strong><a href="https://plugins.miniorange.com/setup-guide-to-configure-discord-with-drupal-oauth-client" class="mo_guide_text-color" target="_blank">Click Here</a></strong></td></tr>
-                        <tr><td class="mo_guide_text-center">Wild Apricot</td><td><strong><a href="https://plugins.miniorange.com/guide-to-configure-wildapricot-with-drupal" class="mo_guide_text-color" target="_blank">Click Here</a></strong></td></tr>
-                        <tr><td class="mo_guide_text-center">Line</td><td><strong><a href="https://plugins.miniorange.com/setup-guide-to-configure-line-with-drupal-oauth-client" class="mo_guide_text-color" target="_blank">Click Here</a></strong></td></tr>
-                        <tr><td class="mo_guide_text-center">FitBit</td><td><strong><a href="https://plugins.miniorange.com/configure-fitbit-oauth-server-for-drupal-8" class="mo_guide_text-color" target="_blank">Click Here</a></strong></td></tr>
-                        <tr><td class="mo_guide_text-center">LinkedIn</td><td><strong><a href="https://plugins.miniorange.com/configure-linkedin-as-an-oauth-openid-connect-server-for-drupal-8-client" class="mo_guide_text-color" target="_blank">Click Here</a></strong></td></tr>
-                        <tr><td class="mo_guide_text-center">Instagram</td><td><strong><a href="https://plugins.miniorange.com/configure-instagram-as-an-oauth-openid-connect-server-for-drupal-8-client" class="mo_guide_text-color" target="_blank">Click Here</a></strong></td></tr>
-                        <tr><td class="mo_guide_text-center">Reddit</td><td><strong><a class="mo_guide_text-color" href="https://plugins.miniorange.com/configure-reddit-oauthopenid-connect-server-drupal-8" target="_blank">Click Here</a></strong></td></tr>
-                        <tr><td class="mo_guide_text-center">Other provider</td><td><strong><a href="https://www.miniorange.com/contact" class="mo_guide_text-color" target="_blank">Click Here</a></strong></td></tr>
+                        <tr><td class="mo_guide_text-center"><a class="mo_guide_text-color" href="https://plugins.miniorange.com/setup-guide-to-configure-azure-ad-with-drupal-oauth-client" target="_blank">Azure AD</a></td> <td class="mo_guide_text-center"><a class="mo_guide_text-color" href="https://plugins.miniorange.com/setup-guide-to-configure-line-with-drupal-oauth-client" target="_blank">Line</a></td></tr>
+                        <tr><td class="mo_guide_text-center"><a class="mo_guide_text-color" href="https://plugins.miniorange.com/setup-guide-to-configure-aws-cognito-with-drupal" target="_blank">AWS Cognito</a></td>        <td class="mo_guide_text-center"><a class="mo_guide_text-color" href="https://plugins.miniorange.com/configure-fitbit-oauth-server-for-drupal-8" target="_blank">Fitbit</a></td></tr>
+                        <tr><td class="mo_guide_text-center"><a class="mo_guide_text-color" href="https://plugins.miniorange.com/configure-google-oauth-server-drupal-8" target="_blank">Google</a></td>                       <td class="mo_guide_text-center"><a class="mo_guide_text-color" href="https://plugins.miniorange.com/configure-linkedin-as-an-oauth-openid-connect-server-for-drupal-8-client" target="_blank">LinkedIn</a></td></tr>
+                        <tr><td class="mo_guide_text-center"><a class="mo_guide_text-color" href="https://plugins.miniorange.com/guide-to-configure-keycloak-for-drupal-oauth-client-module8" target="_blank">Keycloak</a></td><td class="mo_guide_text-center"><a class="mo_guide_text-color" href="https://plugins.miniorange.com/guide-salesforce-configuration-drupal-oauth-client-module" target="_blank">Salesforce</a></td></tr>
+                        <tr><td class="mo_guide_text-center"><a class="mo_guide_text-color" href="https://plugins.miniorange.com/configure-github-oauthopenid-connect-server-drupal-8" target="_blank">Github</a></td>         <td class="mo_guide_text-center"><a class="mo_guide_text-color" href="https://plugins.miniorange.com/guide-configure-box-drupal" target="_blank">Box</a></td></tr>
+                        <tr><td class="mo_guide_text-center"><a class="mo_guide_text-color" href="https://plugins.miniorange.com/configure-facebook-oauth-server-for-drupal-8" target="_blank">Facebook</a> </td>              <td class="mo_guide_text-center"><a class="mo_guide_text-color" href="https://plugins.miniorange.com/configure-instagram-as-an-oauth-openid-connect-server-for-drupal-8-client" target="_blank">Instagram</a></strong></td></tr>
+                        <tr><td class="mo_guide_text-center"><a class="mo_guide_text-color" href="https://plugins.miniorange.com/setup-guide-to-configure-discord-with-drupal-oauth-client" target="_blank">Discord</a> </td>  <td class="mo_guide_text-center"><a class="mo_guide_text-color" href="https://plugins.miniorange.com/configure-reddit-oauthopenid-connect-server-drupal-8" target="_blank">Reddit</a></strong></td></tr>
+                        <tr><td class="mo_guide_text-center"><a class="mo_guide_text-color" href="https://plugins.miniorange.com/guide-to-configure-wildapricot-with-drupal" target="_blank">Wild Apricot</a> </td>            <td class="mo_guide_text-center"><a class="mo_guide_text-color" href="https://plugins.miniorange.com/guide-configure-zendesk-drupal" target="_blank">Zendesk</a> </td>
+                        <tr><td class="mo_guide_text-center" colspan="2"><a class="mo_guide_text-color" href="https://plugins.miniorange.com/guide-to-enable-miniorange-oauth-client-for-drupal" target="_blank">Other Providers</a></strong></td></tr>
                     </tbody>
                 </table>
-                <div>In case you do not find your desired OAuth Provider listed here, please mail us on <a href="mailto:info@xecurify.com">info@xecurify.com</a>
+                <div>In case you do not find your desired OAuth Provider listed here, please mail us on <a href="mailto:drupalsupport@xecurify.com">drupalsupport@xecurify.com</a>
                     and we will help you to set it up.</div>
             </div>',
 
@@ -222,7 +224,7 @@ class Utilities {
     public static function show_attr_list_from_idp(&$form, $form_state)
     {
         global $base_url;
-        $server_attrs = \Drupal::config('oauth_login_oauth2.settings')->get('oauth_login_oauth2_attr_list_from_server');
+        $server_attrs = \Drupal::config('oauth_login_oauth2.settings')->get('miniorange_oauth_client_attr_list_from_server');
 
         if(empty($server_attrs)){
             Utilities::spConfigGuide($form, $form_state);
@@ -262,7 +264,18 @@ class Utilities {
         {
             foreach ($server_attrs as $attr_name => $attr_values)
             {
-                $someattrs .= '<tr><td>' . $attr_name . '</td><td>' ;
+                if(is_array($attr_values) || is_object($attr_values)){
+                    foreach ($attr_values as $key1=>$val)
+                    {
+                        $someattrs .= '<tr><td>' . $attr_name.'.'.$key1 . '</td><td>' ;
+                        $someattrs .= $val . '</td></tr>';
+                    }
+                }
+                else{
+                    $someattrs .= '<tr><td>' . $attr_name . '</td><td>' ;
+                    $someattrs .= $attr_values . '</td></tr>';
+                }
+
                 if( $attr_name == 'roles' && is_array($server_attrs['roles']))
                 {
                     foreach ($attr_values as $attr_roles => $role)
@@ -271,10 +284,7 @@ class Utilities {
                     }
                     $someattrs .=  $attrroles.'</td></tr>';
                 }
-                else
-                {
-                    $someattrs .= $attr_values . '</td></tr>';
-                }
+
             }
         }
 
@@ -291,10 +301,11 @@ class Utilities {
             '#value' => t('Clear Attribute List'),
             '#submit' => array('::clear_attr_list'),
             '#id' => 'button_config_center',
+            '#limit_validation_errors' => array(),
         );
 
         $form['miniorange_saml_guide_clear_list_note'] = array(
-            '#markup' => '<br><div style="font-size: 13px;"><b>NOTE : </b>Please clear this list after configuring the plugin to hide your confidential attributes.<br>
+            '#markup' => '<br><div style="font-size: 13px;"><b>NOTE : </b>Please clear this list after configuring the module to hide your confidential attributes.<br>
                             Click on <b>Test configuration</b> in <b>CONFIGURE OAUTH</b> tab to populate the list again.</div>',
         );
 

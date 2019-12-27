@@ -1,6 +1,6 @@
 oauth_login_oauth2.customer_setup:
   route_name: oauth_login_oauth2.customer_setup
-  title: 'Register/ Login'
+  title: 'Account Setup'
   weight: 80
   base_route: oauth_login_oauth2.customer_setup
 

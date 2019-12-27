@@ -1,4 +1,4 @@
-#oauth_login_oauth2_app{
+#miniorange_oauth_client_app{
 	border-radius: 4px;
 	padding: 5px;
 }
@@ -15,8 +15,15 @@
 	width: 98%;
 }
 
-#text_field, #callbackurl, #oauth_login_oauth2_auth_ep, #oauth_login_oauth2_access_token_ep,
-#oauth_login_oauth2_user_info_ep,#oauth_login_oauth2_display_name{
+.mo_oauth_highlight_background_note_2{
+	background-color: #e0e0e0;
+	border-radius: 4px;
+	padding: 0.55em;
+	width: 71.7%;
+}
+
+#text_field,#text_field1,#text_field2,#text_field3, #callbackurl, #miniorange_oauth_client_auth_ep, #miniorange_oauth_client_access_token_ep,
+#miniorange_oauth_client_user_info_ep,#miniorange_oauth_client_display_name{
     width: 50%;
 	padding: 12px 20px;
 	margin: 8px 0;
@@ -24,34 +31,6 @@
 	border: 1px solid #ccc;
 	 border-radius: 4px; 
 	box-sizing: border-box;
-}
-
-.mo_oauth_help_title {
-	font-size:17px;
-	width:100%;
-	color:#1B79AE;
-	cursor:pointer;
-	font-weight: bold;
-}
-.mo_oauth_help_desc {
-	font-size:13px;
-	border-left:solid 2px rgba(128, 128, 128, 0.65);
-	margin-top:10px;
-	padding-left:10px;
-}
-.mo_oauth_help {
-	border-top: solid 1px grey;
-	width: 95%;
-}
-.mo_oauth_help_cell {
-	padding: 20px;
-	border-bottom: solid 1px grey;
-}
-.mo_oauth_support_layout{
-       width: 93%;
-       background-color:#FFFFFF; 
-       border:1px solid #CCCCCC; 
-       padding-left:20px; 
 }
 .mo_oauth_table_layout {
 	background-color:#FFFFFF; 
@@ -68,85 +47,6 @@
 .mo_oauth_table_layout td strong {
 	margin-left: 10px;
 }
-.panel_toggle {
-	cursor: pointer;
-}
-.panel_toggle:hover {
-	text-decoration: underline;
-}
-.mo_oauth_table_textbox {
-	width:80%;
-}
-.mo_oauth_settings_table {
-	width: 100%;
-}
-.mo_oauth_settings_table tr td:first-child {
-	width: 30%;
-}
-.mo_oauth_heading_margin {
-	margin-left: 0px;
-}
-.mo_oauth_local_pricing_free_tab{
-	background-color: rgba(34, 153, 221, 0.82)!important;
-}
-.mo_oauth_local_pricing_paid_tab{
-	background-color: #0B4669 !important;
-}
-.mo_oauth_local_pricing_text{
-	font-size: 14px !important;
-	color: #fff !important;
-	font-weight: 600 !important;
-
-}
-.mo_oauth_local_pricing_sub_header{
-	margin: 2px !important;
-	color: #fff !important;
-}
-.mo_oauth_local_pricing_header{
-	color: #fff !important;
-	margin: 4px !important;
-}
-.mo_oauth_local_pricing_table{
-	text-align:center;
-	font-size: 15px !important;
-	background-color:#FFFFFF;
-}
-
-.mo_oauth_local_thumbnail{
-	/*width: 250px;*/
-    padding: 4px;
-    margin-bottom: 10px;
-    line-height: 1.42857143;
-    background-color: #fff;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    -webkit-transition: border .2s ease-in-out;
-    -o-transition: border .2s ease-in-out;
-    transition: border .2s ease-in-out;
-}
-
-.mo_oauth_premium_thumbnail{
-	width: 350px;
-    padding: 4px;
-    margin-bottom: 10px;
-    line-height: 1.42857143;
-    background-color: #fff;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    -webkit-transition: border .2s ease-in-out;
-    -o-transition: border .2s ease-in-out;
-    transition: border .2s ease-in-out;
-}
-
-.mo_oauth_local_table_col1{
-	padding-left:5%;
-}
-
-.mo_oauth_local_table_col2{
-	padding-left:20%;
-}
-
-
 .mo_oauth_container {
 	width: 59%;
 	padding: 25px;
@@ -262,9 +162,6 @@
 	border-radius: 4px; !important;
 }
 
-.mo_saml_table_layout input[type=text] {
-	width: 80%;
-}
 .mo_saml_table_layout td strong {
 	margin-left: 10px;
 }
@@ -562,29 +459,3 @@ p.mo_oauth_pricing-rate{
 	font-family: sans-serif
 }
 
-/* FAQ button */
-.mo_saml_text_center{
-	text-align: center;
-}
-
-.mo_faq_button_left{
-	float: inherit;
-	color: #48a0dc;
-	border: 2px solid #48a0dc;
-	padding: 5px;
-}
-
-.mo_faq_button_left:hover{
-	transform: scale(1.1);
-}
-.mo_faq_button_right{
-	float: inherit;
-	color: #48a0dc;
-	border: 2px solid #48a0dc;
-	padding: 5px;
-	margin-left: 10px;
-}
-
-.mo_faq_button_right:hover{
-	transform: scale(1.1);
-}

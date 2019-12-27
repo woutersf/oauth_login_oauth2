@@ -22,6 +22,8 @@ use Drupal\oauth_login_oauth2\handler;
             curl_setopt($ch, CURLOPT_HTTPHEADER, array(
                 'Authorization: Bearer '.$access_token
             ));
+            $t_vers = curl_version();
+            curl_setopt( $ch, CURLOPT_USERAGENT, 'curl/' . $t_vers['version']);
             $content = curl_exec($ch);
             if(curl_error($ch)){
                 exit( curl_error($ch) );

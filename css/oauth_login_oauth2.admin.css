@@ -40,8 +40,6 @@
 	margin:2px;
 }
 
-
-
 .mo_oauth_btn {
     display: inline-block;
     padding: 4px 22px;
@@ -538,6 +536,10 @@ input[type=submit].mo_oauth_btn-block,input[type=reset].mo_oauth_btn-block,input
 }
 
 /* FAQ button and Ask question on forum button*/
+.mo_saml_text_center{
+	text-align: center;
+}
+
 .mo_faq_button_left{
 	float: inherit;
 	color: #48a0dc;

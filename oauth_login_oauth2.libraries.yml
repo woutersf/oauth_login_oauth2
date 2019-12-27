@@ -10,17 +10,8 @@ oauth_login_oauth2.style_settings:
     layout:
       css/oauth_login_oauth2.style_settings.css: {}
 
-oauth_login_oauth2.main:
-  version: VERSION
-  css:
-    layout:
-      css/oauth_login_oauth2.main.css: {}
-
 oauth_login_oauth2.bootstrap:
   version: VERSION
-  css:
-    layout:
-      css/oauth_login_oauth2.bootstrap.min.css: {}
 
   dependencies:
     - core/jquery
@@ -46,6 +37,11 @@ oauth_login_oauth2.appVal:
   js:
     js/appVal.js: {}
 
+oauth_login_oauth2.slide_support_button:
+  version: VERSION
+  js:
+    js/slide_support_button.js: {}
+
 oauth_login_oauth2.Vtour:
   version: VERSION
   css:
@@ -57,7 +53,7 @@ oauth_login_oauth2.Vtour:
     - core/jquery
     - core/drupalSettings
 
-  oauth_login_oauth2.support:
+oauth_login_oauth2.support:
   version: VERSION
   js:
     js/Support_button.js: {}
