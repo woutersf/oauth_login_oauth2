@@ -129,7 +129,7 @@ class miniorange_oauth_clientController extends ControllerBase {
         */
         if (isset($_COOKIE['Drupal_visitor_mo_oauth_test']) && ($_COOKIE['Drupal_visitor_mo_oauth_test'] == true)){
             $_COOKIE['Drupal_visitor_mo_oauth_test'] = 0;
-            $module_path = drupal_get_path('module', 'oauth_login_oauth2');
+            $module_path = \Drupal::service('extension.list.module')->getPath('oauth_login_oauth2');
             $username = isset($resourceOwner['email']) ? $resourceOwner['email']:'User';
             \Drupal::configFactory()->getEditable('oauth_login_oauth2.settings')->set('miniorange_oauth_client_attr_list_from_server',$resourceOwner)->save();
             echo '<div style="font-family:Calibri;padding:0 3%;">';
@@ -175,10 +175,23 @@ class miniorange_oauth_clientController extends ControllerBase {
             $email = self::getnestedattribute($resourceOwner, $email_attr);          //$resourceOwner[$email_attr];
         if(!empty($name_attr))
             $name = self::getnestedattribute($resourceOwner, $name_attr);          //$resourceOwner[$name_attr];
-
+        global $base_url;
         /*************==============Attributes not mapped check===============************/
         if(empty($email)){
-            echo "Email address not received. Check your <b>Attribute Mapping<b> configuration.";exit;
+            echo '<div style="font-family:Calibri;padding:0 3%;">';
+            echo '<div style="color: #a94442;background-color: #f2dede;padding: 15px;margin-bottom: 20px;text-align:center;border:1px solid #E6B3B2;font-size:18pt;"> ERROR</div>
+                                <div style="color: #a94442;font-size:14pt; margin-bottom:20px;"><p><strong>Error: </strong>Email address does not received.</p>
+                                    <p>Check your <b>Attribute Mapping</b> configuration.</p>
+                                    <p><strong>Possible Cause: </strong>Email Attribute field is not configured.</p>
+                                </div>
+                                <div style="margin:3%;display:block;text-align:center;"></div>
+                                <div style="margin:3%;display:block;text-align:center;">
+                                    <form action="'.$base_url.'" method ="post">
+                                        <input style="padding:1%;width:100px;background: #0091CD none repeat scroll 0% 0%;cursor: pointer;font-size:15px;border-width: 1px;border-style: solid;border-radius: 3px;white-space: nowrap;box-sizing: border-box;border-color: #0073AA;box-shadow: 0px 1px 0px rgba(120, 200, 230, 0.6) inset;color: #FFF;"type="submit" value="Done">
+                                    </form>
+                                </div>';
+            exit;
+            return new Response();
         }
         //Validates the email format
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
@@ -194,7 +207,7 @@ class miniorange_oauth_clientController extends ControllerBase {
             if(!empty($name) && isset($name))
                 $account = user_load_by_name($name);
         }
-        global $base_url;
+
 	    global $user;
         $mo_count = "";
         $mo_count = \Drupal::config('oauth_login_oauth2.settings')->get('miniorange_oauth_client_free_users');
@@ -231,7 +244,8 @@ class miniorange_oauth_clientController extends ControllerBase {
             $baseUrlValue = $base_url;
         $edit['redirect'] = $baseUrlValue;
 		user_login_finalize($account);
-        $response = new RedirectResponse($edit['redirect']);
+        $redi = \Drupal::config('miniorange_oauth_client.settings')->get('miniorange_oauth_redirect_url');
+        $response = new RedirectResponse($redi);
         $response->send();
         return new Response();
     }
@@ -256,14 +270,25 @@ class miniorange_oauth_clientController extends ControllerBase {
         if(empty($key))
             return "";
         $keys = explode(".",$key);
+        $currentkey = "";
         if(sizeof($keys)>1){
-            $current_key = $keys[0];
-            if(isset($resource[$current_key]))
-                return self::getnestedattribute($resource[$current_key], str_replace($current_key.".","",$key));
-        } else {
-            $current_key = $keys[0];
-            if(isset($resource[$current_key]))
-                return $resource[$current_key];
+            $currentkey = $keys[0];
+            if(isset($resource[$currentkey]))
+                return self::getnestedattribute($resource[$currentkey], str_replace($currentkey.".","",$key));
+        }
+        else{
+            $currentkey = $keys[0];
+            if(isset($resource[$currentkey]))
+            {
+                if(is_array($resource[$currentkey]))
+                {
+                    $resource = $resource[$currentkey];
+                    return $resource[0];
+                }
+                else{
+                    return $resource[$currentkey];
+                }
+            }
         }
     }
     /**

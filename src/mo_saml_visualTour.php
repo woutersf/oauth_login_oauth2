@@ -128,8 +128,8 @@ class mo_saml_visualTour {
                 7 => array(
                     'targetE'       => 'mo_vt_add_data2',
                     'pointToSide'   => 'left',
-                    'titleHTML'     => '<h1>Scope and Endpoints</h1>',
-                    'contentHTML'   => 'The Scope and Endpoints will be used to initiate the OAuth flow.',
+                    'titleHTML'     => '<h1>Scope</h1>',
+                    'contentHTML'   => 'Scope decides the range of data that comes from your OAuth Server.',
                     'ifNext'        => true,
                     'buttonText'    => 'Next',
                     'cardSize'      => 'largemedium',
@@ -137,22 +137,31 @@ class mo_saml_visualTour {
                 8 => array(
                     'targetE'       => 'mo_vt_add_data3',
                     'pointToSide'   => 'left',
-                    'titleHTML'     => '<h1>Enable login with OAuth</h1>',
-                    'contentHTML'   => 'Enable the checkbox if you want to enable SSO login with OAuth Server credentials.',
+                    'titleHTML'     => '<h1>Endpoints</h1>',
+                    'contentHTML'   => 'The endpoints from your OAuth Server will be used during OAuth SSO login.',
                     'ifNext'        => true,
                     'buttonText'    => 'Next',
                     'cardSize'      => 'largemedium',
                 ),
                 9 => array(
+                    'targetE'       => 'mo_vt_add_data4',
+                    'pointToSide'   => 'left',
+                    'titleHTML'     => '<h1>Enable login with OAuth</h1>',
+                    'contentHTML'   => 'Enable the checkbox if you want to enable SSO login with OAuth.',
+                    'ifNext'        => true,
+                    'buttonText'    => 'Next',
+                    'cardSize'      => 'largemedium',
+                ),
+                10 => array(
                     'targetE'       => 'button_config',
                     'pointToSide'   => 'left',
                     'titleHTML'     => '<h1>Save Settings</h1>',
-                    'contentHTML'   => 'You can save your configuration settings here.',
+                    'contentHTML'   => 'You can save your configurations by clicking on this button.',
                     'ifNext'        => true,
                     'buttonText'    => 'Next',
                     'cardSize'      => 'medium',
                 ),
-                10 => array(
+                11 => array(
                     'targetE'       => 'mo_oauth_guide_vt',
                     'pointToSide'   => 'right',
                     'titleHTML'     => '<h1>Documentaion</h1>',
@@ -195,8 +204,8 @@ class mo_saml_visualTour {
                 3 => array(
                     'targetE'       => 'mo_vt_add_data2',
                     'pointToSide'   => 'left',
-                    'titleHTML'     => '<h1>Scope and Endpoints</h1>',
-                    'contentHTML'   => 'The Scope and Endpoints will be used to initiate the OAuth flow.',
+                    'titleHTML'     => '<h1>Scope</h1>',
+                    'contentHTML'   => 'Scope decides the range of data that comes from your OAuth Server.',
                     'ifNext'        => true,
                     'buttonText'    => 'Next',
                     'cardSize'      => 'medium',
@@ -204,22 +213,31 @@ class mo_saml_visualTour {
                 4 => array(
                     'targetE'       => 'mo_vt_add_data3',
                     'pointToSide'   => 'left',
-                    'titleHTML'     => '<h1>Enable login with OAuth</h1>',
-                    'contentHTML'   => 'Enable the checkbox if you want to enable SSO login with OAuth Server credentials.',
+                    'titleHTML'     => '<h1>Endpoints</h1>',
+                    'contentHTML'   => 'The endpoints from your OAuth Server will be used during OAuth SSO login.',
                     'ifNext'        => true,
                     'buttonText'    => 'Next',
                     'cardSize'      => 'largemedium',
                 ),
                 5 => array(
+                    'targetE'       => 'mo_vt_add_data4',
+                    'pointToSide'   => 'left',
+                    'titleHTML'     => '<h1>Enable login with OAuth</h1>',
+                    'contentHTML'   => 'Enable the checkbox if you want to enable SSO login with OAuth.',
+                    'ifNext'        => true,
+                    'buttonText'    => 'Next',
+                    'cardSize'      => 'largemedium',
+                ),
+                6 => array(
                     'targetE'       => 'button_config',
                     'pointToSide'   => 'left',
                     'titleHTML'     => '<h1>Save Settings</h1>',
-                    'contentHTML'   => 'You can save your configuration settings here.',
+                    'contentHTML'   => 'You can save your configurations by clicking on this button.',
                     'ifNext'        => true,
                     'buttonText'    => 'Next',
                     'cardSize'      => 'medium',
                 ),
-                6 => array(
+                7 => array(
                     'targetE'       => 'mo_oauth_guide_vt',
                     'pointToSide'   => 'right',
                     'titleHTML'     => '<h1>Documentaion</h1>',
@@ -229,16 +247,6 @@ class mo_saml_visualTour {
                     'cardSize'      => 'largemedium',
                     'ifskip'        =>  'hidden',
                 ),
-                /*5 =>    array(
-                    'targetE'       =>  'mo_oauth_support_btn_vt',
-                    'pointToSide'   =>  'right',
-                    'titleHTML'     =>  '<h1>Need Help?</h1>',
-                    'contentHTML'   =>  'You can always reach out to us instantly in case you face any issues or have any questions in mind.',
-                    'ifNext'        =>  true,
-                    'buttonText'    =>  'End Tour',
-                    'cardSize'      =>  'largemedium',
-                    'ifskip'        =>  'hidden',
-                ),*/
             );
         }
 
@@ -266,28 +274,20 @@ class mo_saml_visualTour {
                 'action'        =>  '',
                 'ifskip'        =>  'hidden',
             ),
-           /* 2 =>    array(
-                'targetE'       =>  'mo_oauth_guide_vt',
+        );
+        $tourData['Licensing'] = array(
+            0 =>    array(
+                'targetE'       =>  'edit-miniorange-saml-idp-support-side-button',
                 'pointToSide'   =>  'right',
-                'titleHTML'     =>  '<h1>Documentation</h1>',
-                'contentHTML'   =>  'To see step by step guides of how to configure Drupal OAuth Client with any OAuth Server.',
+                'titleHTML'     =>  '<h1>Want a demo?</h1>',
+                'contentHTML'   =>  'Want to test any paid modules before purchasing? Just send us a request.',
                 'ifNext'        =>  true,
                 'buttonText'    =>  'End Tour',
                 'img'           =>  array(),
                 'cardSize'      =>  'largemedium',
                 'action'        =>  '',
                 'ifskip'        =>  'hidden',
-            ),*/
-            /*3 =>    array(
-                'targetE'       =>  'mo_oauth_support_btn_vt',
-                'pointToSide'   =>  'right',
-                'titleHTML'     =>  '<h1>Need Help?</h1>',
-                'contentHTML'   =>  'You can always reach out to us instantly in case you face any issues or have any questions in mind.',
-                'ifNext'        =>  true,
-                'buttonText'    =>  'End Tour',
-                'cardSize'      =>  'largemedium',
-                'ifskip'        =>  'hidden',
-            ),*/
+            ),
         );
         return $tourData[$pageID] ;
     }

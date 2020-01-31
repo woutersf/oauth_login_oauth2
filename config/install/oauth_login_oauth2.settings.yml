@@ -47,3 +47,7 @@ miniorange_oauth_client_idp_entity_id: ''
 miniorange_oauth_client_base_url : ''    
 miniorange_oauth_client_idp_acs_url: ''
 miniorange_oauth_client_idp_nameid_attr_map: ''
+miniorange_oauth_send_with_header_oauth: true
+miniorange_oauth_send_with_body_oauth: true
+miniorange_auth_client_display_name: 'Login using ##app_name##'
+miniorange_oauth_enable_login_with_oauth: true

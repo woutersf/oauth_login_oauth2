@@ -44,7 +44,7 @@ class Settings extends FormBase
         '#title' => t('Base URL: '),
         '#default_value' => $baseUrlValue,
         '#attributes' => array('id'=>'mo_oauth_vt_baseurl','style' => 'width:73%;','placeholder' => 'Enter Base URL'),
-        '#description' => '<b>Note: </b>You can customize base URL here.',
+        '#description' => '<b>Note: </b>You can customize base URL here. (For eg: https://www.xyz.com or http://localhost/abc)',
         '#suffix' => '<br>',
     );
 
@@ -76,7 +76,7 @@ class Settings extends FormBase
 
      $form['miniorange_oauth_client_white_list_url'] = array(
          '#type' => 'textfield',
-         '#title' => t('Allow Domains <a href="' . $base_url . '/admin/config/people/oauth_login_oauth2/licensing"><b>[Enterprise]</b></a>'),
+         '#title' => t('Allowed Domains <a href="' . $base_url . '/admin/config/people/oauth_login_oauth2/licensing"><b>[Enterprise]</b></a>'),
          '#attributes' => array('style' => 'width:73%','placeholder' => 'Enter semicolon(;) separated domains (Eg. xxxx.com; xxxx.com)'),
          '#description' => t('<b>Note: </b> Enter <b>semicolon(;) separated</b> domains to allow SSO. Other than these domains will not be allowed to do SSO.'),
          '#disabled' => TRUE,
@@ -84,7 +84,7 @@ class Settings extends FormBase
 
      $form['miniorange_oauth_client_black_list_url'] = array(
          '#type' => 'textfield',
-         '#title' => t('Restrict Domains <a href="' . $base_url . '/admin/config/people/oauth_login_oauth2/licensing"><b>[Enterprise]</b></a>'),
+         '#title' => t('Restricted Domains <a href="' . $base_url . '/admin/config/people/oauth_login_oauth2/licensing"><b>[Enterprise]</b></a>'),
          '#attributes' => array('style' => 'width:73%','placeholder' => 'Enter semicolon(;) separated domains (Eg. xxxx.com; xxxx.com)'),
          '#description' => t('<b>Note: </b> Enter <b>semicolon(;) separated</b> domains to restrict SSO. Other than these domains will be allowed to do SSO.'),
          '#disabled' => TRUE,
@@ -114,7 +114,11 @@ class Settings extends FormBase
  }
 
  public function submitForm(array &$form, \Drupal\Core\Form\FormStateInterface $form_state) {
-    $baseUrlvalue = $form['miniorange_oauth_client_base_url']['#value'];
+    $baseUrlvalue = trim($form['miniorange_oauth_client_base_url']['#value']);
+    if(!empty($baseUrlvalue) && filter_var($baseUrlvalue, FILTER_VALIDATE_URL) == FALSE) {
+        \Drupal::messenger()->adderror(t('Please enter a valid URL'));
+        return;
+    }
     \Drupal::configFactory()->getEditable('oauth_login_oauth2.settings')->set('miniorange_oauth_client_base_url', $baseUrlvalue)->save();
     \Drupal::messenger()->addMessage(t('Configurations saved successfully.'));
  }

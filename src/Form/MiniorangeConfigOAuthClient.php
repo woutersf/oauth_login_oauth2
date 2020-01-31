@@ -25,7 +25,7 @@ class MiniorangeConfigOAuthClient extends FormBase
         $baseUrlValue = Utilities::getOAuthBaseURL($base_url);
 
         $login_path = '<a href='.$baseUrlValue.'/moLogin>Enter what you want to display on the link</a>';
-        $module_path = drupal_get_path('module', 'oauth_login_oauth2');
+        $module_path = \Drupal::service('extension.list.module')->getPath('oauth_login_oauth2');
 
         $miniorange_auth_client_callback_uri = \Drupal::config('oauth_login_oauth2.settings')->get('miniorange_oauth_client_base_url');
 
@@ -89,6 +89,7 @@ class MiniorangeConfigOAuthClient extends FormBase
                 'GitHub' => t('GitHub'),
                 'Facebook' => t('Facebook'),
                 'Box' => t('Box'),
+                'Slack' => t('Slack'),
                 'Discord' => t('Discord'),
                 'Line' => t('Line'),
                 'Wild Apricot' => t('Wild Apricot'),
@@ -149,9 +150,9 @@ class MiniorangeConfigOAuthClient extends FormBase
             '#type' => 'textfield',
             '#id'  => 'miniorange_oauth_client_display_name',
             '#default_value' => \Drupal::config('oauth_login_oauth2.settings')->get('miniorange_auth_client_display_name'),
-            '#title' => t('Display Name: '),
-            '#description' => "This name will be displayed to your users on the login link",
-            '#attributes' => array('style' => 'width:73%'),
+            '#title' => t('Login link on the login page: '),
+            '#description' => t('<b>Note:</b> By default the login link will appear on the user login page in this manner.'),
+            '#attributes' => array('style' => 'width:73%','placeholder' => 'Login using ##app_name##'),
         );
 
         $form['miniorange_oauth_client_id'] = array(
@@ -185,8 +186,16 @@ class MiniorangeConfigOAuthClient extends FormBase
             '#id'  => 'miniorange_oauth_client_scope',
             '#default_value' => \Drupal::config('oauth_login_oauth2.settings')->get('miniorange_auth_client_scope'),
             '#description' => "Scope decides the range of data that you will be getting from your OAuth Provider",
-            '#title' => t('Scope: '),
+            '#title' => t('Scope: <div class="mo_oauth_tooltip"><img src="'.$base_url.'/'. $module_path . '/includes/images/info.png" alt="info icon" height="15px" width="15px"></div><div class="mo_oauth_tooltiptext">The scopes may differ from server to server. In case you are not sure about what to enter, please contact us by sending a query from support button.</div>'),
             '#attributes' => array('style' => 'width:73%'),
+        );
+
+        $form['mo_vt_id_data2_end'] = array(
+            '#markup' => '</div>',
+        );
+
+        $form['mo_vt_id_data3'] = array(
+            '#markup' => '<div id = "mo_vt_add_data3">',
         );
 
         $form['miniorange_oauth_client_authorize_endpoint'] = array(
@@ -205,26 +214,6 @@ class MiniorangeConfigOAuthClient extends FormBase
             '#attributes' => array('style' => 'width:73%'),
         );
 
-        $form['background_1'] = array(
-            '#markup' => "<div class='mo_oauth_highlight_background_note_2'>"
-        );
-
-        $form['miniorange_oauth_send_with_header_oauth'] = array(
-            '#type' => 'checkbox',
-            '#default_value' => \Drupal::config('oauth_login_oauth2.settings')->get('miniorange_oauth_send_with_header_oauth'),
-            '#title' => t('<b>Set Client Credentials in Header</b>'),
-        );
-
-        $form['miniorange_oauth_send_with_body_oauth'] = array(
-            '#type' => 'checkbox',
-            '#default_value' => \Drupal::config('oauth_login_oauth2.settings')->get('miniorange_oauth_send_with_body_oauth'),
-            '#title' => t('<b>Set Client Credentials in Body</b>'),
-        );
-
-        $form['background_1_end'] = array(
-            '#markup' => '</div>',
-        );
-
         $form['miniorange_oauth_client_userinfo_endpoint'] = array(
             '#type' => 'textfield',
             '#default_value' => \Drupal::config('oauth_login_oauth2.settings')->get('miniorange_auth_client_user_info_ep'),
@@ -233,12 +222,36 @@ class MiniorangeConfigOAuthClient extends FormBase
             '#attributes' => array('style' => 'width:73%'),
         );
 
-        $form['mo_btn_breaks'] = array(
-            '#markup' => "</div>",
+        $form['background_2'] = array(
+            '#markup' => t('<b>Send Client ID and secret in: </b> <div class="mo_oauth_tooltip"><img src="'.$base_url.'/'. $module_path . '/includes/images/info.png" alt="info icon" height="15px" width="15px"></div><div class="mo_oauth_tooltiptext"><b>Note:</b> This option depends upon the OAuth provider. In case you are unaware about what to save, keeping this default is the best practice.</div>'),
         );
 
-        $form['mo_vt_id_data3'] = array(
-            '#markup' => '<div id = "mo_vt_add_data3">',
+        $form['background_1'] = array(
+            '#markup' => "<div class='mo_oauth_highlight_background_note_2'>"
+        );
+
+        $form['miniorange_oauth_send_with_header_oauth'] = array(
+            '#type' => 'checkbox',
+            '#default_value' => \Drupal::config('oauth_login_oauth2.settings')->get('miniorange_oauth_send_with_header_oauth'),
+            '#title' => t('<b>Header</b>'),
+        );
+
+        $form['miniorange_oauth_send_with_body_oauth'] = array(
+            '#type' => 'checkbox',
+            '#default_value' => \Drupal::config('oauth_login_oauth2.settings')->get('miniorange_oauth_send_with_body_oauth'),
+            '#title' => t('<b>Body</b>'),
+        );
+
+        $form['background_1_end'] = array(
+            '#markup' => '</div>',
+        );
+
+        $form['mo_btn_breaks'] = array(
+            '#markup' => "</div><br>",
+        );
+
+        $form['mo_vt_id_data4'] = array(
+            '#markup' => '<div id = "mo_vt_add_data4">',
         );
 
         $form['miniorange_oauth_enable_login_with_oauth'] = array(
@@ -248,7 +261,7 @@ class MiniorangeConfigOAuthClient extends FormBase
         );
 
         $form['mo_btn_breaks2'] = array(
-            '#markup' => "</div><br><br>",
+            '#markup' => "</div><br>",
         );
 
         $form['miniorange_oauth_client_config_submit'] = array(
@@ -343,6 +356,10 @@ class MiniorangeConfigOAuthClient extends FormBase
         if(empty($app_name)){
             $client_app = \Drupal::config('oauth_login_oauth2.settings')->get('miniorange_auth_client_app_name');
         }
+        if (empty($display_name))
+        {
+            $display_name = '';
+        }
         if(empty($client_id)){
             $client_id =\Drupal::config('oauth_login_oauth2.settings')->get('miniorange_auth_client_client_id');
         }
@@ -405,9 +422,9 @@ class MiniorangeConfigOAuthClient extends FormBase
      */
     public function saved_support(array &$form, \Drupal\Core\Form\FormStateInterface $form_state) {
 
-        $email = $form['miniorange_oauth_client_email_address']['#value'];
+        $email = trim($form['miniorange_oauth_client_email_address']['#value']);
         $phone = $form['miniorange_oauth_client_phone_number']['#value'];
-        $query = $form['miniorange_oauth_client_support_query']['#value'];
+        $query = trim($form['miniorange_oauth_client_support_query']['#value']);
         Utilities::send_support_query($email, $phone, $query);
     }
 

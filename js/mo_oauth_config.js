@@ -6,12 +6,12 @@
                         jQuery(document).ready(function() {
                            // jQuery('#miniorange_oauth_login_link').parent().hide();
                             var v=document.getElementById('miniorange_oauth_client_app');
-                            v.options[16].disabled=true;
                             v.options[17].disabled=true;
                             v.options[18].disabled=true;
                             v.options[19].disabled=true;
                             v.options[20].disabled=true;
-                        jQuery('#miniorange_oauth_client_app').parent().show();
+                            v.options[21].disabled=true;
+                            jQuery('#miniorange_oauth_client_app').parent().show();
                         jQuery('#miniorange_oauth_client_app').click(function()
                         {
                             var base_url = window.location.origin;
@@ -19,7 +19,7 @@
                             //var baseUrl = base_url+'/'+pathArray[1];
                             var baseUrl = base_url;
                             var appname = document.getElementById('miniorange_oauth_client_app').value;
-                            if(appname=='Facebook' || appname=='Google' || appname=='Zendesk' || appname=='Box' || appname=='GitHub' || appname=='Wild Apricot' || appname=='Salesforce' || appname=='LinkedIn' || appname=='Azure AD' || appname=='Keycloak' || appname=='Custom' || appname=='Strava' || appname=='FitBit' || appname=='Discord' || appname=='Line'){
+                            if(appname=='Facebook' || appname=='Slack' || appname=='Google' || appname=='Zendesk' || appname=='Box' || appname=='GitHub' || appname=='Wild Apricot' || appname=='Salesforce' || appname=='LinkedIn' || appname=='Azure AD' || appname=='Keycloak' || appname=='Custom' || appname=='Strava' || appname=='FitBit' || appname=='Discord' || appname=='Line'){
 
                                 jQuery('#miniorange_oauth_client_app_name').parent().show();
                                 jQuery('#miniorange_oauth_client_display_name').parent().show();
@@ -73,7 +73,7 @@
                                     document.getElementById('miniorange_oauth_client_access_token_ep').value='{Keycloak_base_URL}/realms/{realm-name}/protocol/openid-connect/token';
                                     document.getElementById('miniorange_oauth_client_user_info_ep').value='{Keycloak_base_URL}/realms/{realm-name}/protocol/openid-connect/userinfo';
                                 }else if(appname=='Custom'){
-                                    document.getElementById('miniorange_oauth_client_scope').value='';
+                                    document.getElementById('miniorange_oauth_client_scope').value='email profile';
                                     document.getElementById('miniorange_oauth_client_auth_ep').value='';
                                     document.getElementById('miniorange_oauth_client_access_token_ep').value='';
                                     document.getElementById('miniorange_oauth_client_user_info_ep').value='';
@@ -112,6 +112,11 @@
                                     document.getElementById('miniorange_oauth_client_auth_ep').value='https://{subdomain}.zendesk.com/oauth/authorizations/new';
                                     document.getElementById('miniorange_oauth_client_access_token_ep').value='https://{subdomain}.zendesk.com/oauth/tokens';
                                     document.getElementById('miniorange_oauth_client_user_info_ep').value='https://{subdomain}.zendesk.com/api/v2/users';
+                                }else if(appname=='Slack'){
+                                    document.getElementById('miniorange_oauth_client_scope').value='users.profile:read';
+                                    document.getElementById('miniorange_oauth_client_auth_ep').value='https://slack.com/oauth/authorize';
+                                    document.getElementById('miniorange_oauth_client_access_token_ep').value='https://slack.com/api/oauth.access';
+                                    document.getElementById('miniorange_oauth_client_user_info_ep').value='https://slack.com/api/users.profile.get';
                                 }
                                 else if(appname == 'Eve Online')
                                 {

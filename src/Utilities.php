@@ -102,6 +102,79 @@ class Utilities {
         );
     }
 
+    public static function AddrfdButton(&$form, &$form_state)
+    {
+        $form['markup_idp_attr_header_top_support_btn'] = array(
+            '#markup' => '<div id="mosaml-feedback-form" class="mo_saml_table_layout_support_btn">',
+        );
+
+        $form['miniorange_saml_idp_support_side_button'] = array(
+            '#type' => 'button',
+            '#value' => t('Request for Demo'),
+            '#attributes' => array('style' => 'font-size: 15px;cursor: pointer;width: 170px;height: 35px;
+                background: rgba(43, 141, 65, 0.93);color: #ffffff;border-radius: 3px;transform: rotate(90deg);text-shadow: none;
+                position: relative;margin-left: -102px;top: 115px;'),
+        );
+
+        $form['markup_idp_attr_header_top_support'] = array(
+            '#markup' => '<div id="Support_Section" class="mo_saml_table_layout_support_1">',
+        );
+
+
+        $form['markup_2'] = array(
+            '#markup' => '<b>Want to test any of the Premium module before purchasing?</b> <br>Just send us a request, We will setup a demo site for you on our cloud and provide you with the administrator credentials.
+                So that you can test all the premium features as per your requirement.
+        <br>',
+        );
+
+        $form['customer_email'] = array(
+            '#type' => 'textfield',
+            '#attributes' => array('style' => 'width:100%','placeholder' => 'Enter your Email'),
+        );
+
+        $form['demo_plan'] = array(
+            '#type' => 'select',
+            '#title' => t('Demo Plan'),
+            '#attributes' => array('style' => 'width:100%;'),
+            '#options' => [
+                'Drupal 8 OAuth Standard Module' => t('Drupal 8 OAuth Standard Module'),
+                'Drupal 8 OAuth Premium Module' => t('Drupal 8 OAuth Premium Module'),
+                'Drupal 8 OAuth Enterprise Module' => t('Drupal 8 OAuth Enterprise Module'),
+                'Not Sure' => t('Not Sure'),
+            ],
+        );
+
+        $form['description_doubt'] = array(
+            '#type' => 'textarea',
+            '#clos' => '10',
+            '#rows' => '5',
+            '#attributes' => array('style' => 'width:100%','placeholder' => 'Write your query here'),
+        );
+        $form['markup_div'] = array(
+            '#markup' => '<div>'
+        );
+
+        $form['miniorange_oauth_support_submit_click'] = array(
+            '#type' => 'submit',
+            '#value' => t('Submit Query'),
+            '#submit' => array('::send_rfd_query'),
+            '#limit_validation_errors' => array(),
+            '#attributes' => array('style' => 'background: #337ab7;color: #ffffff;text-shadow: 0 -1px 1px #337ab7, 1px 0 1px #337ab7, 0 1px 1px #337ab7, -1px 0 1px #337ab7;box-shadow: 0 1px 0 #337ab7;border-color: #337ab7 #337ab7 #337ab7;display:block;float:left'),
+        );
+
+        $form['markup_div_end'] = array(
+            '#markup' => '</div>'
+        );
+
+        $form['miniorange_oauth_support_note'] = array(
+            '#markup' => '<br><br><br><div>If you want custom features in the module, just drop an email to <a href="mailto:drupalsupport@xecurify.com">drupalsupport@xecurify.com</a></div>'
+        );
+
+        $form['miniorange_oauth_support_div_cust'] = array(
+            '#markup' => '</div></div><div hidden id="mosaml-feedback-overlay">'
+        );
+    }
+
     public static function send_support_query($email, $phone, $query)
     {
         if(empty($email)||empty($query)){
@@ -121,8 +194,15 @@ class Utilities {
         }
     }
 
-    public static function send_demo_query($email, $query)
+    public static function send_demo_query($email, $query, $description)
     {
+        if(empty($email)||empty($description)){
+            \Drupal::messenger()->addMessage(t('The <b><u>Email</u></b> and <b><u>Description</u></b> fields are mandatory.'), 'error');
+            return;
+        } elseif(!valid_email_address($email)) {
+            \Drupal::messenger()->addMessage(t('The email address <b><i>' . $email . '</i></b> is not valid.'), 'error');
+            return;
+        }
         $phone = \Drupal::config('oauth_login_oauth2.settings')->get('miniorange_oauth_client_customer_admin_phone');
         $support = new MiniorangeOAuthClientSupport($email, $phone, $query, 'demo');
         $support_response = $support->sendSupportQuery();
@@ -202,9 +282,9 @@ class Utilities {
                     </thead>
                     <tbody>
                         <tr><td class="mo_guide_text-center"><a class="mo_guide_text-color" href="https://plugins.miniorange.com/setup-guide-to-configure-azure-ad-with-drupal-oauth-client" target="_blank">Azure AD</a></td> <td class="mo_guide_text-center"><a class="mo_guide_text-color" href="https://plugins.miniorange.com/setup-guide-to-configure-line-with-drupal-oauth-client" target="_blank">Line</a></td></tr>
-                        <tr><td class="mo_guide_text-center"><a class="mo_guide_text-color" href="https://plugins.miniorange.com/setup-guide-to-configure-aws-cognito-with-drupal" target="_blank">AWS Cognito</a></td>        <td class="mo_guide_text-center"><a class="mo_guide_text-color" href="https://plugins.miniorange.com/configure-fitbit-oauth-server-for-drupal-8" target="_blank">Fitbit</a></td></tr>
+                        <tr><td class="mo_guide_text-center"><a class="mo_guide_text-color" href="https://plugins.miniorange.com/configure-slack-as-as-oauth-openid-connect-server-in-drupal" target="_blank">Slack</a></td>        <td class="mo_guide_text-center"><a class="mo_guide_text-color" href="https://plugins.miniorange.com/configure-fitbit-oauth-server-for-drupal-8" target="_blank">Fitbit</a></td></tr>
                         <tr><td class="mo_guide_text-center"><a class="mo_guide_text-color" href="https://plugins.miniorange.com/configure-google-oauth-server-drupal-8" target="_blank">Google</a></td>                       <td class="mo_guide_text-center"><a class="mo_guide_text-color" href="https://plugins.miniorange.com/configure-linkedin-as-an-oauth-openid-connect-server-for-drupal-8-client" target="_blank">LinkedIn</a></td></tr>
-                        <tr><td class="mo_guide_text-center"><a class="mo_guide_text-color" href="https://plugins.miniorange.com/guide-to-configure-keycloak-for-drupal-oauth-client-module8" target="_blank">Keycloak</a></td><td class="mo_guide_text-center"><a class="mo_guide_text-color" href="https://plugins.miniorange.com/guide-salesforce-configuration-drupal-oauth-client-module" target="_blank">Salesforce</a></td></tr>
+                        <tr><td class="mo_guide_text-center"><a class="mo_guide_text-color" href="https://plugins.miniorange.com/guide-to-configure-keycloak-for-drupal-oauth-client-module" target="_blank">Keycloak</a></td><td class="mo_guide_text-center"><a class="mo_guide_text-color" href="https://plugins.miniorange.com/guide-salesforce-configuration-drupal-oauth-client-module" target="_blank">Salesforce</a></td></tr>
                         <tr><td class="mo_guide_text-center"><a class="mo_guide_text-color" href="https://plugins.miniorange.com/configure-github-oauthopenid-connect-server-drupal-8" target="_blank">Github</a></td>         <td class="mo_guide_text-center"><a class="mo_guide_text-color" href="https://plugins.miniorange.com/guide-configure-box-drupal" target="_blank">Box</a></td></tr>
                         <tr><td class="mo_guide_text-center"><a class="mo_guide_text-color" href="https://plugins.miniorange.com/configure-facebook-oauth-server-for-drupal-8" target="_blank">Facebook</a> </td>              <td class="mo_guide_text-center"><a class="mo_guide_text-color" href="https://plugins.miniorange.com/configure-instagram-as-an-oauth-openid-connect-server-for-drupal-8-client" target="_blank">Instagram</a></strong></td></tr>
                         <tr><td class="mo_guide_text-center"><a class="mo_guide_text-color" href="https://plugins.miniorange.com/setup-guide-to-configure-discord-with-drupal-oauth-client" target="_blank">Discord</a> </td>  <td class="mo_guide_text-center"><a class="mo_guide_text-color" href="https://plugins.miniorange.com/configure-reddit-oauthopenid-connect-server-drupal-8" target="_blank">Reddit</a></strong></td></tr>

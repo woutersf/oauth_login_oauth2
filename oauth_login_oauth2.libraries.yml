@@ -10,12 +10,6 @@ oauth_login_oauth2.style_settings:
     layout:
       css/oauth_login_oauth2.style_settings.css: {}
 
-oauth_login_oauth2.bootstrap:
-  version: VERSION
-
-  dependencies:
-    - core/jquery
-    - core/drupalSettings
 
 oauth_login_oauth2.oauth_config:
   version: VERSION

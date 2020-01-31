@@ -56,9 +56,8 @@ class MiniorangeMapping extends FormBase{
     $form['miniorange_oauth_client_name_attr'] = array(
       '#type' => 'textfield',
       '#title' => t('Username Attribute: '),
-      '#description' => 'This field is mandatory for login',
+      '#description' => "<b>Note:</b> If this text field is empty, then by default email id will be the user's username",
       '#default_value' => $name_attr,
-        '#required' => TRUE,
       '#attributes' => array('id'=>'mo_oauth_vt_attre','style' => 'width:73%;','placeholder' => 'Enter Username Attribute'),
     );
     $form['miniorange_oauth_client_attr_setup_button_2'] = array(
@@ -167,9 +166,11 @@ class MiniorangeMapping extends FormBase{
   public function submitForm(array &$form, \Drupal\Core\Form\FormStateInterface $form_state) {
   }
 
-  function miniorange_oauth_client_attr_setup_submit($form, $form_state){
+  function miniorange_oauth_client_attr_setup_submit($form, $form_state)
+  {
       $email_attr = trim($form['miniorange_oauth_client_email_attr']['#value']);
       $name_attr = trim($form['miniorange_oauth_client_name_attr']['#value']);
+
       \Drupal::configFactory()->getEditable('oauth_login_oauth2.settings')->set('miniorange_oauth_client_email_attr_val', $email_attr)->save();
       \Drupal::configFactory()->getEditable('oauth_login_oauth2.settings')->set('miniorange_oauth_client_name_attr_val', $name_attr)->save();
       $app_values = \Drupal::config('oauth_login_oauth2.settings')->get('miniorange_oauth_client_appval');

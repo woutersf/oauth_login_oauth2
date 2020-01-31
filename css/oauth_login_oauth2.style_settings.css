@@ -57,6 +57,50 @@
 	float: left;
 }
 
+.mo_oauth_info_table{
+	margin: 0 -14px 10px;
+	width: 104%;
+}
+
+.mo_oauth_info_table tr{
+	border-bottom: none;
+}
+
+.mo_oauth_info_table tbody tr:hover td {
+	background: white;
+}
+
+.mo_oauth_tooltip {
+	position: relative;
+	display: inline-block;
+}
+
+.mo_oauth_tooltiptext {
+	visibility: hidden;
+	width: 350px;
+	background-color: #737373;
+	color: white;
+	text-align: center;
+	border-radius: 6px;
+	padding: 5px 0;
+
+	/* Position the tooltip */
+	position: absolute;
+	z-index: 1;
+
+	opacity: 0;
+	transition: opacity 1s;
+}
+
+.mo_oauth_tooltip:hover + .mo_oauth_tooltiptext {
+	visibility: visible;
+	opacity: 1;
+}
+
+.mo_oauth_info_icon{
+	margin-top: 2px;
+}
+
 .mo_oauth_table_layout_1
 {
 	background-color:#e0e0d8 !important;

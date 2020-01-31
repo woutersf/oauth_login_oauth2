@@ -17,6 +17,7 @@ use Drupal\oauth_login_oauth2\feedback;
    }
     \Drupal::configFactory()->getEditable('oauth_login_oauth2.settings')->clear('mo_saml_tourTaken_config_clc')->save();
     \Drupal::configFactory()->getEditable('oauth_login_oauth2.settings')->clear('mo_saml_tourTaken_mapping')->save();
+    \Drupal::configFactory()->getEditable('oauth_login_oauth2.settings')->clear('mo_saml_tourTaken_licensing')->save();
     \Drupal::configFactory()->getEditable('oauth_login_oauth2.settings')->clear('miniorange_oauth_client_free_users')->save();
     \Drupal::configFactory()->getEditable('oauth_login_oauth2.settings')->clear('miniorange_oauth_client_attr_list_from_server')->save();
  }

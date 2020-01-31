@@ -144,8 +144,8 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
             $form['markup_2'] = array(
                 '#markup' => '<div class="mo_oauth_highlight_background_note_export"><p><h3>Why Should I register?</h3></p>
             <b> You will be needing a miniOrange account to upgrade to the Standard, Premium or Enterprise versions of the modules.</b>
-             We do not store any information except the email that you will use to register with us.<br>
-             If you face any problem during registration, you can create an account by clicking <a href="https://www.miniorange.com/businessfreetrial" target="_blank">here</a>.</div><br>',
+             If you face any problem during registration, you can create an account by clicking <a href="https://www.miniorange.com/businessfreetrial" target="_blank">here.</a><br>
+             We do not store any information except the email that you will use to register with us.<br></div><br>',
             );
 
                 $form['miniorange_oauth_client_customer_setup_username'] = array(
@@ -169,7 +169,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 
                 $form['miniorange_oauth_client_customer_setup_button'] = array(
                     '#type' => 'submit',
-                    '#value' => t('Register'),
+                    '#value' => t('Submit'),
                     '#id' => 'button_config'
                 );
 
@@ -235,8 +235,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
                         \Drupal::messenger()->addMessage(t('Successfully retrieved your account.'));
                     }
                     elseif($check_customer_response->status == 'TRANSACTION_LIMIT_EXCEEDED') {
-
-                        \Drupal::messenger()->addMessage(t('Your transaction limit has been exceeded due to multiple login attempts. Please try after some time or contact us at <a href="mailto:drupalsupport@xecurify.com" target="_blank">drupalsupport@xecurify.com</a>.'), 'error');
+                        \Drupal::messenger()->addMessage(t('An error has been occured. Please try after some time or contact us at <a href="mailto:drupalsupport@xecurify.com" target="_blank">drupalsupport@xecurify.com</a>.'), 'error');
                         return;
                     }
                     else{

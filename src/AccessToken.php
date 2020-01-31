@@ -26,7 +26,7 @@
             if($send_headers && !$send_body) {
 
                 curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-                    'Authorization' => 'Basic '.base64_encode($clientid.":".$clientsecret),
+                    'Authorization: Basic ' . base64_encode( $clientid . ":" . $clientsecret ),
                     'Accept: application/json'
                 ));
                 curl_setopt( $ch, CURLOPT_POSTFIELDS, 'redirect_uri='.urlencode($redirect_url).'&grant_type='.$grant_type.'&code='.$code);
@@ -40,7 +40,7 @@
             }else {
 
                 curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-                    'Authorization' => 'Basic '.base64_encode($clientid.":".$clientsecret),
+                    'Authorization: Basic ' . base64_encode( $clientid . ":" . $clientsecret ),
                     'Accept: application/json'
                 ));
                 curl_setopt( $ch, CURLOPT_POSTFIELDS, 'redirect_uri='.urlencode($redirect_url).'&grant_type='.$grant_type.'&client_id='.$clientid.'&client_secret='.$clientsecret.'&code='.$code);

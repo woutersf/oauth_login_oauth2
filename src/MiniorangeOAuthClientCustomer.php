@@ -80,7 +80,7 @@ class MiniorangeOAuthClientCustomer {
         '%file' => 'customer_setup.php',
         '%error' => curl_error($ch),
       );
-      watchdog('oauth_login_oauth2', 'Error at %method of %file: %error', $error);
+      \Drupal::logger('oauth_login_oauth2')->notice($error);
     }
     curl_close($ch);
 
@@ -130,7 +130,7 @@ class MiniorangeOAuthClientCustomer {
         '%file' => 'customer_setup.php',
         '%error' => curl_error($ch),
       );
-      watchdog('oauth_login_oauth2', 'Error at %method of %file: %error', $error);
+      \Drupal::logger('oauth_login_oauth2')->notice($error);
     }
     curl_close($ch);
     return $content;
@@ -179,7 +179,7 @@ class MiniorangeOAuthClientCustomer {
         '%file' => 'customer_setup.php',
         '%error' => curl_error($ch),
       );
-      watchdog('oauth_login_oauth2', 'Error at %method of %file: %error', $error);
+      \Drupal::logger('oauth_login_oauth2')->notice($error);
     }
     curl_close($ch);
 
@@ -228,7 +228,7 @@ class MiniorangeOAuthClientCustomer {
     curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
 
     curl_setopt($ch, CURLOPT_MAXREDIRS, 10);
-    curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", $customer_key_header,
+    curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json', $customer_key_header,
       $timestamp_header, $authorization_header,
     ));
     curl_setopt($ch, CURLOPT_POST, TRUE);
@@ -241,7 +241,7 @@ class MiniorangeOAuthClientCustomer {
         '%file' => 'customer_setup.php',
         '%error' => curl_error($ch),
       );
-      watchdog('oauth_login_oauth2', 'Error at %method of %file: %error', $error);
+      \Drupal::logger('oauth_login_oauth2')->notice($error);
     }
     curl_close($ch);
     return $content;
@@ -287,7 +287,7 @@ class MiniorangeOAuthClientCustomer {
     curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
 
     curl_setopt($ch, CURLOPT_MAXREDIRS, 10);
-    curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", $customer_key_header,
+    curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json', $customer_key_header,
       $timestamp_header, $authorization_header,
     ));
     curl_setopt($ch, CURLOPT_POST, TRUE);
@@ -300,7 +300,7 @@ class MiniorangeOAuthClientCustomer {
         '%file' => 'customer_setup.php',
         '%error' => curl_error($ch),
       );
-      watchdog('oauth_login_oauth2', 'Error at %method of %file: %error', $error);
+      \Drupal::logger('oauth_login_oauth2')->notice($error);
     }
     curl_close($ch);
     return $content;

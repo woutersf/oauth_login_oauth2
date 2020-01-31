@@ -87,9 +87,9 @@ class MiniorangeRFD extends FormBase {
     }
 
     public function submitForm(array &$form, \Drupal\Core\Form\FormStateInterface $form_state) {
-        $email = $form['customer_email']['#value'];
+        $email = trim($form['customer_email']['#value']);
         $demo_plan = $form['demo_plan']['#value'];
-        $description_doubt = $form['description_doubt']['#value'];
+        $description_doubt = trim($form['description_doubt']['#value']);
         $query = $demo_plan.' -> '.$description_doubt;
         Utilities::send_demo_query($email, $query);
     }

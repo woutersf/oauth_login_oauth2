@@ -85,7 +85,7 @@ class handler{
       curl_setopt( $ch, CURLOPT_AUTOREFERER, true );
       curl_setopt( $ch, CURLOPT_SSL_VERIFYPEER, false );    # required for https urls
       curl_setopt( $ch, CURLOPT_MAXREDIRS, 10 );
-      curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", $customerKeyHeader,
+      curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json', $customerKeyHeader,
             $timestampHeader, $authorizationHeader));
       curl_setopt( $ch, CURLOPT_POST, true);
       curl_setopt( $ch, CURLOPT_POSTFIELDS, $field_string);
@@ -175,8 +175,6 @@ class handler{
       \Drupal::configFactory()->getEditable('oauth_login_oauth2.settings')->clear('miniorange_oauth_client_name_attr_val')->save();
       \Drupal::configFactory()->getEditable('oauth_login_oauth2.settings')->clear('miniorange_auth_client_user_info_ep')->save();
       \Drupal::configFactory()->getEditable('oauth_login_oauth2.settings')->clear('miniorange_auth_client_stat')->save();
-      \Drupal::configFactory()->getEditable('oauth_login_oauth2.settings')->clear('miniorange_oauth_send_with_header_oauth')->save();
-      \Drupal::configFactory()->getEditable('oauth_login_oauth2.settings')->clear('miniorange_oauth_send_with_body_oauth')->save();
       \Drupal::configFactory()->getEditable('oauth_login_oauth2.settings')->clear('miniorange_oauth_client_attr_list_from_server')->save();
       \Drupal::messenger()->addMessage("Your Configurations have been deleted successfully");
 

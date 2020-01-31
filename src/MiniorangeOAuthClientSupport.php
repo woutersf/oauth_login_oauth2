@@ -66,7 +66,7 @@ class MiniorangeOAuthClientSupport {
                     'content' => $content
                 ),
             );
-            curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", $customerKeyHeader,
+            curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json', $customerKeyHeader,
                 $timestampHeader, $authorizationHeader));
         } else {
 
@@ -104,7 +104,7 @@ class MiniorangeOAuthClientSupport {
                 '%file' => 'miniorange_oauth_client_support.php',
                 '%error' => curl_error($ch),
             );
-            watchdog('oauth_login_oauth2', 'cURL Error at %method of %file: %error', $error);
+            \Drupal::logger('oauth_login_oauth2')->notice($error);
             return FALSE;
         }
         curl_close($ch);

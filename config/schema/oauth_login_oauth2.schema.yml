@@ -42,17 +42,9 @@ oauth_login_oauth2.settings:
       type: string
     miniorange_oauth_client_attr5_name:
       type: string
-    miniorange_oauth_client_attr5_name:
-      type: string
-    miniorange_oauth_client_attr2_name:
-      type: string
     miniorange_oauth_client_attr2_name:
       type: string
     miniorange_oauth_client_attr3_name:
-      type: string
-    miniorange_oauth_client_attr3_name:
-      type: string
-    miniorange_oauth_client_attr4_name:
       type: string
     miniorange_oauth_client_attr4_name:
       type: string
@@ -62,17 +54,9 @@ oauth_login_oauth2.settings:
       type: string
     miniorange_oauth_client_role1_name:
       type: string
-    miniorange_oauth_client_role1_name:
-      type: string
-    miniorange_oauth_client_role2_name:
-      type: string
     miniorange_oauth_client_role2_name:
       type: string
     miniorange_oauth_client_role3_name:
-      type: string
-    miniorange_oauth_client_role3_name:
-      type: string
-    miniorange_oauth_client_role4_name:
       type: string
     miniorange_oauth_client_role4_name:
       type: string
@@ -90,8 +74,6 @@ oauth_login_oauth2.settings:
       type: string
     miniorange_oauth_client_login_by:
       type: integer
-    miniorange_oauth_client_attr1_name:
-      type: string
     miniorange_oauth_client_entity_id:
       type: string
     miniorange_oauth_client_base_url : 
@@ -99,4 +81,12 @@ oauth_login_oauth2.settings:
     miniorange_oauth_client_acs_url:
       type: string  
     miniorange_oauth_client_nameid_attr_map:
+      type: string
+    miniorange_oauth_enable_login_with_oauth:
+      type: boolean
+    miniorange_oauth_send_with_header_oauth:
+      type: boolean
+    miniorange_oauth_send_with_body_oauth:
+      type: boolean
+    miniorange_auth_client_display_name:
       type: string
