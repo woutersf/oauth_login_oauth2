@@ -275,7 +275,7 @@ class mo_saml_visualTour {
                 'ifskip'        =>  'hidden',
             ),
         );
-        $tourData['Licensing'] = array(
+        $tourData['licensing'] = array(
             0 =>    array(
                 'targetE'       =>  'edit-miniorange-saml-idp-support-side-button',
                 'pointToSide'   =>  'right',

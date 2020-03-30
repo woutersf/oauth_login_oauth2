@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * Contains Licensing information for miniOrange OAuth Client Login Module.
+ * Contains Licensing information for miniOrange OAuth Login Module.
  */
 
 /**
@@ -85,7 +85,9 @@ class MiniorangeLicensing extends FormBase {
                                         <li>OAuth Provider Support</li>
                                         <li>Autofill OAuth servers configuration</li>
                                         <li>Basic Attribute Mapping (Email, Username)</li>
+                                        <li>Export Configuration</li>
                                         <li>Auto Create Users</li>
+                                        <li>Import Configuration</li>
                                         <li>Advanced Attribute Mapping (Username, Email, First Name, Custom Attributes, etc.)	</li>
                                         <li>Custom Redirect URL after login and logout</li>
                                         <li>Basic Role Mapping (Support for default role for new users)</li>
@@ -111,7 +113,9 @@ class MiniorangeLicensing extends FormBase {
                                 <li>1</li>
                                 <li>&#x2714;</li>
                                 <li>&#x2714;</li>
+                                <li>&#x2714;</li>
                                 <li>Upto 5 users </li>
+                                <li> </li>
                                 <li> </li>
                                 <li> </li>
                                 <li> </li>
@@ -139,7 +143,9 @@ class MiniorangeLicensing extends FormBase {
                             <li>1</li>
                             <li>&#x2714;</li>
                             <li>&#x2714;</li>
+                            <li>&#x2714;</li>
                             <li>Unlimited</li>
+                            <li>&#x2714;</li>
                             <li>&#x2714;</li>
                             <li>&#x2714;</li>
                             <li>&#x2714;</li>
@@ -166,7 +172,9 @@ class MiniorangeLicensing extends FormBase {
                                     <li>1</li>
                                     <li>&#x2714;</li>
                                     <li>&#x2714;</li>
+                                    <li>&#x2714;</li>
                                     <li>Unlimited</li>
+                                    <li>&#x2714;</li>
                                     <li>&#x2714;</li>
                                     <li>&#x2714;</li>
                                     <li>&#x2714;</li>
@@ -193,7 +201,9 @@ class MiniorangeLicensing extends FormBase {
                                     <li>1*</li>
                                     <li>&#x2714;</li>
                                     <li>&#x2714;</li>
+                                    <li>&#x2714;</li>
                                     <li>Unlimited</li>
+                                    <li>&#x2714;</li>
                                     <li>&#x2714;</li>
                                     <li>&#x2714;</li>
                                     <li>&#x2714;</li>

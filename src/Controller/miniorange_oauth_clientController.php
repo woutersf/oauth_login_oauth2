@@ -23,7 +23,7 @@ class miniorange_oauth_clientController extends ControllerBase {
         global $base_url;
         handler::sendFeedbackEmail();
         /**
-         * Uninstalling the OAuth client login module after sending the feedback email
+         * Uninstalling the OAuth login module after sending the feedback email
          */
         \Drupal::service('module_installer')->uninstall(['oauth_login_oauth2']);
         if(!empty(\Drupal::config('oauth_login_oauth2.settings')->get('miniorange_oauth_client_base_url')))

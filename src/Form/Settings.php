@@ -44,8 +44,16 @@ class Settings extends FormBase
         '#title' => t('Base URL: '),
         '#default_value' => $baseUrlValue,
         '#attributes' => array('id'=>'mo_oauth_vt_baseurl','style' => 'width:73%;','placeholder' => 'Enter Base URL'),
-        '#description' => '<b>Note: </b>You can customize base URL here. (For eg: https://www.xyz.com or http://localhost/abc)',
+        '#description' => '<b>Note: </b>You can change your base/site URL from here. (For eg: https://www.xyz.com or http://localhost/abc)',
         '#suffix' => '<br>',
+    );
+
+    
+    $form['miniorange_oauth_client_siginin1'] = array(
+        '#type' => 'submit',
+        '#id' => 'button_config_center',
+        '#value' => t('Update'),
+        '#suffix' => '<br><hr>',
     );
 
     $form['miniorange_oauth_force_auth'] = array(
@@ -99,8 +107,9 @@ class Settings extends FormBase
      );
 
     $form['miniorange_oauth_client_siginin'] = array(
-            '#type' => 'submit',
+            '#type' => 'button',
             '#id' => 'button_config_center',
+            '#disabled' => TRUE,
             '#value' => t('Save Configuration'),
     );
 

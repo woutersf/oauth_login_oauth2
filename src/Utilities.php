@@ -6,14 +6,14 @@
  * @copyright  Copyright 2015 miniOrange. All Rights Reserved.
  *
  *
- * This file is part of miniOrange Drupal OAuth Client module.
+ * This file is part of miniOrange Drupal OAuth Login module.
  *
- * miniOrange Drupal OAuth Client modules is free software: you can redistribute it and/or modify
+ * miniOrange Drupal OAuth Login modules is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * miniOrange Drupal OAuth Client module is distributed in the hope that it will be useful,
+ * miniOrange Drupal OAuth Login module is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
@@ -194,6 +194,39 @@ class Utilities {
         }
     }
 
+    Public static function getVariableArray($class_name) {
+
+        if($class_name == "mo_options_enum_client_configuration") {
+            $class_object = array (
+                'App_selected'  => 'miniorange_oauth_client_app',
+                'App_name'  => 'miniorange_auth_client_app_name',
+                'Display_link' => 'miniorange_auth_client_display_name',
+                'Client_ID' => 'miniorange_auth_client_client_id',
+                'Client_secret' => 'miniorange_auth_client_client_secret',
+                'Client_scope' => 'miniorange_auth_client_scope',
+                'Authorized_endpoint' => 'miniorange_auth_client_authorize_endpoint',
+                'Access_token_endpoint' => 'miniorange_auth_client_access_token_ep',
+                'Userinfo_endpoint' => 'miniorange_auth_client_user_info_ep',
+                'Callback_url' => 'miniorange_auth_client_callback_uri',
+                'credentials_via_header' => 'miniorange_oauth_send_with_header_oauth',
+                'credentials_via_body' => 'miniorange_oauth_send_with_body_oauth',
+                'Enable_login_with_oauth' => 'miniorange_oauth_enable_login_with_oauth',
+            );
+        }
+        else if($class_name == "mo_options_enum_attribute_mapping") {
+            $class_object = array(
+                'Email_attribute_value'    => 'miniorange_oauth_client_email_attr_val',
+                'Username_attribute_value' => 'miniorange_oauth_client_name_attr_val',
+            );
+        }
+        else if($class_name == "mo_options_enum_signin_settings") {
+            $class_object = array(
+                'Base_URL_value'    => 'miniorange_oauth_client_base_url',
+            );
+        }
+        return $class_object;
+    }
+
     public static function send_demo_query($email, $query, $description)
     {
         if(empty($email)||empty($description)){
@@ -271,7 +304,7 @@ class Utilities {
         );
 
         $form['miniorange_idp_guide_link1'] = array(
-            '#markup' => '<div><h5>To see detailed documentation of how to configure Drupal OAuth Client with any OAuth Server.</h5></div></br>',
+            '#markup' => '<div><h5>To see detailed documentation of how to configure the Drupal OAuth Client Login module with any OAuth Server.</h5></div></br>',
         );
 
         $form['miniorange_oauth_guide_table_list'] = array(

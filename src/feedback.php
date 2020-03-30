@@ -85,7 +85,7 @@ class feedback{
                         <div class="modal-header"
                              style="padding: 25px; border-top-left-radius: 20px; border-top-right-radius: 20px; background-color: #8fc1e3;">
 
-                            <h4 class="modal-title" style="color: white; text-align: center;"> Hey, it seems like you want to deactivate miniOrange OAuth Client Module</h4>
+                            <h4 class="modal-title" style="color: white; text-align: center;"> Hey, it seems like you want to deactivate the miniOrange OAuth Login Module</h4>
                             <hr>
                             <h4 style="text-align: center; color: white;">What happened?</h4>
                         </div>
@@ -98,7 +98,7 @@ class feedback{
                                         if(empty(\Drupal::config('oauth_login_oauth2.settings')->get('miniorange_oauth_client_customer_admin_email')))
                                         { ?>
                                         <br>Email ID: <input onblur="validateEmail(this)" class="form-control"
-                                                             type="email" id="miniorange_feedback_email"
+                                                             type="email" id="miniorange_feedback_email" required
                                                              name="miniorange_feedback_email"/>
                                     <p style="display: none;color:red" id="email_error">Invalid Email</p>
                                     <?php } ?>

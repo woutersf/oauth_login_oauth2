@@ -62,8 +62,8 @@ class handler{
       $timestampHeader 	= "Timestamp: " .  $currentTimeInMillis;
       $authorizationHeader= "Authorization: " . $hashValue;
       $fromEmail 			= $email;
-      $subject            = "Drupal 8 OAuth Client Login Module Feedback";
-      $query        = '[Drupal 8 OAuth Client Login]: ' . $message;
+      $subject            = "Drupal 8 OAuth Login Module Feedback";
+      $query        = '[Drupal 8 OAuth Login]: ' . $message;
       $content='<div >Hello, <br><br>Company :<a href="'.$_SERVER['SERVER_NAME'].'" target="_blank" >'.$_SERVER['SERVER_NAME'].'</a><br><br>Phone Number :'.$phone.'<br><br>Email :<a href="mailto:'.$fromEmail.'" target="_blank">'.$fromEmail.'</a><br><br>Query :'.$query.'</div>';
       $fields = array(
         'customerKey'	=> $customerKey,

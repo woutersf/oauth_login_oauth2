@@ -64,6 +64,11 @@ class MiniorangeConfigOAuthClient extends FormBase
             $attributes_arr =  array('style' => 'width:73%;');
         }
 
+        $disableButton = NULL;
+        if( empty($app_name_selected)  || empty($client_id) ){
+            $disableButton = 'disabled';
+        }
+
         $form['mo_oauth_top_div'] = array('#markup' => '<div class="mo_oauth_table_layout_1">');
 
         $form['mo_oauth_inside_div'] = array(
@@ -74,7 +79,55 @@ class MiniorangeConfigOAuthClient extends FormBase
             '#attached' => array(
                 'library' => 'oauth_login_oauth2/oauth_login_oauth2.Vtour',
             ),
-            '#markup' => '<h3>CONFIGURE OAUTH APPLICATION &nbsp;&nbsp; <a id="Restart_moTour" class="mo_oauth_btn mo_oauth_btn-primary-color mo_oauth_btn-large" onclick="Restart_moTour()">Take a Tour</a></h3><hr><br>',
+            '#markup' => '<div id="tabhead"><h3>CONFIGURE OAUTH APPLICATION &nbsp;&nbsp; 
+            <a id="showMetaButton" class="mo_oauth_btn mo_oauth_btn-primary mo_btn-sm" onclick="testConfig()" '.$disableButton.'>Backup/Import</a>&nbsp;</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <a id="Restart_moTour" class="mo_oauth_btn mo_oauth_btn-primary-color mo_oauth_btn-large" onclick="Restart_moTour()">Take a Tour</a></h3><hr><br></div>',
+        );
+
+        $form['markup_top_1'] = array (
+            '#markup' => '
+                <div border="1" id="backup_import_form" class="mo_oauth_backup_download">
+				<h3>Backup/ Import Configurations</h3><hr><span class="mo_oauth_backup_cancel">
+				<a id="hideMetaButton" class="mo_oauth_btn mo_oauth_btn-sm mo_oauth_btn-danger" onclick = "testConfig()">Cancel</a></span>',
+        );
+
+        $form['markup_1'] = array(
+            '#markup' => '<br><br><div class="mo_saml_highlight_background_note_1"><p><b>NOTE: </b>This tab will help you to transfer your module configurations when you change your Drupal instance. 
+                          <br>Example: When you switch from test environment to production.<br>Follow these 3 simple steps to do that:<br>
+                          <br><strong>1.</strong> Download module configuration file by clicking on the Download Configuration button given below.
+                          <br><strong>2.</strong> Install the module on new Drupal instance.<br><strong>3.</strong> Upload the configuration file in Import module Configurations section.<br>
+                          <br><b>And just like that, all your module configurations will be transferred!</b></p></div><br><div id="Exort_Configuration"><h3>Backup/ Export Configuration &nbsp;&nbsp;</h3><hr/><p>
+                          Click on the button below to download module configuration.</p>',
+        );
+  
+        $form['miniorange_saml_imo_option_exists_export'] = array(
+            '#type' => 'submit',
+            '#value' => t('Download Module Configuration'),
+            '#submit' => array('::miniorange_import_export'),
+            '#suffix'=> '<br/><br/></div>',
+        );
+  
+        $form['markup_prem_plan'] = array(
+            '#markup' => '<div id="Import_Configuration"><br/><h3>Import Configuration</h3><hr><br>
+                          <div class="mo_oauth_highlight_background_note_1"><b>Note: </b>Available in 
+                          <a href="' . $base_url . '/admin/config/people/oauth_login_oauth2/licensing">Standard, Premium and Enterprise</a> versions of the module</div>',
+        );
+  
+        $form['markup_import_note'] = array(
+            '#markup' => '<p>This tab will help you to<span style="font-weight: bold"> Import your module configurations</span> when you change your Drupal instance.</p>
+                 <p>choose <b>"json"</b> Extened module configuration file and upload by clicking on the button given below. </p>',
+        );
+  
+        $form['import_Config_file'] = array(
+            '#type' => 'file',
+            '#disabled' => TRUE,
+        );
+  
+        $form['miniorange_saml_idp_import'] = array(
+            '#type' => 'submit',
+            '#value' => t('Upload'),
+            '#disabled' => TRUE,
+            '#suffix' => '<br><br></div></div><div id="clientdata">'
         );
 
         $form['miniorange_oauth_client_app_options'] = array(
@@ -304,7 +357,7 @@ class MiniorangeConfigOAuthClient extends FormBase
             '#attributes' => array(),
         );
 
-        $form['mo_header_style_end'] = array('#markup' => '</div>');
+        $form['mo_header_style_end'] = array('#markup' => '</div></div>');
 
 
         Utilities::spConfigGuide($form, $form_state);
@@ -433,5 +486,77 @@ class MiniorangeConfigOAuthClient extends FormBase
         global $base_url;
         $response = new RedirectResponse($base_url."/admin/config/people/oauth_login_oauth2/request_for_demo");
         $response->send();
+    }
+
+    function miniorange_import_export() 
+	{
+        $tab_class_name = array(
+            'OAuth Client Configuration' => 'mo_options_enum_client_configuration',
+            'Attribute Mapping' => 'mo_options_enum_attribute_mapping',
+            'Sign In Settings' => 'mo_options_enum_signin_settings'
+        );
+
+		$configuration_array = array();
+		foreach($tab_class_name as $key => $value) {
+			$configuration_array[$key] = self::mo_get_configuration_array($value);
+		}
+
+		$configuration_array["Version_dependencies"] = self::mo_get_version_informations();
+		header("Content-Disposition: attachment; filename = miniorange_oauth_client_config.json");
+		echo(json_encode($configuration_array, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES));
+		exit;
+	}
+
+    function mo_get_configuration_array($class_name)
+    {
+        $class_object = Utilities::getVariableArray($class_name);
+        $mo_array = array();
+        foreach($class_object as $key => $value) {
+            $mo_option_exists = \Drupal::config('oauth_login_oauth2.settings')->get($value);
+            if($mo_option_exists) {
+                $mo_array[$key] = $mo_option_exists;
+            }
+        }
+        return $mo_array;
+    }
+
+    function mo_get_version_informations() {
+        $array_version = array();
+        $array_version["PHP_version"] = phpversion();
+        $array_version["Drupal_version"] = \DRUPAL::VERSION;
+        $array_version["OPEN_SSL"] = self::mo_oauth_is_openssl_installed();
+        $array_version["CURL"] = self::mo_oauth_is_curl_installed();
+        $array_version["ICONV"] = self::mo_oauth_is_iconv_installed();
+        $array_version["DOM"] = self::mo_oauth_is_dom_installed();
+        return $array_version;
+    }
+
+	function mo_oauth_is_openssl_installed() {
+		if ( in_array( 'openssl', get_loaded_extensions() ) ) {
+			return 1;
+		} else {
+			return 0;
+		}
+	}
+    function mo_oauth_is_curl_installed() {
+        if ( in_array( 'curl', get_loaded_extensions() ) ) {
+            return 1;
+        } else {
+            return 0;
+        }
+    }
+    function mo_oauth_is_iconv_installed() {
+        if ( in_array( 'iconv', get_loaded_extensions() ) ) {
+            return 1;
+        } else {
+            return 0;
+        }
+    }
+    function mo_oauth_is_dom_installed() {
+        if ( in_array( 'dom', get_loaded_extensions() ) ) {
+            return 1;
+        } else {
+            return 0;
+        }
     }
 }

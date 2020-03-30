@@ -91,6 +91,6 @@ class MiniorangeRFD extends FormBase {
         $demo_plan = $form['demo_plan']['#value'];
         $description_doubt = trim($form['description_doubt']['#value']);
         $query = $demo_plan.' -> '.$description_doubt;
-        Utilities::send_demo_query($email, $query);
+        Utilities::send_demo_query($email, $query,$description_doubt);
     }
 }

@@ -62,12 +62,12 @@ class MiniorangeMapping extends FormBase{
     );
     $form['miniorange_oauth_client_attr_setup_button_2'] = array(
       '#type' => 'submit',
-      '#id' => 'button_config_left',
+      '#id' => 'button_config_center',
       '#value' => t('Save Configuration'),
       '#submit' => array('::miniorange_oauth_client_attr_setup_submit'),
     );
     $form['markup_cam'] = array(
-      '#markup' => '<br><h3>CUSTOM ATTRIBUTE MAPPING <b><a href="' . $base_url . '/admin/config/people/oauth_login_oauth2/Licensing"> [PREMIUM, ENTERPRISE]</a></b></h3><hr><br>
+      '#markup' => '<br><h3>CUSTOM ATTRIBUTE MAPPING <b><a href="' . $base_url . '/admin/config/people/oauth_login_oauth2/licensing"> [PREMIUM, ENTERPRISE]</a></b></h3><hr><br>
                     <div class="mo_saml_highlight_background_note_1">Add the Drupal field attributes in the Attribute Name textfield and add the OAuth Server attributes that you need to map with the drupal attributes in the OAuth Server Attribute Name textfield. 
                       Drupal Field Attributes will be of type text. Add the machine name of the attribute in the Drupal Attribute textfield. 
                     <b>For example: </b>If the attribute name in the drupal is name then its machine name will be field_name.</div><br>',
@@ -111,7 +111,7 @@ class MiniorangeMapping extends FormBase{
        );
 
     $form['markup_role'] = array(
-      '#markup' => '<br><h3>Custom Role Mapping <a href="' . $base_url . '/admin/config/people/oauth_login_oauth2/Licensing"> [PREMIUM, ENTERPRISE]</a></h3><hr><br>',
+      '#markup' => '<br><h3>Custom Role Mapping <a href="' . $base_url . '/admin/config/people/oauth_login_oauth2/licensing"> [PREMIUM, ENTERPRISE]</a></h3><hr><br>',
     );
     $form['miniorange_disable_attribute'] = array(
       '#type' => 'checkbox',
@@ -128,6 +128,30 @@ class MiniorangeMapping extends FormBase{
       '#title' => t('Check this option if you want to disable <b>auto creation</b> of users if user does not exist. '),
       '#disabled' => TRUE,
     );
+	$mrole= user_role_names($membersonly = TRUE);
+      $drole = array_values($mrole);
+
+      $form['miniorange_oauth_default_mapping'] = array(
+          '#type' => 'select',
+          '#id' => 'miniorange_oauth_client_app',
+          '#title' => t('Select default group for the new users'),
+          '#options' => $mrole,
+          '#default_value' => $drole,
+          '#attributes' => array('style' => 'width:73%;'),
+          '#disabled' => TRUE,
+      );
+
+      foreach($mrole as $roles) {
+          $rolelabel = str_replace(' ','',$roles);
+          $form['miniorange_oauth_role_' . $rolelabel] = array(
+              '#type' => 'textfield',
+              '#title' => t($roles),
+              '#default_value' => \Drupal::config('oauth_login_oauth2.settings')->get('miniorange_oauth_role_' . $rolelabel, ''),
+              '#attributes' => array('style' => 'width:73%;background-color: hsla(0,0%,0%,0.08) !important;','placeholder' => 'Semi-colon(;) separated Group/Role value for ' . $roles),
+              '#disabled' => TRUE,
+          );
+      }
+	  
     $form['markup_role_signin'] = array(
       '#markup' => '<br><h3>Custom Login/Logout (Optional)</h3><hr>'
     );
