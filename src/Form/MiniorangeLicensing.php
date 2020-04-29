@@ -133,7 +133,7 @@ class MiniorangeLicensing extends FormBase {
                         <div class="mo_oauth_pricing-table mo_oauth_class_inline">
                             <div class="mo_oauth_pricing-header">
                                 <p class="mo_oauth_pricing-title">Standard<br><span>(Role & Attribute Mapping)<br>[One Time Payment]</span></p>
-                                <p class="mo_oauth_pricing-rate"><sup>$</sup> 149</p>
+                                <p class="mo_oauth_pricing-rate"><sup>$</sup> 249</p>
                                 <div class="filler-class"></div>
                                  <a href="'.$URL_Redirect_std.'" '.$targetBlank.' class="mo_oauth_btn mo_oauth_btn-primary">Click to Upgrade</a>
                         </div>
@@ -163,7 +163,7 @@ class MiniorangeLicensing extends FormBase {
                         <div class="mo_oauth_pricing-table mo_oauth_class_inline">
                             <div class="mo_oauth_pricing-header">
                                 <p class="mo_oauth_pricing-title">Premium<br><span>(OpenID support)<br>[One Time Payment]</span></p>
-                                <p class="mo_oauth_pricing-rate"><sup>$</sup> 199</p>
+                                <p class="mo_oauth_pricing-rate"><sup>$</sup> 399</p>
                                  <a href="'.$URL_Redirect_pre.'" '.$targetBlank.' class="mo_oauth_btn mo_oauth_btn-primary">Click to Upgrade</a>
                             </div>
 
@@ -192,7 +192,7 @@ class MiniorangeLicensing extends FormBase {
                         <div class="mo_oauth_pricing-table mo_oauth_class_inline">
                             <div class="mo_oauth_pricing-header">
                                 <p class="mo_oauth_pricing-title">Enterprise<br><span>(Domain & Page Restriction)<br>[One Time Payment]</span></p>
-                                <p class="mo_oauth_pricing-rate"><sup>$</sup> 249<sup></sup></p>
+                                <p class="mo_oauth_pricing-rate"><sup>$</sup> 449<sup></sup></p>
                                  <a href="'.$URL_Redirect_ent.'" '.$targetBlank.' class="mo_oauth_btn mo_oauth_btn-primary">Click to upgrade</a>
                             </div>
 
