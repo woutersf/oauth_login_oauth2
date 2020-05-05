@@ -41,21 +41,21 @@ class miniorange_oauth_clientController extends ControllerBase {
      */
     public static function get_oauth_timestamp() {
         $url = 'https://login.xecurify.com/moas/rest/mobile/get-timestamp';
-        $ch  = curl_init( $url );
-        curl_setopt( $ch, CURLOPT_FOLLOWLOCATION, true );
-        curl_setopt( $ch, CURLOPT_ENCODING, "" );
-        curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true );
-        curl_setopt( $ch, CURLOPT_AUTOREFERER, true );
-        curl_setopt( $ch, CURLOPT_SSL_VERIFYPEER, false );
-        curl_setopt( $ch, CURLOPT_SSL_VERIFYHOST, false ); // required for https urls
-        curl_setopt( $ch, CURLOPT_MAXREDIRS, 10 );
-        curl_setopt( $ch, CURLOPT_POST, true );
-        $content = curl_exec( $ch );
-        if ( curl_errno( $ch ) ) {
+        $ch  = \curl_init( $url );
+        \curl_setopt( $ch, CURLOPT_FOLLOWLOCATION, true );
+        \curl_setopt( $ch, CURLOPT_ENCODING, "" );
+        \curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true );
+        \curl_setopt( $ch, CURLOPT_AUTOREFERER, true );
+        \curl_setopt( $ch, CURLOPT_SSL_VERIFYPEER, false );
+        \curl_setopt( $ch, CURLOPT_SSL_VERIFYHOST, false ); // required for https urls
+        \curl_setopt( $ch, CURLOPT_MAXREDIRS, 10 );
+        \curl_setopt( $ch, CURLOPT_POST, true );
+        $content = \curl_exec( $ch );
+        if ( \curl_errno( $ch ) ) {
             echo 'Error in sending curl Request';
             exit ();
         }
-        curl_close( $ch );
+        \curl_close( $ch );
         if(empty( $content )){
             $currentTimeInMillis = round( microtime( true ) * 1000 );
             $currentTimeInMillis = number_format( $currentTimeInMillis, 0, '', '' );

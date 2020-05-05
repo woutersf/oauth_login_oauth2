@@ -52,7 +52,7 @@ class MiniorangeOAuthClientCustomer {
     }
 
     $url = MiniorangeOAuthClientConstants::BASE_URL . '/moas/rest/customer/check-if-exists';
-    $ch = curl_init($url);
+    $ch = \curl_init($url);
     $email = $this->email;
 
     $fields = array(
@@ -60,21 +60,21 @@ class MiniorangeOAuthClientCustomer {
     );
     $field_string = json_encode($fields);
 
-    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, TRUE);
-    curl_setopt($ch, CURLOPT_ENCODING, "");
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
-    curl_setopt($ch, CURLOPT_AUTOREFERER, TRUE);
-    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+    \curl_setopt($ch, CURLOPT_FOLLOWLOCATION, TRUE);
+    \curl_setopt($ch, CURLOPT_ENCODING, "");
+    \curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+    \curl_setopt($ch, CURLOPT_AUTOREFERER, TRUE);
+    \curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
 
-    curl_setopt($ch, CURLOPT_MAXREDIRS, 10);
-    curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+    \curl_setopt($ch, CURLOPT_MAXREDIRS, 10);
+    \curl_setopt($ch, CURLOPT_HTTPHEADER, array(
       'Content-Type: application/json', 'charset: UTF - 8',
       'Authorization: Basic',
     ));
-    curl_setopt($ch, CURLOPT_POST, TRUE);
-    curl_setopt($ch, CURLOPT_POSTFIELDS, $field_string);
+    \curl_setopt($ch, CURLOPT_POST, TRUE);
+    \curl_setopt($ch, CURLOPT_POSTFIELDS, $field_string);
     $content = curl_exec($ch);
-    if (curl_errno($ch)) {
+    if (\curl_errno($ch)) {
       $error = array(
         '%method' => 'checkCustomer',
         '%file' => 'customer_setup.php',
@@ -82,7 +82,7 @@ class MiniorangeOAuthClientCustomer {
       );
       \Drupal::logger('oauth_login_oauth2')->notice($error);
     }
-    curl_close($ch);
+    \curl_close($ch);
 
     return $content;
   }
@@ -98,7 +98,7 @@ class MiniorangeOAuthClientCustomer {
       ));
     }
     $url = MiniorangeOAuthClientConstants::BASE_URL . '/moas/rest/customer/add';
-    $ch = curl_init($url);
+    $ch = \curl_init($url);
     $fields = array(
       'companyName' => $_SERVER['SERVER_NAME'],
       'areaOfInterest' => 'DRUPAL 8 OAuth Login',
@@ -108,23 +108,23 @@ class MiniorangeOAuthClientCustomer {
     );
     $field_string = json_encode($fields);
 
-    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, TRUE);
-    curl_setopt($ch, CURLOPT_ENCODING, "");
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
-    curl_setopt($ch, CURLOPT_AUTOREFERER, TRUE);
-    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+    \curl_setopt($ch, CURLOPT_FOLLOWLOCATION, TRUE);
+    \curl_setopt($ch, CURLOPT_ENCODING, "");
+    \curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+    \curl_setopt($ch, CURLOPT_AUTOREFERER, TRUE);
+    \curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
 
-    curl_setopt($ch, CURLOPT_MAXREDIRS, 10);
-    curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+    \curl_setopt($ch, CURLOPT_MAXREDIRS, 10);
+    \curl_setopt($ch, CURLOPT_HTTPHEADER, array(
       'Content-Type: application/json',
       'charset: UTF - 8',
       'Authorization: Basic',
     ));
-    curl_setopt($ch, CURLOPT_POST, TRUE);
-    curl_setopt($ch, CURLOPT_POSTFIELDS, $field_string);
-    $content = curl_exec($ch);
+    \curl_setopt($ch, CURLOPT_POST, TRUE);
+    \curl_setopt($ch, CURLOPT_POSTFIELDS, $field_string);
+    $content = \curl_exec($ch);
 
-    if (curl_errno($ch)) {
+    if (\curl_errno($ch)) {
       $error = array(
         '%method' => 'createCustomer',
         '%file' => 'customer_setup.php',
@@ -132,7 +132,7 @@ class MiniorangeOAuthClientCustomer {
       );
       \Drupal::logger('oauth_login_oauth2')->notice($error);
     }
-    curl_close($ch);
+    \curl_close($ch);
     return $content;
   }
 
@@ -148,7 +148,7 @@ class MiniorangeOAuthClientCustomer {
     }
 
     $url = MiniorangeOAuthClientConstants::BASE_URL . '/moas/rest/customer/key';
-    $ch = curl_init($url);
+    $ch = \curl_init($url);
     $email = $this->email;
     $password = $this->password;
 
@@ -158,20 +158,20 @@ class MiniorangeOAuthClientCustomer {
     );
     $field_string = json_encode($fields);
 
-    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, TRUE);
-    curl_setopt($ch, CURLOPT_ENCODING, "");
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
-    curl_setopt($ch, CURLOPT_AUTOREFERER, TRUE);
-    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+    \curl_setopt($ch, CURLOPT_FOLLOWLOCATION, TRUE);
+    \curl_setopt($ch, CURLOPT_ENCODING, "");
+    \curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+    \curl_setopt($ch, CURLOPT_AUTOREFERER, TRUE);
+    \curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
 
-    curl_setopt($ch, CURLOPT_MAXREDIRS, 10);
-    curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+    \curl_setopt($ch, CURLOPT_MAXREDIRS, 10);
+    \curl_setopt($ch, CURLOPT_HTTPHEADER, array(
       'Content-Type: application/json',
       'charset: UTF - 8',
       'Authorization: Basic',
     ));
-    curl_setopt($ch, CURLOPT_POST, TRUE);
-    curl_setopt($ch, CURLOPT_POSTFIELDS, $field_string);
+    \curl_setopt($ch, CURLOPT_POST, TRUE);
+    \curl_setopt($ch, CURLOPT_POSTFIELDS, $field_string);
     $content = curl_exec($ch);
     if (curl_errno($ch)) {
       $error = array(
@@ -181,7 +181,7 @@ class MiniorangeOAuthClientCustomer {
       );
       \Drupal::logger('oauth_login_oauth2')->notice($error);
     }
-    curl_close($ch);
+    \curl_close($ch);
 
     return $content;
   }
@@ -197,7 +197,7 @@ class MiniorangeOAuthClientCustomer {
       ));
     }
     $url = MiniorangeOAuthClientConstants::BASE_URL . '/moas/api/auth/challenge';
-    $ch = curl_init($url);
+    $ch = \curl_init($url);
     $customer_key = $this->defaultCustomerId;
     $api_key = $this->defaultCustomerApiKey;
 
@@ -221,21 +221,21 @@ class MiniorangeOAuthClientCustomer {
     );
     $field_string = json_encode($fields);
 
-    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, TRUE);
-    curl_setopt($ch, CURLOPT_ENCODING, "");
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
-    curl_setopt($ch, CURLOPT_AUTOREFERER, TRUE);
-    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+    \curl_setopt($ch, CURLOPT_FOLLOWLOCATION, TRUE);
+    \curl_setopt($ch, CURLOPT_ENCODING, "");
+    \curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+    \curl_setopt($ch, CURLOPT_AUTOREFERER, TRUE);
+    \curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
 
-    curl_setopt($ch, CURLOPT_MAXREDIRS, 10);
-    curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json', $customer_key_header,
+    \curl_setopt($ch, CURLOPT_MAXREDIRS, 10);
+    \curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json', $customer_key_header,
       $timestamp_header, $authorization_header,
     ));
-    curl_setopt($ch, CURLOPT_POST, TRUE);
-    curl_setopt($ch, CURLOPT_POSTFIELDS, $field_string);
+    \curl_setopt($ch, CURLOPT_POST, TRUE);
+    \curl_setopt($ch, CURLOPT_POSTFIELDS, $field_string);
     $content = curl_exec($ch);
 
-    if (curl_errno($ch)) {
+    if (\curl_errno($ch)) {
       $error = array(
         '%method' => 'sendOtp',
         '%file' => 'customer_setup.php',
@@ -243,7 +243,7 @@ class MiniorangeOAuthClientCustomer {
       );
       \Drupal::logger('oauth_login_oauth2')->notice($error);
     }
-    curl_close($ch);
+    \curl_close($ch);
     return $content;
   }
 
@@ -259,7 +259,7 @@ class MiniorangeOAuthClientCustomer {
     }
 
     $url = MiniorangeOAuthClientConstants::BASE_URL . '/moas/api/auth/validate';
-    $ch = curl_init($url);
+    $ch = \curl_init($url);
 
     $customer_key = $this->defaultCustomerId;
     $api_key = $this->defaultCustomerApiKey;
@@ -280,21 +280,21 @@ class MiniorangeOAuthClientCustomer {
 
     $field_string = json_encode($fields);
 
-    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, TRUE);
-    curl_setopt($ch, CURLOPT_ENCODING, "");
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
-    curl_setopt($ch, CURLOPT_AUTOREFERER, TRUE);
-    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+    \curl_setopt($ch, CURLOPT_FOLLOWLOCATION, TRUE);
+    \curl_setopt($ch, CURLOPT_ENCODING, "");
+    \curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+    \curl_setopt($ch, CURLOPT_AUTOREFERER, TRUE);
+    \curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
 
-    curl_setopt($ch, CURLOPT_MAXREDIRS, 10);
-    curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json', $customer_key_header,
+    \curl_setopt($ch, CURLOPT_MAXREDIRS, 10);
+    \curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json', $customer_key_header,
       $timestamp_header, $authorization_header,
     ));
-    curl_setopt($ch, CURLOPT_POST, TRUE);
-    curl_setopt($ch, CURLOPT_POSTFIELDS, $field_string);
+    \curl_setopt($ch, CURLOPT_POST, TRUE);
+    \curl_setopt($ch, CURLOPT_POSTFIELDS, $field_string);
     $content = curl_exec($ch);
 
-    if (curl_errno($ch)) {
+    if (\curl_errno($ch)) {
       $error = array(
         '%method' => 'validateOtp',
         '%file' => 'customer_setup.php',
@@ -302,7 +302,7 @@ class MiniorangeOAuthClientCustomer {
       );
       \Drupal::logger('oauth_login_oauth2')->notice($error);
     }
-    curl_close($ch);
+    \curl_close($ch);
     return $content;
   }
 

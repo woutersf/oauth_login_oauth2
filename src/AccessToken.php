@@ -14,43 +14,43 @@
          * This function gets the access token from the server
          */
         public static function getAccessToken($tokenendpoint, $grant_type, $clientid, $clientsecret, $code, $redirect_url, $send_headers, $send_body) {
-            $ch = curl_init($tokenendpoint);
-            curl_setopt( $ch, CURLOPT_FOLLOWLOCATION, true );
-            curl_setopt( $ch, CURLOPT_ENCODING, "" );
-            curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true );
-            curl_setopt( $ch, CURLOPT_AUTOREFERER, true );
-            curl_setopt( $ch, CURLOPT_SSL_VERIFYPEER, false );
-            curl_setopt( $ch, CURLOPT_MAXREDIRS, 10 );
-            curl_setopt( $ch, CURLOPT_POST, true);
+            $ch = \curl_init($tokenendpoint);
+            \curl_setopt( $ch, CURLOPT_FOLLOWLOCATION, true );
+            \curl_setopt( $ch, CURLOPT_ENCODING, "" );
+            \curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true );
+            \curl_setopt( $ch, CURLOPT_AUTOREFERER, true );
+            \curl_setopt( $ch, CURLOPT_SSL_VERIFYPEER, false );
+            \curl_setopt( $ch, CURLOPT_MAXREDIRS, 10 );
+            \curl_setopt( $ch, CURLOPT_POST, true);
 
             if($send_headers && !$send_body) {
 
-                curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+                \curl_setopt($ch, CURLOPT_HTTPHEADER, array(
                     'Authorization: Basic ' . base64_encode( $clientid . ":" . $clientsecret ),
                     'Accept: application/json'
                 ));
-                curl_setopt( $ch, CURLOPT_POSTFIELDS, 'redirect_uri='.urlencode($redirect_url).'&grant_type='.$grant_type.'&code='.$code);
+                \curl_setopt( $ch, CURLOPT_POSTFIELDS, 'redirect_uri='.urlencode($redirect_url).'&grant_type='.$grant_type.'&code='.$code);
 
             }else if(!$send_headers && $send_body){
 
-                curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+                \curl_setopt($ch, CURLOPT_HTTPHEADER, array(
                     'Accept: application/json'
                 ));
-                curl_setopt( $ch, CURLOPT_POSTFIELDS, 'redirect_uri='.urlencode($redirect_url).'&grant_type='.$grant_type.'&client_id='.$clientid.'&client_secret='.$clientsecret.'&code='.$code);
+                \curl_setopt( $ch, CURLOPT_POSTFIELDS, 'redirect_uri='.urlencode($redirect_url).'&grant_type='.$grant_type.'&client_id='.$clientid.'&client_secret='.$clientsecret.'&code='.$code);
             }else {
 
-                curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+                \curl_setopt($ch, CURLOPT_HTTPHEADER, array(
                     'Authorization: Basic ' . base64_encode( $clientid . ":" . $clientsecret ),
                     'Accept: application/json'
                 ));
-                curl_setopt( $ch, CURLOPT_POSTFIELDS, 'redirect_uri='.urlencode($redirect_url).'&grant_type='.$grant_type.'&client_id='.$clientid.'&client_secret='.$clientsecret.'&code='.$code);
+                \curl_setopt( $ch, CURLOPT_POSTFIELDS, 'redirect_uri='.urlencode($redirect_url).'&grant_type='.$grant_type.'&client_id='.$clientid.'&client_secret='.$clientsecret.'&code='.$code);
             }
 
 
-            $content = curl_exec($ch);
-            if(curl_error($ch)){
+            $content = \curl_exec($ch);
+            if(\curl_error($ch)){
                 echo "<b>Response : </b><br>";print_r($content);echo "<br><br>";
-                exit( curl_error($ch) );
+                exit( \curl_error($ch) );
             }
             if(!is_array(json_decode($content, true))){
                 echo "<b>Response : </b><br>";print_r($content);echo "<br><br>";

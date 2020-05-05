@@ -11,22 +11,22 @@ use Drupal\oauth_login_oauth2\handler;
     class UserResource
     {
         public static function getResourceOwner($resourceownerdetailsurl, $access_token){
-            $ch = curl_init($resourceownerdetailsurl);
-            curl_setopt( $ch, CURLOPT_FOLLOWLOCATION, true );
-            curl_setopt( $ch, CURLOPT_ENCODING, "" );
-            curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true );
-            curl_setopt( $ch, CURLOPT_AUTOREFERER, true );
-            curl_setopt( $ch, CURLOPT_SSL_VERIFYPEER, false );
-            curl_setopt( $ch, CURLOPT_MAXREDIRS, 10 );
-            curl_setopt( $ch, CURLOPT_POST, false);
-            curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+            $ch = \curl_init($resourceownerdetailsurl);
+            \curl_setopt( $ch, CURLOPT_FOLLOWLOCATION, true );
+            \curl_setopt( $ch, CURLOPT_ENCODING, "" );
+            \curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true );
+            \curl_setopt( $ch, CURLOPT_AUTOREFERER, true );
+            \curl_setopt( $ch, CURLOPT_SSL_VERIFYPEER, false );
+            \curl_setopt( $ch, CURLOPT_MAXREDIRS, 10 );
+            \curl_setopt( $ch, CURLOPT_POST, false);
+            \curl_setopt($ch, CURLOPT_HTTPHEADER, array(
                 'Authorization: Bearer '.$access_token
             ));
-            $t_vers = curl_version();
-            curl_setopt( $ch, CURLOPT_USERAGENT, 'curl/' . $t_vers['version']);
-            $content = curl_exec($ch);
-            if(curl_error($ch)){
-                exit( curl_error($ch) );
+            $t_vers = \curl_version();
+            \curl_setopt( $ch, CURLOPT_USERAGENT, 'curl/' . $t_vers['version']);
+            $content = \curl_exec($ch);
+            if(\curl_error($ch)){
+                exit( \curl_error($ch) );
             }
             if(!is_array(json_decode($content, true))) {
                 exit("Invalid response received.");

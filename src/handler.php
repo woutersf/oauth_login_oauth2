@@ -42,7 +42,7 @@ class handler{
       $q_feedback=$_GET['query_feedback'];
       $message='Reason: '.$reason.'<br>Feedback: '.$q_feedback;
       $url = 'https://login.xecurify.com/moas/api/notify/send';
-      $ch = curl_init($url);
+      $ch = \curl_init($url);
       $email =\Drupal::config('oauth_login_oauth2.settings')->get('miniorange_oauth_client_customer_admin_email');
         if(empty($email))
             $email = $_GET['miniorange_feedback_email'];
@@ -79,21 +79,21 @@ class handler{
         ),
       );
       $field_string = json_encode($fields);
-      curl_setopt( $ch, CURLOPT_FOLLOWLOCATION, true );
-      curl_setopt( $ch, CURLOPT_ENCODING, "" );
-      curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true );
-      curl_setopt( $ch, CURLOPT_AUTOREFERER, true );
-      curl_setopt( $ch, CURLOPT_SSL_VERIFYPEER, false );    # required for https urls
-      curl_setopt( $ch, CURLOPT_MAXREDIRS, 10 );
-      curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json', $customerKeyHeader,
+      \curl_setopt( $ch, CURLOPT_FOLLOWLOCATION, true );
+      \curl_setopt( $ch, CURLOPT_ENCODING, "" );
+      \curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true );
+      \curl_setopt( $ch, CURLOPT_AUTOREFERER, true );
+      \curl_setopt( $ch, CURLOPT_SSL_VERIFYPEER, false );    # required for https urls
+      \curl_setopt( $ch, CURLOPT_MAXREDIRS, 10 );
+      \curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json', $customerKeyHeader,
             $timestampHeader, $authorizationHeader));
-      curl_setopt( $ch, CURLOPT_POST, true);
-      curl_setopt( $ch, CURLOPT_POSTFIELDS, $field_string);
-      $content = curl_exec($ch);
-      if(curl_errno($ch)){
+      \curl_setopt( $ch, CURLOPT_POST, true);
+      \curl_setopt( $ch, CURLOPT_POSTFIELDS, $field_string);
+      $content = \curl_exec($ch);
+      if(\curl_errno($ch)){
         return json_encode(array("status"=>'ERROR','statusMessage'=>curl_error($ch)));
       }
-        curl_close($ch);
+        \curl_close($ch);
         if(!empty(\Drupal::config('oauth_login_oauth2.settings')->get('miniorange_oauth_client_base_url')))
             $baseUrlValue = \Drupal::config('oauth_login_oauth2.settings')->get('miniorange_oauth_client_base_url');
         else
