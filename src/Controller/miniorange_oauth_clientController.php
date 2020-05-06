@@ -290,7 +290,7 @@ class miniorange_oauth_clientController extends ControllerBase {
       if (!$disable_role_override) {
         // Do role override
         $selected_role = \Drupal::config('oauth_login_oauth2.settings')
-          ->get('miniorange_oauth_default_mapping')
+          ->get('miniorange_oauth_default_mapping');
         $user->addRole($selected_role);
         $user_updated = TRUE;
 
