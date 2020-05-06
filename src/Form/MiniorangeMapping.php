@@ -209,8 +209,6 @@ class MiniorangeMapping extends FormBase {
 
 
   function miniorange_oauth_client_attr_setup_submit2($form, $form_state) {
-    kint($form);
-    die();
     $settings = \Drupal::configFactory()
       ->getEditable('oauth_login_oauth2.settings');
     $settings->set('miniorange_oauth_client_logout_url', $form['miniorange_oauth_client_logout_url']['#value'])
