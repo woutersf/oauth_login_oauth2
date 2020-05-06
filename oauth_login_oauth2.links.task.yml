@@ -15,21 +15,3 @@ oauth_login_oauth2.settings:
   title: 'Sign In Settings'
   weight: 30
   base_route: oauth_login_oauth2.customer_setup
-
-oauth_login_oauth2.licensing:
-  route_name: oauth_login_oauth2.licensing
-  title: 'Upgrade Plans'
-  weight: 40
-  base_route: oauth_login_oauth2.customer_setup
-
-oauth_login_oauth2.request_for_demo:
-  route_name: oauth_login_oauth2.request_for_demo
-  title: 'Request for Demo'
-  weight: 50
-  base_route: oauth_login_oauth2.customer_setup
-
-oauth_login_oauth2.customer_setup:
-  route_name: oauth_login_oauth2.customer_setup
-  title: 'Register/Login'
-  weight: 60
-  base_route: oauth_login_oauth2.customer_setup

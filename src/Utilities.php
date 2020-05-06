@@ -217,6 +217,7 @@ class Utilities {
             $class_object = array(
                 'Email_attribute_value'    => 'miniorange_oauth_client_email_attr_val',
                 'Username_attribute_value' => 'miniorange_oauth_client_name_attr_val',
+              'Oauth_default_value' => 'miniorange_oauth_default_mapping',
             );
         }
         else if($class_name == "mo_options_enum_signin_settings") {

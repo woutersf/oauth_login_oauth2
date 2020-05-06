@@ -81,7 +81,7 @@ class MiniorangeConfigOAuthClient extends FormBase
             ),
             '#markup' => '<div id="tabhead"><h3>CONFIGURE OAUTH APPLICATION &nbsp;&nbsp; 
             <a id="showMetaButton" class="mo_oauth_btn mo_oauth_btn-primary mo_btn-sm" onclick="testConfig()" '.$disableButton.'>Backup/Import</a>&nbsp;</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <a id="Restart_moTour" class="mo_oauth_btn mo_oauth_btn-primary-color mo_oauth_btn-large" onclick="Restart_moTour()">Take a Tour</a></h3><hr><br></div>',
+            <hr><br></div>',
         );
 
         $form['markup_top_1'] = array (
