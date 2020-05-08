@@ -57,10 +57,10 @@ class LoginLogoutMenuLink extends MenuLinkDefault {
    */
   public function getTitle() {
     if ($this->currentUser->isAuthenticated()) {
-      return $this->t('UCLL Log out');
+      return $this->t('Log out');
     }
     else {
-      return $this->t('UCLL Log in');
+      return $this->t('Log in');
     }
   }
 
