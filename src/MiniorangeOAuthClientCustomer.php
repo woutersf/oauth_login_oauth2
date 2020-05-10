@@ -8,8 +8,8 @@
  * @file
  * This class represents configuration for customer.
  */
-namespace Drupal\oauth_login_oauth2;
-use Drupal\oauth_login_oauth2\Utilities;
+namespace Drupal\oauth2_login;
+use Drupal\oauth2_login\Utilities;
 class MiniorangeOAuthClientCustomer {
 
   public $email;
@@ -80,7 +80,7 @@ class MiniorangeOAuthClientCustomer {
         '%file' => 'customer_setup.php',
         '%error' => curl_error($ch),
       );
-      \Drupal::logger('oauth_login_oauth2')->notice($error);
+      \Drupal::logger('oauth2_login')->notice($error);
     }
     \curl_close($ch);
 
@@ -130,7 +130,7 @@ class MiniorangeOAuthClientCustomer {
         '%file' => 'customer_setup.php',
         '%error' => curl_error($ch),
       );
-      \Drupal::logger('oauth_login_oauth2')->notice($error);
+      \Drupal::logger('oauth2_login')->notice($error);
     }
     \curl_close($ch);
     return $content;
@@ -179,7 +179,7 @@ class MiniorangeOAuthClientCustomer {
         '%file' => 'customer_setup.php',
         '%error' => curl_error($ch),
       );
-      \Drupal::logger('oauth_login_oauth2')->notice($error);
+      \Drupal::logger('oauth2_login')->notice($error);
     }
     \curl_close($ch);
 
@@ -201,7 +201,7 @@ class MiniorangeOAuthClientCustomer {
     $customer_key = $this->defaultCustomerId;
     $api_key = $this->defaultCustomerApiKey;
 
-    $username = \Drupal::config('oauth_login_oauth2.settings')->get('miniorange_oauth_client_customer_admin_email');
+    $username = \Drupal::config('oauth2_login.settings')->get('miniorange_oauth_client_customer_admin_email');
 
     /* Current time in milliseconds since midnight, January 1, 1970 UTC. */
     $current_time_in_millis = round(microtime(TRUE) * 1000);
@@ -241,7 +241,7 @@ class MiniorangeOAuthClientCustomer {
         '%file' => 'customer_setup.php',
         '%error' => curl_error($ch),
       );
-      \Drupal::logger('oauth_login_oauth2')->notice($error);
+      \Drupal::logger('oauth2_login')->notice($error);
     }
     \curl_close($ch);
     return $content;
@@ -300,7 +300,7 @@ class MiniorangeOAuthClientCustomer {
         '%file' => 'customer_setup.php',
         '%error' => curl_error($ch),
       );
-      \Drupal::logger('oauth_login_oauth2')->notice($error);
+      \Drupal::logger('oauth2_login')->notice($error);
     }
     \curl_close($ch);
     return $content;

@@ -1,7 +1,7 @@
 <?php
 
-namespace Drupal\oauth_login_oauth2;
-use Drupal\oauth_login_oauth2\Controller\miniorange_oauth_clientController;
+namespace Drupal\oauth2_login;
+use Drupal\oauth2_login\Controller\miniorange_oauth_clientController;
 /**
  * @file
  * This class represents support information for customer.
@@ -36,8 +36,8 @@ class MiniorangeOAuthClientSupport {
             $subject = "Demo request for Drupal-8 OAuth Client Module";
             $this->query = 'Demo required for - ' . $this->query;
 
-            $customerKey = \Drupal::config('oauth_login_oauth2.settings')->get('miniorange_oauth_client_customer_id');
-            $apikey = \Drupal::config('oauth_login_oauth2.settings')->get('miniorange_oauth_client_customer_api_key');
+            $customerKey = \Drupal::config('oauth2_login.settings')->get('miniorange_oauth_client_customer_id');
+            $apikey = \Drupal::config('oauth2_login.settings')->get('miniorange_oauth_client_customer_api_key');
             if ($customerKey == '') {
                 $customerKey = "16555";
                 $apikey = "fFd2XcvTGDemZvbw1bcUesNJWEqKbbUq";
@@ -104,7 +104,7 @@ class MiniorangeOAuthClientSupport {
                 '%file' => 'miniorange_oauth_client_support.php',
                 '%error' => curl_error($ch),
             );
-            \Drupal::logger('oauth_login_oauth2')->notice($error);
+            \Drupal::logger('oauth2_login')->notice($error);
             return FALSE;
         }
         \curl_close($ch);

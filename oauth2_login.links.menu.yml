@@ -1,0 +1,23 @@
+
+oauth2_login.config_clc:
+  route_name: oauth2_login.config_clc
+  title: 'OAuth Login Configuration'
+  description: 'This module allows you to login in your Drupal site  using any OAuth or OpenId connect complaint server.'
+  parent: user.admin_index
+
+oauth2_login.mapping:
+  route_name: oauth2_login.mapping
+  title: 'Attribute & Role Mapping'
+  description: 'Attribute & Role Mapping Tab'
+  parent: oauth2_login.config_clc
+
+oauth2_login.settings:
+  route_name: oauth2_login.settings
+  title: 'Sign In Settings'
+  description: 'Sign In Settings Tab'
+  parent: oauth2_login.config_clc
+
+oauth2_login.logout:
+  weight: 10
+  menu_name: account
+  class: Drupal\oauth2_login\Plugin\Menu\LoginLogoutMenuLink

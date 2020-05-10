@@ -4,7 +4,7 @@
  * Contains \Drupal\miniorange_oauth_client\Controller\DefaultController.
  */
 
-namespace Drupal\oauth_login_oauth2\Controller;
+namespace Drupal\oauth2_login\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,10 +14,10 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Drupal\Component\Render\FormattableMarkup;
 use Drupal\Core\Extension;
 use Drupal\Component\Utility\Html;
-use Drupal\oauth_login_oauth2\handler;
-use Drupal\oauth_login_oauth2\AuthorizationEndpoint;
-use Drupal\oauth_login_oauth2\AccessToken;
-use Drupal\oauth_login_oauth2\UserResource;
+use Drupal\oauth2_login\handler;
+use Drupal\oauth2_login\AuthorizationEndpoint;
+use Drupal\oauth2_login\AccessToken;
+use Drupal\oauth2_login\UserResource;
 
 class miniorange_oauth_clientController extends ControllerBase {
 
@@ -28,10 +28,10 @@ class miniorange_oauth_clientController extends ControllerBase {
     /**
      * Uninstalling the OAuth login module after sending the feedback email
      */
-    \Drupal::service('module_installer')->uninstall(['oauth_login_oauth2']);
-    if (!empty(\Drupal::config('oauth_login_oauth2.settings')
+    \Drupal::service('module_installer')->uninstall(['oauth2_login']);
+    if (!empty(\Drupal::config('oauth2_login.settings')
       ->get('miniorange_oauth_client_base_url'))) {
-      $baseUrlValue = \Drupal::config('oauth_login_oauth2.settings')
+      $baseUrlValue = \Drupal::config('oauth2_login.settings')
         ->get('miniorange_oauth_client_base_url');
     }
     else {
@@ -107,7 +107,7 @@ class miniorange_oauth_clientController extends ControllerBase {
     }
     // Getting Access Token
     $app = [];
-    $app = \Drupal::config('oauth_login_oauth2.settings')
+    $app = \Drupal::config('oauth2_login.settings')
       ->get('miniorange_oauth_client_appval');
     $name_attr = "";
     $email_attr = "";
@@ -120,9 +120,9 @@ class miniorange_oauth_clientController extends ControllerBase {
       $name_attr = trim($app['miniorange_oauth_client_name_attr']);
     }
 
-    $parse_from_header = \Drupal::config('oauth_login_oauth2.settings')
+    $parse_from_header = \Drupal::config('oauth2_login.settings')
       ->get('miniorange_oauth_send_with_header_oauth');
-    $parse_from_body = \Drupal::config('oauth_login_oauth2.settings')
+    $parse_from_body = \Drupal::config('oauth2_login.settings')
       ->get('miniorange_oauth_send_with_body_oauth');
 
     if (!$parse_from_header == TRUE || !$parse_from_header == 1) {
@@ -149,9 +149,9 @@ class miniorange_oauth_clientController extends ControllerBase {
     if (isset($_COOKIE['Drupal_visitor_mo_oauth_test']) && ($_COOKIE['Drupal_visitor_mo_oauth_test'] == TRUE)) {
       $_COOKIE['Drupal_visitor_mo_oauth_test'] = 0;
       $module_path = \Drupal::service('extension.list.module')
-        ->getPath('oauth_login_oauth2');
+        ->getPath('oauth2_login');
       $username = isset($resourceOwner['email']) ? $resourceOwner['email'] : 'User';
-      \Drupal::configFactory()->getEditable('oauth_login_oauth2.settings')
+      \Drupal::configFactory()->getEditable('oauth2_login.settings')
         ->set('miniorange_oauth_client_attr_list_from_server', $resourceOwner)
         ->save();
       echo '<div style="font-family:Calibri;padding:0 3%;">';
@@ -238,7 +238,7 @@ class miniorange_oauth_clientController extends ControllerBase {
     global $user;
 
     // Creating a new user in case the user does not exists in the Drupal database
-    $disable_create_user = \Drupal::config('oauth_login_oauth2.settings')
+    $disable_create_user = \Drupal::config('oauth2_login.settings')
       ->get('miniorange_oauth_disable_autocreate_users');
     if ($disable_create_user) {
       $redirect = \Drupal::config('miniorange_oauth_client.settings')
@@ -259,9 +259,9 @@ class miniorange_oauth_clientController extends ControllerBase {
 
       $user = \Drupal\user\Entity\User::load($account->id());
       $edit = [];
-      if (!empty(\Drupal::config('oauth_login_oauth2.settings')
+      if (!empty(\Drupal::config('oauth2_login.settings')
         ->get('miniorange_oauth_client_base_url'))) {
-        $baseUrlValue = \Drupal::config('oauth_login_oauth2.settings')
+        $baseUrlValue = \Drupal::config('oauth2_login.settings')
           ->get('miniorange_oauth_client_base_url');
       }
       else {
@@ -272,7 +272,7 @@ class miniorange_oauth_clientController extends ControllerBase {
 
 
       // Update user fields here.
-      $hook1 = 'oauth_login_oauth2_field_mapping';
+      $hook1 = 'oauth2_login_field_mapping';
       $implementations = \Drupal::moduleHandler()->getImplementations($hook1);
       $user_updated = FALSE;
       foreach ($implementations as $implementation) {
@@ -284,12 +284,12 @@ class miniorange_oauth_clientController extends ControllerBase {
         }
       }
 
-      $disable_role_override = \Drupal::config('oauth_login_oauth2.settings')
+      $disable_role_override = \Drupal::config('oauth2_login.settings')
         ->get('miniorange_disable_attribute');
 
       if (!$disable_role_override) {
         // Do role override
-        $selected_role = \Drupal::config('oauth_login_oauth2.settings')
+        $selected_role = \Drupal::config('oauth2_login.settings')
           ->get('miniorange_oauth_default_mapping');
         $user->addRole($selected_role);
         $user_updated = TRUE;
@@ -375,7 +375,7 @@ class miniorange_oauth_clientController extends ControllerBase {
   public function miniorange_oauth_client_mologin() {
     global $base_url;
     user_cookie_save(["mo_oauth_test" => FALSE]);
-    $enable_login = \Drupal::config('oauth_login_oauth2.settings')
+    $enable_login = \Drupal::config('oauth2_login.settings')
       ->get('miniorange_oauth_enable_login_with_oauth');
 
     if ($enable_login) {

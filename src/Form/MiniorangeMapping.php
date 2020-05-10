@@ -5,12 +5,12 @@
  * Contains \Drupal\miniorange_oauth_client\Form\MiniorangeGeneralSettings.
  */
 
-namespace Drupal\oauth_login_oauth2\Form;
+namespace Drupal\oauth2_login\Form;
 
-use Drupal\oauth_login_oauth2\mo_saml_visualTour;
-use Drupal\oauth_login_oauth2\Utilities;
+use Drupal\oauth2_login\mo_saml_visualTour;
+use Drupal\oauth2_login\Utilities;
 use Drupal\Core\Form\FormBase;
-use Drupal\oauth_login_oauth2\MiniorangeOAuthClientSupport;
+use Drupal\oauth2_login\MiniorangeOAuthClientSupport;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
 class MiniorangeMapping extends FormBase {
@@ -28,9 +28,9 @@ class MiniorangeMapping extends FormBase {
     $form['markup_library'] = [
       '#attached' => [
         'library' => [
-          "oauth_login_oauth2/oauth_login_oauth2.admin",
-          "oauth_login_oauth2/oauth_login_oauth2.style_settings",
-          "oauth_login_oauth2/oauth_login_oauth2.Vtour",
+          "oauth2_login/oauth2_login.admin",
+          "oauth2_login/oauth2_login.style_settings",
+          "oauth2_login/oauth2_login.Vtour",
         ],
       ],
     ];
@@ -42,9 +42,9 @@ class MiniorangeMapping extends FormBase {
     $form['markup_top_vt_start'] = [
       '#markup' => '<h3>ATTRIBUTE MAPPING</h3><hr><br>',
     ];
-    $email_attr = \Drupal::config('oauth_login_oauth2.settings')
+    $email_attr = \Drupal::config('oauth2_login.settings')
       ->get('miniorange_oauth_client_email_attr_val');
-    $name_attr = \Drupal::config('oauth_login_oauth2.settings')
+    $name_attr = \Drupal::config('oauth2_login.settings')
       ->get('miniorange_oauth_client_name_attr_val');
     $form['miniorange_oauth_client_email_attr'] = [
       '#type' => 'textfield',
@@ -77,12 +77,12 @@ class MiniorangeMapping extends FormBase {
     ];
     $form['markup_cam'] = [
       '#markup' => '<br><h3>CUSTOM ATTRIBUTE MAPPING</h3><hr><br>
-                    <div class="mo_saml_highlight_background_note_1">Define your mapping in hook_oauth_login_oauth2_field_mapping(). See the example:<br>function MYMODULE_hook_oauth_login_oauth2_field_mapping(){
+                    <div class="mo_saml_highlight_background_note_1">Define your mapping in hook_oauth2_login_field_mapping(). See the example:<br>function MYMODULE_hook_oauth2_login_field_mapping(){
   <br>return [\'REMOTE_FIELD\', \'LOCAL FIELD\'];
 <br>} </div><br>',
     ];
     $output = '';
-    $hook1 = 'oauth_login_oauth2_field_mapping';
+    $hook1 = 'oauth2_login_field_mapping';
     $implementations = \Drupal::moduleHandler()->getImplementations($hook1);
     foreach ($implementations as $implementation) {
       $func = $implementation . '_' . $hook1;
@@ -98,19 +98,19 @@ class MiniorangeMapping extends FormBase {
     ];
     $form['miniorange_disable_attribute'] = [
       '#type' => 'checkbox',
-      '#default_value' => \Drupal::config('oauth_login_oauth2.settings')
+      '#default_value' => \Drupal::config('oauth2_login.settings')
         ->get('miniorange_disable_attribute'),
       '#title' => t('Do not update existing user&#39;s role.'),
     ];
     $form['miniorange_oauth_disable_role_update'] = [
       '#type' => 'checkbox',
-      '#default_value' => \Drupal::config('oauth_login_oauth2.settings')
+      '#default_value' => \Drupal::config('oauth2_login.settings')
         ->get('miniorange_oauth_disable_role_update'),
       '#title' => t('Check this option if you do not want to update user role if roles not mapped. '),
     ];
     $form['miniorange_oauth_disable_autocreate_users'] = [
       '#type' => 'checkbox',
-      '#default_value' => \Drupal::config('oauth_login_oauth2.settings')
+      '#default_value' => \Drupal::config('oauth2_login.settings')
         ->get('miniorange_oauth_disable_autocreate_users'),
       '#title' => t('Check this option if you want to disable <b>auto creation</b> of users if user does not exist. '),
     ];
@@ -123,7 +123,7 @@ class MiniorangeMapping extends FormBase {
       '#id' => 'miniorange_oauth_client_app',
       '#title' => t('Select default group for the new users'),
       '#options' => $mrole,
-      '#default_value' => \Drupal::config('oauth_login_oauth2.settings')
+      '#default_value' => \Drupal::config('oauth2_login.settings')
         ->get('miniorange_oauth_default_mapping'),
       '#attributes' => ['style' => 'width:73%;'],
     ];
@@ -133,7 +133,7 @@ class MiniorangeMapping extends FormBase {
       $form['miniorange_oauth_role_' . $rolelabel] = [
         '#type' => 'textfield',
         '#title' => t($roles),
-        '#default_value' => \Drupal::config('oauth_login_oauth2.settings')
+        '#default_value' => \Drupal::config('oauth2_login.settings')
           ->get('miniorange_oauth_role_' . $rolelabel, ''),
         '#attributes' => [
           'style' => 'width:73%;background-color: hsla(0,0%,0%,0.08) !important;',
@@ -148,7 +148,7 @@ class MiniorangeMapping extends FormBase {
     $form['miniorange_oauth_client_login_url'] = [
       '#type' => 'textfield',
       '#id' => 'text_field2',
-      '#default_value' => \Drupal::config('oauth_login_oauth2.settings')
+      '#default_value' => \Drupal::config('oauth2_login.settings')
         ->get('miniorange_oauth_client_login_url'),
       '#required' => FALSE,
       '#attributes' => [
@@ -160,7 +160,7 @@ class MiniorangeMapping extends FormBase {
       '#type' => 'textfield',
       '#id' => 'text_field3',
       '#required' => FALSE,
-      '#default_value' => \Drupal::config('oauth_login_oauth2.settings')
+      '#default_value' => \Drupal::config('oauth2_login.settings')
         ->get('miniorange_oauth_client_logout_url'),
       '#attributes' => [
         'style' => 'width:73%;background-color: hsla(0,0%,0%,0.08) !important;',
@@ -193,15 +193,15 @@ class MiniorangeMapping extends FormBase {
     $email_attr = trim($form['miniorange_oauth_client_email_attr']['#value']);
     $name_attr = trim($form['miniorange_oauth_client_name_attr']['#value']);
 
-    \Drupal::configFactory()->getEditable('oauth_login_oauth2.settings')
+    \Drupal::configFactory()->getEditable('oauth2_login.settings')
       ->set('miniorange_oauth_client_email_attr_val', $email_attr)->save();
-    \Drupal::configFactory()->getEditable('oauth_login_oauth2.settings')
+    \Drupal::configFactory()->getEditable('oauth2_login.settings')
       ->set('miniorange_oauth_client_name_attr_val', $name_attr)->save();
-    $app_values = \Drupal::config('oauth_login_oauth2.settings')
+    $app_values = \Drupal::config('oauth2_login.settings')
       ->get('miniorange_oauth_client_appval');
     $app_values['miniorange_oauth_client_email_attr'] = $email_attr;
     $app_values['miniorange_oauth_client_name_attr'] = $name_attr;
-    \Drupal::configFactory()->getEditable('oauth_login_oauth2.settings')
+    \Drupal::configFactory()->getEditable('oauth2_login.settings')
       ->set('miniorange_oauth_client_appval', $app_values)->save();
     \Drupal::messenger()
       ->addMessage(t('Attribute Mapping saved successfully.'));
@@ -210,7 +210,7 @@ class MiniorangeMapping extends FormBase {
 
   function miniorange_oauth_client_attr_setup_submit2($form, $form_state) {
     $settings = \Drupal::configFactory()
-      ->getEditable('oauth_login_oauth2.settings');
+      ->getEditable('oauth2_login.settings');
     $settings->set('miniorange_oauth_client_logout_url', $form['miniorange_oauth_client_logout_url']['#value'])
       ->save();
     $settings->set('miniorange_oauth_client_login_url', $form['miniorange_oauth_client_login_url']['#value'])
@@ -239,7 +239,7 @@ class MiniorangeMapping extends FormBase {
   }
 
   function clear_attr_list(&$form, $form_state) {
-    \Drupal::configFactory()->getEditable('oauth_login_oauth2.settings')
+    \Drupal::configFactory()->getEditable('oauth2_login.settings')
       ->clear('miniorange_oauth_client_attr_list_from_server')->save();
     Utilities::show_attr_list_from_idp($form, $form_state);
   }
@@ -247,7 +247,7 @@ class MiniorangeMapping extends FormBase {
   public function rfd(array &$form, \Drupal\Core\Form\FormStateInterface $form_state) {
 
     global $base_url;
-    $response = new RedirectResponse($base_url . "/admin/config/people/oauth_login_oauth2/request_for_demo");
+    $response = new RedirectResponse($base_url . "/admin/config/people/oauth2_login/request_for_demo");
     $response->send();
   }
 }

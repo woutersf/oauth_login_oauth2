@@ -1,4 +1,4 @@
-oauth_login_oauth2.settings:
+oauth2_login.settings:
   type: mapping
   label: Settings
   mapping:

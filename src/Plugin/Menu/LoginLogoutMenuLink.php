@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\oauth_login_oauth2\Plugin\Menu;
+namespace Drupal\oauth2_login\Plugin\Menu;
 
 use Drupal\Core\Menu\MenuLinkDefault;
 use Drupal\Core\Menu\StaticMenuLinkOverridesInterface;
@@ -72,7 +72,7 @@ class LoginLogoutMenuLink extends MenuLinkDefault {
       return 'user.logout';
     }
     else {
-      return 'oauth_login_oauth2.moLogin';
+      return 'oauth2_login.moLogin';
     }
   }
 

@@ -1,42 +1,42 @@
-oauth_login_oauth2.admin:
+oauth2_login.admin:
   version: VERSION
   css:
     layout:
-      css/oauth_login_oauth2.admin.css: {}
+      css/oauth2_login.admin.css: {}
 
-oauth_login_oauth2.style_settings:
+oauth2_login.style_settings:
   version: VERSION
   css:
     layout:
-      css/oauth_login_oauth2.style_settings.css: {}
+      css/oauth2_login.style_settings.css: {}
 
 
-oauth_login_oauth2.oauth_config:
+oauth2_login.oauth_config:
   version: VERSION
   js:
     js/mo_oauth_config.js: {}
 
-oauth_login_oauth2.testconfig:
+oauth2_login.testconfig:
   version: VERSION
   js:
     js/testconfig.js: {}
 
-oauth_login_oauth2.returnAttribute:
+oauth2_login.returnAttribute:
   version: VERSION
   js:
     js/mo-return.js: {}
 
-oauth_login_oauth2.appVal:
+oauth2_login.appVal:
   version: VERSION
   js:
     js/appVal.js: {}
 
-oauth_login_oauth2.slide_support_button:
+oauth2_login.slide_support_button:
   version: VERSION
   js:
     js/slide_support_button.js: {}
 
-oauth_login_oauth2.Vtour:
+oauth2_login.Vtour:
   version: VERSION
   css:
     theme:
@@ -47,7 +47,7 @@ oauth_login_oauth2.Vtour:
     - core/jquery
     - core/drupalSettings
 
-oauth_login_oauth2.support:
+oauth2_login.support:
   version: VERSION
   js:
     js/Support_button.js: {}

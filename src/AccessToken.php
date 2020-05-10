@@ -1,5 +1,5 @@
 <?php
-    namespace Drupal\oauth_login_oauth2;
+    namespace Drupal\oauth2_login;
     use Symfony\Component\HttpFoundation\Response;
     use Drupal\Component\Utility;
     use Drupal\user\Entity\User;
@@ -7,7 +7,7 @@
     use Drupal\Component\Render\FormattableMarkup;
     use Drupal\Core\Extension;
     use Drupal\Component\Utility\Html;
-    use Drupal\oauth_login_oauth2\handler;
+    use Drupal\oauth2_login\handler;
     class AccessToken 
     {
         /**

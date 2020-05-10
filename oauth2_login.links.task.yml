@@ -1,0 +1,17 @@
+oauth2_login.config_clc:
+  route_name: oauth2_login.config_clc
+  title: 'Configure OAuth'
+  weight: 10
+  base_route: oauth2_login.customer_setup
+
+oauth2_login.mapping:
+  route_name: oauth2_login.mapping
+  title: 'Attribute & Role Mapping'
+  weight: 20
+  base_route: oauth2_login.customer_setup
+
+oauth2_login.settings:
+  route_name: oauth2_login.settings
+  title: 'Sign In Settings'
+  weight: 30
+  base_route: oauth2_login.customer_setup

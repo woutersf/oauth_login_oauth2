@@ -7,11 +7,11 @@
 /**
  * Showing Licensing form info.
  */
-namespace Drupal\oauth_login_oauth2\Form;
+namespace Drupal\oauth2_login\Form;
 use Drupal\Core\Form\FormBase;
-use Drupal\oauth_login_oauth2\Utilities;
-use Drupal\oauth_login_oauth2\mo_saml_visualTour;
-use Drupal\oauth_login_oauth2\MiniorangeOAuthClientSupport;
+use Drupal\oauth2_login\Utilities;
+use Drupal\oauth2_login\mo_saml_visualTour;
+use Drupal\oauth2_login\MiniorangeOAuthClientSupport;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
 class MiniorangeLicensing extends FormBase {
@@ -33,24 +33,24 @@ class MiniorangeLicensing extends FormBase {
         $form['markup_library'] = array(
             '#attached' => array(
                 'library' => array(
-                    "oauth_login_oauth2/oauth_login_oauth2.admin",
-                    "oauth_login_oauth2/oauth_login_oauth2.style_settings",
-                    "oauth_login_oauth2/oauth_login_oauth2.Vtour",
+                    "oauth2_login/oauth2_login.admin",
+                    "oauth2_login/oauth2_login.style_settings",
+                    "oauth2_login/oauth2_login.Vtour",
                 )
             ),
         );
 
         if(!Utilities::isCustomerRegistered())
         {
-            $username = \Drupal::config('oauth_login_oauth2.settings')->get('miniorange_oauth_client_customer_admin_email');
+            $username = \Drupal::config('oauth2_login.settings')->get('miniorange_oauth_client_customer_admin_email');
             $URL_Redirect_std = "https://login.xecurify.com/moas/login?username=".$username."&redirectUrl=https://login.xecurify.com/moas/initializepayment&requestOrigin=drupal8_oauth_client_standard_plan";
             $URL_Redirect_pre = "https://login.xecurify.com/moas/login?username=".$username."&redirectUrl=https://login.xecurify.com/moas/initializepayment&requestOrigin=drupal8_oauth_client_premium_plan";
             $URL_Redirect_ent = "https://login.xecurify.com/moas/login?username=".$username."&redirectUrl=https://login.xecurify.com/moas/initializepayment&requestOrigin=drupal8_oauth_client_enterprise_plan";
             $targetBlank = 'target="_blank"';
         } else {
-            $URL_Redirect_std = $base_url.'/admin/config/people/oauth_login_oauth2/customer_setup';
-            $URL_Redirect_pre = $base_url.'/admin/config/people/oauth_login_oauth2/customer_setup';
-            $URL_Redirect_ent = $base_url.'/admin/config/people/oauth_login_oauth2/customer_setup';
+            $URL_Redirect_std = $base_url.'/admin/config/people/oauth2_login/customer_setup';
+            $URL_Redirect_pre = $base_url.'/admin/config/people/oauth2_login/customer_setup';
+            $URL_Redirect_ent = $base_url.'/admin/config/people/oauth2_login/customer_setup';
             $targetBlank = '';
         }
 

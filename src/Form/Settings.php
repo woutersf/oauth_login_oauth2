@@ -1,8 +1,8 @@
 <?php
 
-namespace Drupal\oauth_login_oauth2\Form;
+namespace Drupal\oauth2_login\Form;
 use Drupal\Core\Form\FormBase;
-use Drupal\oauth_login_oauth2\Utilities;
+use Drupal\oauth2_login\Utilities;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
 class Settings extends FormBase
@@ -15,16 +15,16 @@ class Settings extends FormBase
  */
  public function buildForm(array $form, \Drupal\Core\Form\FormStateInterface $form_state) {
     global $base_url;
-    $baseUrlValue = \Drupal::config('oauth_login_oauth2.settings')->get('miniorange_oauth_client_base_url');
+    $baseUrlValue = \Drupal::config('oauth2_login.settings')->get('miniorange_oauth_client_base_url');
 
-    $attachments['#attached']['library'][] = 'oauth_login_oauth2/oauth_login_oauth2.admin';
+    $attachments['#attached']['library'][] = 'oauth2_login/oauth2_login.admin';
 
     $form['markup_library'] = array(
         '#attached' => array(
             'library' => array(
-                "oauth_login_oauth2/oauth_login_oauth2.admin",
-                "oauth_login_oauth2/oauth_login_oauth2.style_settings",
-                "oauth_login_oauth2/oauth_login_oauth2.slide_support_button",
+                "oauth2_login/oauth2_login.admin",
+                "oauth2_login/oauth2_login.style_settings",
+                "oauth2_login/oauth2_login.slide_support_button",
             )
         ),
     );
@@ -58,24 +58,24 @@ class Settings extends FormBase
 
     $form['miniorange_oauth_force_auth'] = array(
         '#type' => 'checkbox',
-        '#title' => t('Protect website against anonymous access <a href="' . $base_url . '/admin/config/people/oauth_login_oauth2/licensing"><b>[Premium, Enterprise]</b></a>'),
+        '#title' => t('Protect website against anonymous access <a href="' . $base_url . '/admin/config/people/oauth2_login/licensing"><b>[Premium, Enterprise]</b></a>'),
         '#disabled' => TRUE,
         '#description' => t('<b>Note: </b>Users will be redirected to your OAuth server for login in case user is not logged in and tries to access website.<br><br>'),
     );
 
     $form['miniorange_oauth_auto_redirect'] = array(
         '#type' => 'checkbox',
-        '#title' => t('Check this option if you want to <b> Auto-redirect to OAuth Provider/Server </b><a href="' . $base_url . '/admin/config/people/oauth_login_oauth2/licensing"><b>[Premium, Enterprise]</b></a>'),
+        '#title' => t('Check this option if you want to <b> Auto-redirect to OAuth Provider/Server </b><a href="' . $base_url . '/admin/config/people/oauth2_login/licensing"><b>[Premium, Enterprise]</b></a>'),
         '#disabled' => TRUE,
         '#description' => t('<b>Note: </b>Users will be redirected to your OAuth server for login when the login page is accessed.<br><br>'),
     );
 
     $form['miniorange_oauth_enable_backdoor'] = array(
         '#type' => 'checkbox',
-        '#title' => t('Check this option if you want to enable <b>backdoor login </b><a href="' . $base_url . '/admin/config/people/oauth_login_oauth2/licensing"><b>[Premium, Enterprise]</b></a>'),
+        '#title' => t('Check this option if you want to enable <b>backdoor login </b><a href="' . $base_url . '/admin/config/people/oauth2_login/licensing"><b>[Premium, Enterprise]</b></a>'),
         '#disabled' => TRUE,
         '#description' => t('<b>Note: </b>Checking this option creates a backdoor to login to your Website using Drupal credentials<br> incase you get locked out of your OAuth server.
-                <b>Note down this URL: </b>Available in <a href="' . $base_url . '/admin/config/people/oauth_login_oauth2/licensing"><b>Premium, Enterprise</b></a> versions of the module.<br><br><br><br>'),
+                <b>Note down this URL: </b>Available in <a href="' . $base_url . '/admin/config/people/oauth2_login/licensing"><b>Premium, Enterprise</b></a> versions of the module.<br><br><br><br>'),
     );
 
      $form['markup_bottom_vt_start'] = array(
@@ -84,7 +84,7 @@ class Settings extends FormBase
 
      $form['miniorange_oauth_client_white_list_url'] = array(
          '#type' => 'textfield',
-         '#title' => t('Allowed Domains <a href="' . $base_url . '/admin/config/people/oauth_login_oauth2/licensing"><b>[Enterprise]</b></a>'),
+         '#title' => t('Allowed Domains <a href="' . $base_url . '/admin/config/people/oauth2_login/licensing"><b>[Enterprise]</b></a>'),
          '#attributes' => array('style' => 'width:73%','placeholder' => 'Enter semicolon(;) separated domains (Eg. xxxx.com; xxxx.com)'),
          '#description' => t('<b>Note: </b> Enter <b>semicolon(;) separated</b> domains to allow SSO. Other than these domains will not be allowed to do SSO.'),
          '#disabled' => TRUE,
@@ -92,7 +92,7 @@ class Settings extends FormBase
 
      $form['miniorange_oauth_client_black_list_url'] = array(
          '#type' => 'textfield',
-         '#title' => t('Restricted Domains <a href="' . $base_url . '/admin/config/people/oauth_login_oauth2/licensing"><b>[Enterprise]</b></a>'),
+         '#title' => t('Restricted Domains <a href="' . $base_url . '/admin/config/people/oauth2_login/licensing"><b>[Enterprise]</b></a>'),
          '#attributes' => array('style' => 'width:73%','placeholder' => 'Enter semicolon(;) separated domains (Eg. xxxx.com; xxxx.com)'),
          '#description' => t('<b>Note: </b> Enter <b>semicolon(;) separated</b> domains to restrict SSO. Other than these domains will be allowed to do SSO.'),
          '#disabled' => TRUE,
@@ -100,7 +100,7 @@ class Settings extends FormBase
 
      $form['miniorange_oauth_client_page_restrict_url'] = array(
          '#type' => 'textfield',
-         '#title' => t('Page Restriction <a href="' . $base_url . '/admin/config/people/oauth_login_oauth2/licensing"><b>[Enterprise]</b></a>'),
+         '#title' => t('Page Restriction <a href="' . $base_url . '/admin/config/people/oauth2_login/licensing"><b>[Enterprise]</b></a>'),
          '#attributes' => array('style' => 'width:73%','placeholder' => 'Enter semicolon(;) separated page URLs (Eg. xxxx.com/yyy; xxxx.com/yyy)'),
          '#description' => t('<b>Note: </b> Enter <b>semicolon(;) separated</b> URLs to restrict unauthorized access.'),
          '#disabled' => TRUE,
@@ -128,7 +128,7 @@ class Settings extends FormBase
         \Drupal::messenger()->adderror(t('Please enter a valid URL'));
         return;
     }
-    \Drupal::configFactory()->getEditable('oauth_login_oauth2.settings')->set('miniorange_oauth_client_base_url', $baseUrlvalue)->save();
+    \Drupal::configFactory()->getEditable('oauth2_login.settings')->set('miniorange_oauth_client_base_url', $baseUrlvalue)->save();
     \Drupal::messenger()->addMessage(t('Configurations saved successfully.'));
  }
 
@@ -145,7 +145,7 @@ class Settings extends FormBase
     public function rfd(array &$form, \Drupal\Core\Form\FormStateInterface $form_state) {
 
         global $base_url;
-        $response = new RedirectResponse($base_url."/admin/config/people/oauth_login_oauth2/request_for_demo");
+        $response = new RedirectResponse($base_url."/admin/config/people/oauth2_login/request_for_demo");
         $response->send();
     }
 }

@@ -11,13 +11,13 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
  * Implements hook_form_alter().
  */
 
-function oauth_login_oauth2_form_alter(&$form, \Drupal\Core\Form\FormStateInterface &$form_state, $form_id) {
+function oauth2_login_form_alter(&$form, \Drupal\Core\Form\FormStateInterface &$form_state, $form_id) {
   global $base_url;
-  $enable_login = \Drupal::config('oauth_login_oauth2.settings')
+  $enable_login = \Drupal::config('oauth2_login.settings')
     ->get('miniorange_oauth_enable_login_with_oauth');
-  if (!empty(\Drupal::config('oauth_login_oauth2.settings')
+  if (!empty(\Drupal::config('oauth2_login.settings')
     ->get('miniorange_oauth_client_base_url'))) {
-    $baseUrlValue = \Drupal::config('oauth_login_oauth2.settings')
+    $baseUrlValue = \Drupal::config('oauth2_login.settings')
       ->get('miniorange_oauth_client_base_url');
   }
   else {
@@ -25,12 +25,12 @@ function oauth_login_oauth2_form_alter(&$form, \Drupal\Core\Form\FormStateInterf
   }
   if ($enable_login) {
     if ($form_id == 'user_login_block' || $form_id == 'user_login_form') {
-      if (!empty(\Drupal::config('oauth_login_oauth2.settings')
+      if (!empty(\Drupal::config('oauth2_login.settings')
         ->get('miniorange_auth_client_app_name'))) {
         $oauth_login_url = $baseUrlValue . '/moLogin';
-        $server_name = \Drupal::config('oauth_login_oauth2.settings')
+        $server_name = \Drupal::config('oauth2_login.settings')
           ->get('miniorange_auth_client_app_name');
-        $display_link = \Drupal::config('oauth_login_oauth2.settings')
+        $display_link = \Drupal::config('oauth2_login.settings')
           ->get('miniorange_auth_client_display_name');
 
         if ($display_link == 'Login using ##app_name##' || empty($display_link)) {

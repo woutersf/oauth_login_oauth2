@@ -1,11 +1,11 @@
 <?php
-namespace Drupal\oauth_login_oauth2;
+namespace Drupal\oauth2_login;
 class feedback{
     public static function miniorange_oauth_client_feedback()
     {
         global $base_url;
-        if(!empty(\Drupal::config('oauth_login_oauth2.settings')->get('miniorange_oauth_client_base_url')))
-            $baseUrlValue = \Drupal::config('oauth_login_oauth2.settings')->get('miniorange_oauth_client_base_url');
+        if(!empty(\Drupal::config('oauth2_login.settings')->get('miniorange_oauth_client_base_url')))
+            $baseUrlValue = \Drupal::config('oauth2_login.settings')->get('miniorange_oauth_client_base_url');
         else
             $baseUrlValue = $base_url;
         $feedback_url = $baseUrlValue.'/feedback';
@@ -69,7 +69,7 @@ class feedback{
                         var reason = $("input[name='deactivate_plugin']:checked").val();
                         var q_feedback = document.getElementById("query_feedback").value;
                         var email = "";
-                        <?php if(empty(\Drupal::config('oauth_login_oauth2.settings')->get('miniorange_oauth_client_customer_admin_email'))) { ?>
+                        <?php if(empty(\Drupal::config('oauth2_login.settings')->get('miniorange_oauth_client_customer_admin_email'))) { ?>
                         email = document.getElementById("miniorange_feedback_email").value;
                         <?php } ?>
                         return false;
@@ -95,7 +95,7 @@ class feedback{
                                 <div>
                                     <p>
                                         <?php
-                                        if(empty(\Drupal::config('oauth_login_oauth2.settings')->get('miniorange_oauth_client_customer_admin_email')))
+                                        if(empty(\Drupal::config('oauth2_login.settings')->get('miniorange_oauth_client_customer_admin_email')))
                                         { ?>
                                         <br>Email ID: <input onblur="validateEmail(this)" class="form-control"
                                                              type="email" id="miniorange_feedback_email" required

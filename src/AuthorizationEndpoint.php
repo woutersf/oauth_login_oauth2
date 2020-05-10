@@ -1,5 +1,5 @@
 <?php
-namespace Drupal\oauth_login_oauth2;
+namespace Drupal\oauth2_login;
 use Symfony\Component\HttpFoundation\Response;
 use Drupal\Component\Utility;
 use Drupal\user\Entity\User;
@@ -7,18 +7,18 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Drupal\Component\Render\FormattableMarkup;
 use Drupal\Core\Extension;
 use Drupal\Component\Utility\Html;
-use Drupal\oauth_login_oauth2\handler;
+use Drupal\oauth2_login\handler;
     class AuthorizationEndpoint{
         public static function mo_oauth_client_initiateLogin() {
             global $base_url;
             \Drupal::configFactory()->getEditable('miniorange_oauth_client.settings')->set('miniorange_oauth_redirect_url',$_SERVER['HTTP_REFERER'])->save();
-            $app_name = \Drupal::config('oauth_login_oauth2.settings')->get('miniorange_auth_client_app_name');
-            $client_id = \Drupal::config('oauth_login_oauth2.settings')->get('miniorange_auth_client_client_id');
-            $client_secret = \Drupal::config('oauth_login_oauth2.settings')->get('miniorange_auth_client_client_secret');
-            $scope = \Drupal::config('oauth_login_oauth2.settings')->get('miniorange_auth_client_scope');
-            $authorizationUrl =\Drupal::config('oauth_login_oauth2.settings')->get('miniorange_auth_client_authorize_endpoint');
-            $access_token_ep =\Drupal::config('oauth_login_oauth2.settings')->get('miniorange_auth_client_access_token_ep');
-            $user_info_ep = \Drupal::config('oauth_login_oauth2.settings')->get('miniorange_auth_client_user_info_ep');
+            $app_name = \Drupal::config('oauth2_login.settings')->get('miniorange_auth_client_app_name');
+            $client_id = \Drupal::config('oauth2_login.settings')->get('miniorange_auth_client_client_id');
+            $client_secret = \Drupal::config('oauth2_login.settings')->get('miniorange_auth_client_client_secret');
+            $scope = \Drupal::config('oauth2_login.settings')->get('miniorange_auth_client_scope');
+            $authorizationUrl =\Drupal::config('oauth2_login.settings')->get('miniorange_auth_client_authorize_endpoint');
+            $access_token_ep =\Drupal::config('oauth2_login.settings')->get('miniorange_auth_client_access_token_ep');
+            $user_info_ep = \Drupal::config('oauth2_login.settings')->get('miniorange_auth_client_user_info_ep');
 
             if ($app_name==NULL||$client_secret==NULL||$client_id==NULL||$scope==NULL||$authorizationUrl==NULL||$access_token_ep==NULL||$user_info_ep==NULL) {
                 echo '<div style="font-family:Calibri;padding:0 3%;">';
@@ -36,8 +36,8 @@ use Drupal\oauth_login_oauth2\handler;
                 return new Response();
             }
 
-            if(!empty(\Drupal::config('oauth_login_oauth2.settings')->get('miniorange_oauth_client_base_url')))
-                $baseUrlValue = \Drupal::config('oauth_login_oauth2.settings')->get('miniorange_oauth_client_base_url');
+            if(!empty(\Drupal::config('oauth2_login.settings')->get('miniorange_oauth_client_base_url')))
+                $baseUrlValue = \Drupal::config('oauth2_login.settings')->get('miniorange_oauth_client_base_url');
             else
                 $baseUrlValue = $base_url;
             $callback_uri = $baseUrlValue."/mo_login";

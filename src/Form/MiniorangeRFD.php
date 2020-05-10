@@ -7,10 +7,10 @@
  /**
  * Showing Settings form.
  */
-namespace Drupal\oauth_login_oauth2\Form;
+namespace Drupal\oauth2_login\Form;
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Render;
-use Drupal\oauth_login_oauth2\Utilities;
+use Drupal\oauth2_login\Utilities;
 
 class MiniorangeRFD extends FormBase {
 
@@ -24,14 +24,14 @@ class MiniorangeRFD extends FormBase {
         $form['markup_library'] = array(
             '#attached' => array(
                 'library' => array(
-                    "oauth_login_oauth2/oauth_login_oauth2.admin",
-                    "oauth_login_oauth2/oauth_login_oauth2.style_settings",
-                    "oauth_login_oauth2/oauth_login_oauth2.module",
+                    "oauth2_login/oauth2_login.admin",
+                    "oauth2_login/oauth2_login.style_settings",
+                    "oauth2_login/oauth2_login.module",
                 )
             ),
         );
 
-        $user_email = \Drupal::config('oauth_login_oauth2.settings')->get('miniorange_oauth_client_customer_admin_email');
+        $user_email = \Drupal::config('oauth2_login.settings')->get('miniorange_oauth_client_customer_admin_email');
 
         $form['markup_1'] = array(
             '#markup' =>'<div class="mo_oauth_table_layout_1"><div class="mo_oauth_table_layout mo_oauth_container">

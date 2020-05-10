@@ -1,5 +1,5 @@
 <?php
-namespace Drupal\oauth_login_oauth2;
+namespace Drupal\oauth2_login;
 
 class mo_saml_visualTour {
 
@@ -7,11 +7,11 @@ class mo_saml_visualTour {
         $link = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
         $exploded = explode('/', $link);
         $getPageName = end($exploded);
-        $Tour_Token = \Drupal::config('oauth_login_oauth2.settings')->get('mo_saml_tourTaken_' . $getPageName);
+        $Tour_Token = \Drupal::config('oauth2_login.settings')->get('mo_saml_tourTaken_' . $getPageName);
         if($overAllTour == 'overAllTour'){
             $getPageName = 'overAllTour';
         }
-        //\Drupal::configFactory()->getEditable('oauth_login_oauth2.settings')->set('mo_saml_tourTaken_' . $getPageName, TRUE)->save();
+        //\Drupal::configFactory()->getEditable('oauth2_login.settings')->set('mo_saml_tourTaken_' . $getPageName, TRUE)->save();
         $moTourArr = array (
             'pageID' => $getPageName,
             'tourData' => mo_saml_visualTour::getTourData($getPageName),
@@ -20,7 +20,7 @@ class mo_saml_visualTour {
             'pageURL' => $_SERVER['REQUEST_SCHEME'] . "://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'],
         );
 
-        \Drupal::configFactory()->getEditable('oauth_login_oauth2.settings')->set('mo_saml_tourTaken_' . $getPageName, TRUE)->save();
+        \Drupal::configFactory()->getEditable('oauth2_login.settings')->set('mo_saml_tourTaken_' . $getPageName, TRUE)->save();
         $moTour = json_encode($moTourArr);
         return $moTour;
     }
@@ -54,7 +54,7 @@ class mo_saml_visualTour {
         $link = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
         $exploded = explode('/', $link);
         $getPageName = end($exploded);
-        $Tour_Token = \Drupal::config('oauth_login_oauth2.settings')->get('mo_saml_tourTaken_' . $getPageName);
+        $Tour_Token = \Drupal::config('oauth2_login.settings')->get('mo_saml_tourTaken_' . $getPageName);
 
         if($Tour_Token == 0 || $Tour_Token == FALSE)
             $tab_index = 'idp_setup';

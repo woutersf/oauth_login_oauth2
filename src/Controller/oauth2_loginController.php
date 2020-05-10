@@ -1,9 +1,9 @@
 <?php
  /**
  * @file
- * Contains \Drupal\oauth_login_oauth2\Controller\DefaultController.
+ * Contains \Drupal\oauth2_login\Controller\DefaultController.
  */
-namespace Drupal\oauth_login_oauth2\Controller;
+namespace Drupal\oauth2_login\Controller;
 use Drupal\Core\Controller\ControllerBase;
 use Symfony\Component\HttpFoundation\Response;
 use Drupal\Component\Utility;
@@ -12,22 +12,22 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Drupal\Component\Render\FormattableMarkup;
 use Drupal\Core\Extension;
 use Drupal\Component\Utility\Html;
-use Drupal\oauth_login_oauth2\handler;
-use Drupal\oauth_login_oauth2\AuthorizationEndpoint;
-use Drupal\oauth_login_oauth2\AccessToken;
-use Drupal\oauth_login_oauth2\UserResource;
+use Drupal\oauth2_login\handler;
+use Drupal\oauth2_login\AuthorizationEndpoint;
+use Drupal\oauth2_login\AccessToken;
+use Drupal\oauth2_login\UserResource;
 
-class oauth_login_oauth2Controller extends ControllerBase {
+class oauth2_loginController extends ControllerBase {
     //handles the feedback flow of the module
-    public function oauth_login_oauth2_feedback_func(){
+    public function oauth2_login_feedback_func(){
         global $base_url;
         handler::sendFeedbackEmail();
         /**
          * Uninstalling the OAuth client login module after sending the feedback email
          */
-        \Drupal::service('module_installer')->uninstall(['oauth_login_oauth2']);
-        if(!empty(\Drupal::config('oauth_login_oauth2.settings')->get('oauth_login_oauth2_base_url')))
-            $baseUrlValue = \Drupal::config('oauth_login_oauth2.settings')->get('oauth_login_oauth2_base_url');
+        \Drupal::service('module_installer')->uninstall(['oauth2_login']);
+        if(!empty(\Drupal::config('oauth2_login.settings')->get('oauth2_login_base_url')))
+            $baseUrlValue = \Drupal::config('oauth2_login.settings')->get('oauth2_login_base_url');
         else
             $baseUrlValue = $base_url;
         $uninstall_redirect = $baseUrlValue.'/admin/modules';
@@ -63,7 +63,7 @@ class oauth_login_oauth2Controller extends ControllerBase {
         return empty( $content ) ? $currentTimeInMillis : $content;
     }
 
-    public function oauth_login_oauth2_mo_login()
+    public function oauth2_login_mo_login()
     {
         $code = isset($_GET['code']) ? $_GET['code'] : '';
         $code = Html::escape($code);
@@ -93,16 +93,16 @@ class oauth_login_oauth2Controller extends ControllerBase {
         }
         // Getting Access Token
         $app = array();
-        $app = \Drupal::config('oauth_login_oauth2.settings')->get('oauth_login_oauth2_appval');
+        $app = \Drupal::config('oauth2_login.settings')->get('oauth2_login_appval');
         $name_attr = "";
         $email_attr = "";
         $name = "";
         $email ="";
-		if(isset($app['oauth_login_oauth2_email_attr'])){
-		    $email_attr = trim($app['oauth_login_oauth2_email_attr']);
+		if(isset($app['oauth2_login_email_attr'])){
+		    $email_attr = trim($app['oauth2_login_email_attr']);
         }
-		if(isset($app['oauth_login_oauth2_name_attr'])){
-            $name_attr = trim($app['oauth_login_oauth2_name_attr']);
+		if(isset($app['oauth2_login_name_attr'])){
+            $name_attr = trim($app['oauth2_login_name_attr']);
         }
         $accessToken = AccessToken::getAccessToken($app['access_token_ep'], 'authorization_code',
         $app['client_id'], $app['client_secret'], $code, $app['callback_uri']);
@@ -120,9 +120,9 @@ class oauth_login_oauth2Controller extends ControllerBase {
         */
         if (isset($_COOKIE['Drupal_visitor_mo_oauth_test']) && ($_COOKIE['Drupal_visitor_mo_oauth_test'] == true)){
             $_COOKIE['Drupal_visitor_mo_oauth_test'] = 0;
-            $module_path = drupal_get_path('module', 'oauth_login_oauth2');
+            $module_path = drupal_get_path('module', 'oauth2_login');
             $username = isset($resourceOwner['email']) ? $resourceOwner['email']:'User';
-            \Drupal::configFactory()->getEditable('oauth_login_oauth2.settings')->set('oauth_login_oauth2_attr_list_from_server',$resourceOwner)->save();
+            \Drupal::configFactory()->getEditable('oauth2_login.settings')->set('oauth2_login_attr_list_from_server',$resourceOwner)->save();
             echo '<div style="font-family:Calibri;padding:0 3%;">';
             echo '<div style="color: #3c763d;background-color: #dff0d8; padding:2%;margin-bottom:20px;text-align:center; border:1px solid #AEDB9A; 
                         font-size:15pt;">
@@ -188,14 +188,14 @@ class oauth_login_oauth2Controller extends ControllerBase {
         global $base_url;
 	    global $user;
         $mo_count = "";
-        $mo_count = \Drupal::config('oauth_login_oauth2.settings')->get('oauth_login_oauth2_free_users');
+        $mo_count = \Drupal::config('oauth2_login.settings')->get('oauth2_login_free_users');
         /**
          * Creating a new user in case the user does not exists in the Drupal database
          */
         if (!isset($account->uid)) {
             if ($mo_count <= 10) {
                 $mo_count = $mo_count + 1;
-                \Drupal::configFactory()->getEditable('oauth_login_oauth2.settings')->set('oauth_login_oauth2_free_users', $mo_count)->save();
+                \Drupal::configFactory()->getEditable('oauth2_login.settings')->set('oauth2_login_free_users', $mo_count)->save();
                 $random_password = user_password(8);
                 $new_user = [
                     'name' => $name,
@@ -216,8 +216,8 @@ class oauth_login_oauth2Controller extends ControllerBase {
         }
         $user = \Drupal\user\Entity\User::load($account->id());
         $edit = array();
-        if(!empty(\Drupal::config('oauth_login_oauth2.settings')->get('oauth_login_oauth2_base_url')))
-            $baseUrlValue = \Drupal::config('oauth_login_oauth2.settings')->get('oauth_login_oauth2_base_url');
+        if(!empty(\Drupal::config('oauth2_login.settings')->get('oauth2_login_base_url')))
+            $baseUrlValue = \Drupal::config('oauth2_login.settings')->get('oauth2_login_base_url');
         else
             $baseUrlValue = $base_url;
         $edit['redirect'] = $baseUrlValue;
@@ -272,7 +272,7 @@ class oauth_login_oauth2Controller extends ControllerBase {
     /**
      * Initiating OAuth SSO flow
      */
-    public function oauth_login_oauth2_mologin()
+    public function oauth2_login_mologin()
     {
         user_cookie_save(array("mo_oauth_test" => false));
         AuthorizationEndpoint::mo_oauth_client_initiateLogin();

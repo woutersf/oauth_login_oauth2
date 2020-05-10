@@ -7,10 +7,10 @@
 /**
  * Showing Support form info.
  */
-namespace Drupal\oauth_login_oauth2\Form;
+namespace Drupal\oauth2_login\Form;
 
 use Drupal\Core\Form\FormBase;
-use Drupal\oauth_login_oauth2\MiniorangeOAuthClientSupport;
+use Drupal\oauth2_login\MiniorangeOAuthClientSupport;
 
 class MiniorangeSupport extends FormBase {
 
@@ -23,7 +23,7 @@ class MiniorangeSupport extends FormBase {
         $form['markup_library'] = array(
             '#attached' => array(
                 'library' => array(
-                    "oauth_login_oauth2/oauth_login_oauth2.style_settings",
+                    "oauth2_login/oauth2_login.style_settings",
                 )
             ),
         );

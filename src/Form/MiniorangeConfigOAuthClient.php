@@ -1,9 +1,9 @@
 <?php
 
-namespace Drupal\oauth_login_oauth2\Form;
-use Drupal\oauth_login_oauth2\mo_saml_visualTour;
+namespace Drupal\oauth2_login\Form;
+use Drupal\oauth2_login\mo_saml_visualTour;
 use Drupal\Core\Form\FormBase;
-use Drupal\oauth_login_oauth2\Utilities;
+use Drupal\oauth2_login\Utilities;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
 class MiniorangeConfigOAuthClient extends FormBase
@@ -15,7 +15,7 @@ class MiniorangeConfigOAuthClient extends FormBase
     public function buildForm(array $form, \Drupal\Core\Form\FormStateInterface $form_state)
     {
         global $base_url;
-        \Drupal::configFactory()->getEditable('oauth_login_oauth2.settings')->set('miniorange_oauth_client_disabled', FALSE)->save();
+        \Drupal::configFactory()->getEditable('oauth2_login.settings')->set('miniorange_oauth_client_disabled', FALSE)->save();
         $moTour = mo_saml_visualTour::genArray();
         $form['tourArray'] = array(
             '#type' => 'hidden',
@@ -25,36 +25,36 @@ class MiniorangeConfigOAuthClient extends FormBase
         $baseUrlValue = Utilities::getOAuthBaseURL($base_url);
 
         $login_path = '<a href='.$baseUrlValue.'/moLogin>Enter what you want to display on the link</a>';
-        $module_path = \Drupal::service('extension.list.module')->getPath('oauth_login_oauth2');
+        $module_path = \Drupal::service('extension.list.module')->getPath('oauth2_login');
 
-        $miniorange_auth_client_callback_uri = \Drupal::config('oauth_login_oauth2.settings')->get('miniorange_oauth_client_base_url');
+        $miniorange_auth_client_callback_uri = \Drupal::config('oauth2_login.settings')->get('miniorange_oauth_client_base_url');
 
         $miniorange_auth_client_callback_uri = is_null($miniorange_auth_client_callback_uri) ? $miniorange_auth_client_callback_uri."/mo_login" : $baseUrlValue."/mo_login";
-        \Drupal::configFactory()->getEditable('oauth_login_oauth2.settings')->set('miniorange_auth_client_callback_uri',$miniorange_auth_client_callback_uri)->save();
+        \Drupal::configFactory()->getEditable('oauth2_login.settings')->set('miniorange_auth_client_callback_uri',$miniorange_auth_client_callback_uri)->save();
 
-        $attachments['#attached']['library'][] = 'oauth_login_oauth2/oauth_login_oauth2.admin';
+        $attachments['#attached']['library'][] = 'oauth2_login/oauth2_login.admin';
         $form['markup_library'] = array(
             '#attached' => array(
                'library' => array(
-                    "oauth_login_oauth2/oauth_login_oauth2.oauth_config",
-                    "oauth_login_oauth2/oauth_login_oauth2.admin",
-                    "oauth_login_oauth2/oauth_login_oauth2.testconfig",
-                    "oauth_login_oauth2/oauth_login_oauth2.returnAttribute",
-                    "oauth_login_oauth2/oauth_login_oauth2.style_settings",
-                    "oauth_login_oauth2/oauth_login_oauth2.Vtour",
-                    "oauth_login_oauth2/mo-card",
+                    "oauth2_login/oauth2_login.oauth_config",
+                    "oauth2_login/oauth2_login.admin",
+                    "oauth2_login/oauth2_login.testconfig",
+                    "oauth2_login/oauth2_login.returnAttribute",
+                    "oauth2_login/oauth2_login.style_settings",
+                    "oauth2_login/oauth2_login.Vtour",
+                    "oauth2_login/mo-card",
                )
             ),
         );
 
-        $app_name = \Drupal::config('oauth_login_oauth2.settings')->get('miniorange_auth_client_app_name');
-        $client_id = \Drupal::config('oauth_login_oauth2.settings')->get('miniorange_auth_client_client_id');
+        $app_name = \Drupal::config('oauth2_login.settings')->get('miniorange_auth_client_app_name');
+        $client_id = \Drupal::config('oauth2_login.settings')->get('miniorange_auth_client_client_id');
         if(!empty($app_name) && !empty($client_id)){
             $disabled = TRUE;
         }
 
-        $app_name_selected = \Drupal::config('oauth_login_oauth2.settings')->get('miniorange_auth_client_app_name');
-        $client_id = \Drupal::config('oauth_login_oauth2.settings')->get('miniorange_auth_client_client_id');
+        $app_name_selected = \Drupal::config('oauth2_login.settings')->get('miniorange_auth_client_app_name');
+        $client_id = \Drupal::config('oauth2_login.settings')->get('miniorange_auth_client_client_id');
         if(!empty($app_name_selected) && !empty($client_id)){
             $disabled = TRUE;
             $attributes_arr =  array('style' => 'width:73%;background-color: hsla(0,0%,0%,0.08) !important;');
@@ -77,7 +77,7 @@ class MiniorangeConfigOAuthClient extends FormBase
 
         $form['markup_top_vt_start'] = array(
             '#attached' => array(
-                'library' => 'oauth_login_oauth2/oauth_login_oauth2.Vtour',
+                'library' => 'oauth2_login/oauth2_login.Vtour',
             ),
             '#markup' => '<div id="tabhead"><h3>CONFIGURE OAUTH APPLICATION &nbsp;&nbsp; 
             <a id="showMetaButton" class="mo_oauth_btn mo_oauth_btn-primary mo_btn-sm" onclick="testConfig()" '.$disableButton.'>Backup/Import</a>&nbsp;</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -110,7 +110,7 @@ class MiniorangeConfigOAuthClient extends FormBase
         $form['markup_prem_plan'] = array(
             '#markup' => '<div id="Import_Configuration"><br/><h3>Import Configuration</h3><hr><br>
                           <div class="mo_oauth_highlight_background_note_1"><b>Note: </b>Available in 
-                          <a href="' . $base_url . '/admin/config/people/oauth_login_oauth2/licensing">Standard, Premium and Enterprise</a> versions of the module</div>',
+                          <a href="' . $base_url . '/admin/config/people/oauth2_login/licensing">Standard, Premium and Enterprise</a> versions of the module</div>',
         );
   
         $form['markup_import_note'] = array(
@@ -166,7 +166,7 @@ class MiniorangeConfigOAuthClient extends FormBase
             '#description' => "Select an OAuth Server",
             '#options' => $form['miniorange_oauth_client_app_options']['#value'],
             '#attributes' => $attributes_arr,
-            '#default_value' => \Drupal::config('oauth_login_oauth2.settings')->get('miniorange_oauth_client_app'),
+            '#default_value' => \Drupal::config('oauth2_login.settings')->get('miniorange_oauth_client_app'),
         );
 
         $form['mo_vt_id_start'] = array(
@@ -192,7 +192,7 @@ class MiniorangeConfigOAuthClient extends FormBase
 
         $form['miniorange_oauth_app_name'] = array(
             '#type' => 'textfield',
-            '#default_value' => \Drupal::config('oauth_login_oauth2.settings')->get('miniorange_auth_client_app_name'),
+            '#default_value' => \Drupal::config('oauth2_login.settings')->get('miniorange_auth_client_app_name'),
             '#id'  => 'miniorange_oauth_client_app_name',
             '#title' => t('Custom App Name: '),
             '#disabled' => $disabled,
@@ -202,7 +202,7 @@ class MiniorangeConfigOAuthClient extends FormBase
         $form['miniorange_oauth_client_display_name'] = array(
             '#type' => 'textfield',
             '#id'  => 'miniorange_oauth_client_display_name',
-            '#default_value' => \Drupal::config('oauth_login_oauth2.settings')->get('miniorange_auth_client_display_name'),
+            '#default_value' => \Drupal::config('oauth2_login.settings')->get('miniorange_auth_client_display_name'),
             '#title' => t('Login link on the login page: '),
             '#description' => t('<b>Note:</b> By default the login link will appear on the user login page in this manner.'),
             '#attributes' => array('style' => 'width:73%','placeholder' => 'Login using ##app_name##'),
@@ -211,7 +211,7 @@ class MiniorangeConfigOAuthClient extends FormBase
         $form['miniorange_oauth_client_id'] = array(
             '#type' => 'textfield',
             '#id'  => 'miniorange_oauth_client_client_id',
-            '#default_value' => \Drupal::config('oauth_login_oauth2.settings')->get('miniorange_auth_client_client_id'),
+            '#default_value' => \Drupal::config('oauth2_login.settings')->get('miniorange_auth_client_client_id'),
             '#title' => t('Client Id: '),
             '#description' => "You will get this value from your OAuth Server",
             '#attributes' => array('style' => 'width:73%'),
@@ -219,7 +219,7 @@ class MiniorangeConfigOAuthClient extends FormBase
 
         $form['miniorange_oauth_client_secret'] = array(
             '#type' => 'textfield',
-            '#default_value' => \Drupal::config('oauth_login_oauth2.settings')->get('miniorange_auth_client_client_secret'),
+            '#default_value' => \Drupal::config('oauth2_login.settings')->get('miniorange_auth_client_client_secret'),
             '#description' => "You will get this value from your OAuth Server",
             '#id'  => 'miniorange_oauth_client_client_secret',
             '#title' => t('Client Secret: '),
@@ -237,7 +237,7 @@ class MiniorangeConfigOAuthClient extends FormBase
         $form['miniorange_oauth_client_scope'] = array(
             '#type' => 'textfield',
             '#id'  => 'miniorange_oauth_client_scope',
-            '#default_value' => \Drupal::config('oauth_login_oauth2.settings')->get('miniorange_auth_client_scope'),
+            '#default_value' => \Drupal::config('oauth2_login.settings')->get('miniorange_auth_client_scope'),
             '#description' => "Scope decides the range of data that you will be getting from your OAuth Provider",
             '#title' => t('Scope: <div class="mo_oauth_tooltip"><img src="'.$base_url.'/'. $module_path . '/includes/images/info.png" alt="info icon" height="15px" width="15px"></div><div class="mo_oauth_tooltiptext">The scopes may differ from server to server. In case you are not sure about what to enter, please contact us by sending a query from support button.</div>'),
             '#attributes' => array('style' => 'width:73%'),
@@ -253,7 +253,7 @@ class MiniorangeConfigOAuthClient extends FormBase
 
         $form['miniorange_oauth_client_authorize_endpoint'] = array(
             '#type' => 'textfield',
-            '#default_value' => \Drupal::config('oauth_login_oauth2.settings')->get('miniorange_auth_client_authorize_endpoint'),
+            '#default_value' => \Drupal::config('oauth2_login.settings')->get('miniorange_auth_client_authorize_endpoint'),
             '#id'  => 'miniorange_oauth_client_auth_ep',
             '#title' => t('Authorize Endpoint: '),
             '#attributes' => array('style' => 'width:73%'),
@@ -261,7 +261,7 @@ class MiniorangeConfigOAuthClient extends FormBase
 
         $form['miniorange_oauth_client_access_token_endpoint'] = array(
             '#type' => 'textfield',
-            '#default_value' => \Drupal::config('oauth_login_oauth2.settings')->get('miniorange_auth_client_access_token_ep'),
+            '#default_value' => \Drupal::config('oauth2_login.settings')->get('miniorange_auth_client_access_token_ep'),
             '#id'  => 'miniorange_oauth_client_access_token_ep',
             '#title' => t('Access Token Endpoint: '),
             '#attributes' => array('style' => 'width:73%'),
@@ -269,7 +269,7 @@ class MiniorangeConfigOAuthClient extends FormBase
 
         $form['miniorange_oauth_client_userinfo_endpoint'] = array(
             '#type' => 'textfield',
-            '#default_value' => \Drupal::config('oauth_login_oauth2.settings')->get('miniorange_auth_client_user_info_ep'),
+            '#default_value' => \Drupal::config('oauth2_login.settings')->get('miniorange_auth_client_user_info_ep'),
             '#id'  => 'miniorange_oauth_client_user_info_ep',
             '#title' => t('Get User Info Endpoint: '),
             '#attributes' => array('style' => 'width:73%'),
@@ -285,13 +285,13 @@ class MiniorangeConfigOAuthClient extends FormBase
 
         $form['miniorange_oauth_send_with_header_oauth'] = array(
             '#type' => 'checkbox',
-            '#default_value' => \Drupal::config('oauth_login_oauth2.settings')->get('miniorange_oauth_send_with_header_oauth'),
+            '#default_value' => \Drupal::config('oauth2_login.settings')->get('miniorange_oauth_send_with_header_oauth'),
             '#title' => t('<b>Header</b>'),
         );
 
         $form['miniorange_oauth_send_with_body_oauth'] = array(
             '#type' => 'checkbox',
-            '#default_value' => \Drupal::config('oauth_login_oauth2.settings')->get('miniorange_oauth_send_with_body_oauth'),
+            '#default_value' => \Drupal::config('oauth2_login.settings')->get('miniorange_oauth_send_with_body_oauth'),
             '#title' => t('<b>Body</b>'),
         );
 
@@ -309,7 +309,7 @@ class MiniorangeConfigOAuthClient extends FormBase
 
         $form['miniorange_oauth_enable_login_with_oauth'] = array(
             '#type' => 'checkbox',
-            '#default_value' => \Drupal::config('oauth_login_oauth2.settings')->get('miniorange_oauth_enable_login_with_oauth'),
+            '#default_value' => \Drupal::config('oauth2_login.settings')->get('miniorange_oauth_enable_login_with_oauth'),
             '#title' => t('<b>Enable Login with OAuth</b>'),
         );
 
@@ -404,36 +404,36 @@ class MiniorangeConfigOAuthClient extends FormBase
         }
 
         if(empty($client_app)){
-            $client_app =\Drupal::config('oauth_login_oauth2.settings')->get('miniorange_oauth_client_app');
+            $client_app =\Drupal::config('oauth2_login.settings')->get('miniorange_oauth_client_app');
         }
         if(empty($app_name)){
-            $client_app = \Drupal::config('oauth_login_oauth2.settings')->get('miniorange_auth_client_app_name');
+            $client_app = \Drupal::config('oauth2_login.settings')->get('miniorange_auth_client_app_name');
         }
         if (empty($display_name))
         {
             $display_name = '';
         }
         if(empty($client_id)){
-            $client_id =\Drupal::config('oauth_login_oauth2.settings')->get('miniorange_auth_client_client_id');
+            $client_id =\Drupal::config('oauth2_login.settings')->get('miniorange_auth_client_client_id');
         }
         if(empty($client_secret)){
-            $client_secret = \Drupal::config('oauth_login_oauth2.settings')->get('miniorange_auth_client_client_secret');
+            $client_secret = \Drupal::config('oauth2_login.settings')->get('miniorange_auth_client_client_secret');
         }
         if(empty($scope)){
-            $scope = \Drupal::config('oauth_login_oauth2.settings')->get('miniorange_auth_client_scope');
+            $scope = \Drupal::config('oauth2_login.settings')->get('miniorange_auth_client_scope');
         }
         if(empty($authorize_endpoint)){
-            $authorize_endpoint = \Drupal::config('oauth_login_oauth2.settings')->get('miniorange_auth_client_authorize_endpoint');
+            $authorize_endpoint = \Drupal::config('oauth2_login.settings')->get('miniorange_auth_client_authorize_endpoint');
         }
         if(empty($access_token_ep)){
-            $access_token_ep =\Drupal::config('oauth_login_oauth2.settings')->get('miniorange_auth_client_access_token_ep');
+            $access_token_ep =\Drupal::config('oauth2_login.settings')->get('miniorange_auth_client_access_token_ep');
         }
         if(empty($user_info_ep)){
-            $user_info_ep = \Drupal::config('oauth_login_oauth2.settings')->get('miniorange_oauth_client_userinfo_endpoint');
+            $user_info_ep = \Drupal::config('oauth2_login.settings')->get('miniorange_oauth_client_userinfo_endpoint');
         }
         $callback_uri = $baseUrlValue."/mo_login";
 
-        $app_values = \Drupal::config('oauth_login_oauth2.settings')->get('miniorange_oauth_client_appval');
+        $app_values = \Drupal::config('oauth2_login.settings')->get('miniorange_oauth_client_appval');
         if(!is_array($app_values))
           $app_values = array();
         $app_values['client_id'] = $client_id;
@@ -453,20 +453,20 @@ class MiniorangeConfigOAuthClient extends FormBase
         $enable_header = $enable_with_header == 1 ? TRUE : FALSE ;
         $enable_body = $enable_with_body == 1 ? TRUE : FALSE ;
 
-        \Drupal::configFactory()->getEditable('oauth_login_oauth2.settings')->set('miniorange_oauth_enable_login_with_oauth',$enable_login)->save();
-        \Drupal::configFactory()->getEditable('oauth_login_oauth2.settings')->set('miniorange_oauth_client_app',$client_app)->save();
-        \Drupal::configFactory()->getEditable('oauth_login_oauth2.settings')->set('miniorange_oauth_client_appval',$app_values)->save();
-        \Drupal::configFactory()->getEditable('oauth_login_oauth2.settings')->set('miniorange_auth_client_app_name',$app_name)->save();
-        \Drupal::configFactory()->getEditable('oauth_login_oauth2.settings')->set('miniorange_auth_client_display_name',$display_name)->save();
-        \Drupal::configFactory()->getEditable('oauth_login_oauth2.settings')->set('miniorange_auth_client_client_id',$client_id)->save();
-        \Drupal::configFactory()->getEditable('oauth_login_oauth2.settings')->set('miniorange_auth_client_client_secret',$client_secret)->save();
-        \Drupal::configFactory()->getEditable('oauth_login_oauth2.settings')->set('miniorange_auth_client_scope',$scope)->save();
-        \Drupal::configFactory()->getEditable('oauth_login_oauth2.settings')->set('miniorange_auth_client_authorize_endpoint',$authorize_endpoint)->save();         \Drupal::configFactory()->getEditable('oauth_login_oauth2.settings')->set('miniorange_auth_client_access_token_ep',$access_token_ep)->save();
-        \Drupal::configFactory()->getEditable('oauth_login_oauth2.settings')->set('miniorange_auth_client_user_info_ep',$user_info_ep)->save();
-        \Drupal::configFactory()->getEditable('oauth_login_oauth2.settings')->set('miniorange_auth_client_stat',"Review Config")->save();
-        \Drupal::configFactory()->getEditable('oauth_login_oauth2.settings')->set('miniorange_auth_client_callback_uri',$callback_uri)->save();
-        \Drupal::configFactory()->getEditable('oauth_login_oauth2.settings')->set('miniorange_oauth_send_with_header_oauth',$enable_header)->save();
-        \Drupal::configFactory()->getEditable('oauth_login_oauth2.settings')->set('miniorange_oauth_send_with_body_oauth',$enable_body)->save();
+        \Drupal::configFactory()->getEditable('oauth2_login.settings')->set('miniorange_oauth_enable_login_with_oauth',$enable_login)->save();
+        \Drupal::configFactory()->getEditable('oauth2_login.settings')->set('miniorange_oauth_client_app',$client_app)->save();
+        \Drupal::configFactory()->getEditable('oauth2_login.settings')->set('miniorange_oauth_client_appval',$app_values)->save();
+        \Drupal::configFactory()->getEditable('oauth2_login.settings')->set('miniorange_auth_client_app_name',$app_name)->save();
+        \Drupal::configFactory()->getEditable('oauth2_login.settings')->set('miniorange_auth_client_display_name',$display_name)->save();
+        \Drupal::configFactory()->getEditable('oauth2_login.settings')->set('miniorange_auth_client_client_id',$client_id)->save();
+        \Drupal::configFactory()->getEditable('oauth2_login.settings')->set('miniorange_auth_client_client_secret',$client_secret)->save();
+        \Drupal::configFactory()->getEditable('oauth2_login.settings')->set('miniorange_auth_client_scope',$scope)->save();
+        \Drupal::configFactory()->getEditable('oauth2_login.settings')->set('miniorange_auth_client_authorize_endpoint',$authorize_endpoint)->save();         \Drupal::configFactory()->getEditable('oauth2_login.settings')->set('miniorange_auth_client_access_token_ep',$access_token_ep)->save();
+        \Drupal::configFactory()->getEditable('oauth2_login.settings')->set('miniorange_auth_client_user_info_ep',$user_info_ep)->save();
+        \Drupal::configFactory()->getEditable('oauth2_login.settings')->set('miniorange_auth_client_stat',"Review Config")->save();
+        \Drupal::configFactory()->getEditable('oauth2_login.settings')->set('miniorange_auth_client_callback_uri',$callback_uri)->save();
+        \Drupal::configFactory()->getEditable('oauth2_login.settings')->set('miniorange_oauth_send_with_header_oauth',$enable_header)->save();
+        \Drupal::configFactory()->getEditable('oauth2_login.settings')->set('miniorange_oauth_send_with_body_oauth',$enable_body)->save();
         \Drupal::messenger()->addMessage(t('Configurations saved successfully.'));
     }
 
@@ -484,7 +484,7 @@ class MiniorangeConfigOAuthClient extends FormBase
     public function rfd(array &$form, \Drupal\Core\Form\FormStateInterface $form_state) {
 
         global $base_url;
-        $response = new RedirectResponse($base_url."/admin/config/people/oauth_login_oauth2/request_for_demo");
+        $response = new RedirectResponse($base_url."/admin/config/people/oauth2_login/request_for_demo");
         $response->send();
     }
 
@@ -512,7 +512,7 @@ class MiniorangeConfigOAuthClient extends FormBase
         $class_object = Utilities::getVariableArray($class_name);
         $mo_array = array();
         foreach($class_object as $key => $value) {
-            $mo_option_exists = \Drupal::config('oauth_login_oauth2.settings')->get($value);
+            $mo_option_exists = \Drupal::config('oauth2_login.settings')->get($value);
             if($mo_option_exists) {
                 $mo_array[$key] = $mo_option_exists;
             }

@@ -8,7 +8,7 @@
  * @file
  * This class represents constants used throughout project.
  */
-namespace Drupal\oauth_login_oauth2;
+namespace Drupal\oauth2_login;
 
 class MiniorangeOAuthClientConstants {
 

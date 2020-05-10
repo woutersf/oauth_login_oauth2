@@ -21,7 +21,7 @@
  * You should have received a copy of the GNU General Public License
  * along with miniOrange SAML plugin.  If not, see <http://www.gnu.org/licenses/>.
  */
-namespace Drupal\oauth_login_oauth2;
+namespace Drupal\oauth2_login;
 use DOMElement;
 use DOMDocument;
 use DOMNode;
@@ -237,7 +237,7 @@ class Utilities {
             \Drupal::messenger()->addMessage(t('The email address <b><i>' . $email . '</i></b> is not valid.'), 'error');
             return;
         }
-        $phone = \Drupal::config('oauth_login_oauth2.settings')->get('miniorange_oauth_client_customer_admin_phone');
+        $phone = \Drupal::config('oauth2_login.settings')->get('miniorange_oauth_client_customer_admin_phone');
         $support = new MiniorangeOAuthClientSupport($email, $phone, $query, 'demo');
         $support_response = $support->sendSupportQuery();
         if($support_response) {
@@ -248,8 +248,8 @@ class Utilities {
     }
 
     public static function getOAuthBaseURL($base_url){
-        if(!empty(\Drupal::config('oauth_login_oauth2.settings')->get('miniorange_oauth_client_base_url')))
-            $baseUrlValue = \Drupal::config('oauth_login_oauth2.settings')->get('miniorange_oauth_client_base_url');
+        if(!empty(\Drupal::config('oauth2_login.settings')->get('miniorange_oauth_client_base_url')))
+            $baseUrlValue = \Drupal::config('oauth2_login.settings')->get('miniorange_oauth_client_base_url');
         else
             $baseUrlValue = $base_url;
 
@@ -268,10 +268,10 @@ class Utilities {
     public static function isCustomerRegistered()
     {
         if (
-          empty(\Drupal::config('oauth_login_oauth2.settings')->get('miniorange_oauth_client_customer_admin_email'))||
-          empty(\Drupal::config('oauth_login_oauth2.settings')->get('miniorange_oauth_client_customer_id')) ||
-          empty(\Drupal::config('oauth_login_oauth2.settings')->get('miniorange_oauth_client_customer_admin_token')) ||
-          empty(\Drupal::config('oauth_login_oauth2.settings')->get('miniorange_oauth_client_customer_api_key')))
+          empty(\Drupal::config('oauth2_login.settings')->get('miniorange_oauth_client_customer_admin_email'))||
+          empty(\Drupal::config('oauth2_login.settings')->get('miniorange_oauth_client_customer_id')) ||
+          empty(\Drupal::config('oauth2_login.settings')->get('miniorange_oauth_client_customer_admin_token')) ||
+          empty(\Drupal::config('oauth2_login.settings')->get('miniorange_oauth_client_customer_api_key')))
         {
             return TRUE;
         }
@@ -285,7 +285,7 @@ class Utilities {
 
         $form['miniorange_oauth_faq_button_css'] = array(
             '#attached' => array(
-                'library' => 'oauth_login_oauth2/oauth_login_oauth2.style_settings',
+                'library' => 'oauth2_login/oauth2_login.style_settings',
             ),
         );
         $form['miniorange_faq'] = array(
@@ -338,7 +338,7 @@ class Utilities {
     public static function show_attr_list_from_idp(&$form, $form_state)
     {
         global $base_url;
-        $server_attrs = \Drupal::config('oauth_login_oauth2.settings')->get('miniorange_oauth_client_attr_list_from_server');
+        $server_attrs = \Drupal::config('oauth2_login.settings')->get('miniorange_oauth_client_attr_list_from_server');
 
         if(empty($server_attrs)){
             Utilities::spConfigGuide($form, $form_state);

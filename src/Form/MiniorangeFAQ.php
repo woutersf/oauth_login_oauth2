@@ -7,13 +7,13 @@
  /**
  * Showing Settings form.
  */
-namespace Drupal\oauth_login_oauth2\Form;
+namespace Drupal\oauth2_login\Form;
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Render;
  class MiniorangeFAQ extends FormBase {
 
   public function getFormId() {
-    return 'oauth_login_oauth2_faq';
+    return 'oauth2_login_faq';
   }
 
 
